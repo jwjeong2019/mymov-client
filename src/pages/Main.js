@@ -1,17 +1,8 @@
-import {Link} from "react-router-dom";
+import '../css/Main.css';
 
 const Main = () => {
     return (
-        <div>
-            <div>메인 화면</div>
-            <ul>
-                <li>
-                    <Link to="/movie">영화</Link>
-                </li>
-                <li>
-                    <Link to="/timetable">상영표</Link>
-                </li>
-            </ul>
+        <div className="main-container">
         </div>
     )
 }

@@ -8,11 +8,13 @@ import SignIn from "./pages/SignIn";
 import TimetableList from "./pages/TimetableList";
 import MyPage from "./pages/MyPage";
 import Footer from "./components/Footer";
+import Navigation from "./components/Navigation";
 
 function App() {
   return (
       <div>
           <BrowserRouter>
+              <Navigation />
               <Routes>
                   <Route exact path="/" element={<Main/>} />
                   <Route exact path="/join" element={<Join/>} />
