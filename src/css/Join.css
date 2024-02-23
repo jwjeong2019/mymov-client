@@ -1,0 +1,115 @@
+.join-container {
+    height: 100vh;
+    background-image: url("https://www.shutterstock.com/ko/blog/wp-content/uploads/sites/17/2020/10/background-ideas-20.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.join-box-form {
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    width: 400px;
+    height: 530px;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+
+.join-box-depth-1 {
+    width: 85%;
+    height: 90%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.join-box-depth-2-top {
+    height: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.join-box-depth-2-bottom {
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.join-box-depth-3-complex {
+    height: 12%;
+    display: flex;
+    justify-content: space-between;
+}
+.join-box-depth-3-simple {
+    width: 70%;
+    height: 12%;
+}
+.join-box-depth-3-simple input {
+    width: 95%;
+    height: 90%;
+    font-size: 15px;
+    padding-left: 10px;
+    border-radius: 10px;
+    box-shadow: #303030 0px 4px 5px;
+}
+.join-box-depth-3-btn-signup {
+    height: 43%;
+    border-radius: 10px;
+    background: #E89696;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: #303030 0px 4px 5px;
+}
+.join-box-depth-3-btn-signup:hover {
+    cursor: pointer;
+}
+.join-box-depth-3-btn-home {
+    height: 43%;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.3);
+    border: 2px solid #E89696;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: #303030 0px 4px 5px;
+}
+.join-box-depth-3-btn-home:hover {
+    cursor: pointer;
+}
+.join-box-depth-3-btn-home a {
+    color: white;
+    text-decoration-line: none;
+}
+.join-box-depth-4-input {
+    width: 70%;
+    height: 100%;
+}
+.join-box-depth-4-input input {
+    width: 95%;
+    height: 90%;
+    font-size: 15px;
+    padding-left: 10px;
+    border-radius: 10px;
+    box-shadow: #303030 0px 4px 5px;
+}
+.join-box-depth-4-btn {
+    width: 25%;
+    height: 100%;
+    border-radius: 10px;
+    background: #D8EECA;
+    color: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    font-size: 15px;
+    box-shadow: #303030 0px 4px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.join-box-depth-4-btn:hover {
+    cursor: pointer;
+}
