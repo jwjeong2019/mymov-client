@@ -11,14 +11,10 @@ const SignIn = () => {
 
     const onClickBtnSignIn = () => {
         if (tempUser.userId === userId && tempUser.userPwd === userPwd) {
-            localStorage.setItem('user_id', userId);
-            localStorage.setItem('user_pwd', userPwd);
-            localStorage.setItem('role', tempUser.role);
+            localStorage.setItem('auth', JSON.stringify(tempUser));
             navigate('/');
         } else if (tempAdmin.userId === userId && tempAdmin.userPwd === userPwd) {
-            localStorage.setItem('user_id', userId);
-            localStorage.setItem('user_pwd', userPwd);
-            localStorage.setItem('role', tempAdmin.role);
+            localStorage.setItem('auth', JSON.stringify(tempAdmin));
             navigate('/');
         } else {
             alert('아이디 또는 비밀번호 불일치');
@@ -30,25 +26,25 @@ const SignIn = () => {
 
     return (
         <div className="signin-container">
-            <div className="box-form">
-                <div className="box-depth-1">
-                    <div className="box-depth-2-top">
-                        <div className="box-depth-3-input">
+            <div className="signin-box-form">
+                <div className="signin-box-depth-1">
+                    <div className="signin-box-depth-2-top">
+                        <div className="signin-box-depth-3-input">
                             <input type="text" placeholder="Email 또는 ID" onChange={onChangeInputId}/>
                         </div>
-                        <div className="box-depth-3-input">
+                        <div className="signin-box-depth-3-input">
                             <input type="password" placeholder="Password" onChange={onChangeInputPwd}/>
                         </div>
                     </div>
-                    <div className="box-depth-2-bottom">
-                        <div className="box-depth-3-button">
+                    <div className="signin-box-depth-2-bottom">
+                        <div className="signin-box-depth-3-button">
                             <button id="btn-signin" onClick={onClickBtnSignIn}>SIGN IN</button>
                         </div>
-                        <div className="box-depth-3-button">
+                        <div className="signin-box-depth-3-button">
                             <button id="btn-home" onClick={onClickBtnHome}>HOME</button>
                         </div>
-                        <div className="box-depth-3-button">
-                            <div className="box-depth-4">
+                        <div className="signin-box-depth-3-button">
+                            <div className="signin-box-depth-4">
                                 <Link to="/findIdPassword">아이디/비밀번호 찾기</Link>
                                 <Link to="/join">회원가입</Link>
                             </div>

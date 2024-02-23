@@ -1,7 +1,9 @@
 import '../css/Navigation.css';
 import {Link} from "react-router-dom";
 
-const Navigation = () => {
+const Navigation = (props) => {
+    const onClickButtonName = e => props.toggleIsOpen();
+
     return (
         <div className="nav-container">
             <div className="nav-box-big">
@@ -15,12 +17,20 @@ const Navigation = () => {
                     <div className="nav-box-small-link">
                         <Link to="/timetable">상영표</Link>
                     </div>
-                    <div className="nav-box-small-link">
-                        <Link to="/signIn">로그인</Link>
-                    </div>
-                    <div className="nav-box-small-link">
-                        <Link to="/join">회원가입</Link>
-                    </div>
+                    {props.data ?
+                        <div className="nav-box-small-link">
+                            <button onClick={onClickButtonName}>{props.data.userId} 님</button>
+                        </div>
+                    :
+                    <>
+                        <div className="nav-box-small-link">
+                            <Link to="/signIn">로그인</Link>
+                        </div>
+                        <div className="nav-box-small-link">
+                            <Link to="/join">회원가입</Link>
+                        </div>
+                    </>
+                    }
                 </div>
             </div>
         </div>

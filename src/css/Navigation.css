@@ -29,6 +29,14 @@
 .nav-box-small-link a {
     color: white;
     text-decoration-line: none;
+    font-size: 17px;
+}
+
+.nav-box-small-link button {
+    color: white;
+    background: none;
+    border: none;
+    font-size: 17px;
 }
 
 .nav-box-small-circle {
