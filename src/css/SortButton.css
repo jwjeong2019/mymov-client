@@ -1,0 +1,27 @@
+.sort-btn-container {
+    position: relative;
+    border: 2px solid #4F5EE4;
+    border-radius: 10px;
+    background: #CDD8FF;
+}
+.sort-btn-button-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4F5EE4;
+}
+.sort-btn-dropdown {
+    position: absolute;
+    width: 120px;
+    right: 0px;
+    top: 38px;
+    border: 2px solid #4F5EE4;
+    border-radius: 10px;
+    padding: 5px;
+    background: white;
+    }
+.sort-btn-dropdown-menu {
+    padding: 5px;
+}

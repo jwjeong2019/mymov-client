@@ -1,0 +1,48 @@
+.movie-list-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.movie-list-header {
+    height: 35%;
+    background-image: url("https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg");
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.movie-list-header-title {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    height: 40%;
+    letter-spacing: 30px;
+}
+.movie-list-content {
+    height: 65%;
+    display: flex;
+    justify-content: center;
+}
+.movie-list-content-box {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    flex-direction: column;
+}
+.movie-list-content-box-top {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+}
+.movie-list-content-box-middle {
+    width: 90%;
+    display: flex;
+    justify-content: end;
+}
+.movie-list-content-box-bottom {
+    width: 90%;
+    height: 75%;
+    display: flex;
+    justify-content: center;
+}
