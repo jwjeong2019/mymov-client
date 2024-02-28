@@ -1,0 +1,6 @@
+.score-container {
+    display: flex;
+}
+.score-icon-star {
+    color: red;
+}
