@@ -62,3 +62,34 @@
 .reservation-box-column-account {
     font-size: 30px;
 }
+.reservation-complete-box {
+    width: 500px;
+    height: 550px;
+    margin-top: 20px;
+    border: 2px solid #CDD8FF;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding: 20px 30px;
+}
+.reservation-complete-box-center {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.reservation-complete-box-center-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 20%;
+}
+.reservation-complete-box-center-top-icon {
+    font-size: 90px;
+    color: #029E66;
+}
+.reservation-complete-box-center-top-text {
+    font-size: 30px;
+}

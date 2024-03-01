@@ -24,4 +24,8 @@
 }
 .button-container-outline:hover {
     cursor: pointer;
+    background: #4F5EE4;
+    color: white;
+    border: 3px solid #4F5EE4;
+    transition: 0.8s;
 }
