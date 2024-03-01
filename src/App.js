@@ -9,6 +9,7 @@ import TimetableList from "./pages/TimetableList";
 import MyPage from "./pages/MyPage";
 import Footer from "./components/Footer";
 import MovieDetail from "./pages/MovieDetail";
+import Reservation from "./pages/Reservation";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                   <Route exact path="/timetable" element={<TimetableList/>} />
                   <Route exact path="/myPage" element={<MyPage/>} />
                   <Route exact path="/movie/detail/:id" element={<MovieDetail/>} />
+                  <Route exact path="/reservation/:mode" element={<Reservation/>} />
               </Routes>
               <Footer />
           </BrowserRouter>

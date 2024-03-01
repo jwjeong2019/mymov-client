@@ -1,0 +1,64 @@
+.reservation-container {
+    display: flex;
+    flex-direction: column;
+    height: 1024px;
+}
+
+.reservation-header {
+    height: 25%;
+    background-image: url("https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg");
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.reservation-header-title {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    height: 40%;
+    letter-spacing: 30px;
+}
+.reservation-content {
+    height: 65%;
+    display: flex;
+    justify-content: center;
+}
+.reservation-box {
+    width: 500px;
+    height: 620px;
+    margin-top: 20px;
+    border: 2px solid #CDD8FF;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 60px 30px;
+}
+.reservation-box-row {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+}
+.reservation-box-row-dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    width: 57%;
+}
+.reservation-box-row-account {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+}
+.reservation-box-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 24%;
+}
+.reservation-box-column-account {
+    font-size: 30px;
+}

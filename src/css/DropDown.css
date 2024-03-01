@@ -6,6 +6,7 @@
     border: 2px solid #4F5EE4;
     border-radius: 10px;
     margin: 10px;
+    background: white;
 }
 .dropdown-button {
     width: 100%;
@@ -15,8 +16,8 @@
 .dropdown-button-text {
     width: 55%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    padding-left: 15px;
 }
 .dropdown-button-icon {
     width: 25%;
@@ -32,6 +33,7 @@
     border-radius: 10px;
     padding: 5px;
     background: white;
+    z-index: 1;
 }
 .dropdown-open-menu {
     padding: 5px;
