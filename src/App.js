@@ -21,7 +21,7 @@ function App() {
                   <Route exact path="/signIn" element={<SignIn/>} />
                   <Route exact path="/movie" element={<MovieList/>} />
                   <Route exact path="/timetable" element={<Timetable/>} />
-                  <Route exact path="/myPage" element={<MyPage/>} />
+                  <Route exact path="/myPage/:step" element={<MyPage/>} />
                   <Route exact path="/movie/detail/:id" element={<MovieDetail/>} />
                   <Route exact path="/reservation/:mode" element={<Reservation/>} />
               </Routes>

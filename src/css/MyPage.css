@@ -1,0 +1,76 @@
+.mypage-container {
+    display: flex;
+    flex-direction: column;
+    height: 1024px;
+}
+
+.mypage-header {
+    height: 25%;
+    background-image: url("https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg");
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.mypage-header-title {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    height: 40%;
+    letter-spacing: 30px;
+}
+.mypage-content {
+    height: 65%;
+    display: flex;
+    justify-content: center;
+}
+.mypage-content-box {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+.mypage-content-box-menu-list {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    border-right: 1px solid black;
+    padding: 15px;
+}
+.mypage-content-box-menu-detail {
+    width: 75%;
+    padding-top: 20px;
+}
+.mypage-content-box-menu-list-box {
+    width: 50%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 20px;
+    border-bottom: 2px solid #BCBCBC;
+}
+.mypage-content-box-menu-list-box div {
+    padding: 5px 0;
+}
+.mypage-content-box-menu-list-box-category {
+    font-weight: bold;
+}
+.mypage-content-box-menu-list-box-subcategory:hover {
+    cursor: pointer;
+}
+
+.mypage-reservation-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mypage-reservation-search {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mypage-reservation-search-left {
+    display: flex;
+}
+.mypage-reservation-table {}
