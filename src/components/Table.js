@@ -1,14 +1,11 @@
 import '../css/Table.css';
 import {useMemo, useState} from "react";
-import Button from "./Button";
 import {IoChevronBackOutline, IoChevronForward} from "react-icons/io5";
 
 const Table = (props) => {
     const [headers, setHeaders] = useState();
     const [bodies, setBodies] = useState();
     const [pages, setPages] = useState([]);
-
-    const onClick = id => props.onClick(id);
     const onClickPage = number => props.onClickPage(number);
 
     const makeHeaders = () => {
@@ -40,14 +37,6 @@ const Table = (props) => {
                 objectCol.content = data[key];
                 arrayCol.push(objectCol);
             });
-            let buttonObject = {
-                key: `timetable-table-body-td${keyList.length + 1}`,
-                className: `table-td-body-col${keyList.length + 1}`,
-                content: <Button title="예매하기"
-                                 outline
-                                 onClick={() => onClick(objectRow.id)} />
-            };
-            arrayCol.push(buttonObject);
 
             objectRow.className = `table-tr-row${index + 1}`;
             objectRow.list = arrayCol;

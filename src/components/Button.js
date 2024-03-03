@@ -6,7 +6,7 @@ const Button = (props) => {
         width: `${props.width}px`,
         height: `${props.height}px`
     }
-    const onClick = e => props.onClick();
+    const onClick = e => props.onClick(props.value);
     return (
         <div className={className} onClick={onClick} style={customStyle}>
             {props.title}
