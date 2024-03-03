@@ -21,12 +21,12 @@ const MyPageReservation = (props) => {
     const onChangeSearchBar = value => setSearch(value);
     const onClickSearchBar = () => console.log(`search: ${search}`);
     const onClickSortButton = id => console.log(`sort id: ${id}`);
-    const onClickButtonStatus = () => console.log('click button status');
+    const onClickButtonStatus = value => console.log(`click button status value: ${value}`);
     const onClickPage = number => console.log(`click page: ${number}`);
     const makeTable = () => {
         setHeaders(['예매번호', '제목', '내용', '영화관', '상영관', '시작시간', '좌석', '예매상태']);
         setBodies([
-            { id: 0, number: 0, title: 'First Movie', detail: '상세보기', cinema: 'MOV홍대점', theater: 1, startTime: '16:55', seat: 'A1', status: <Button title={'예매취소'} outline onClick={onClickButtonStatus} /> },
+            { id: 0, number: 0, title: 'First Movie', detail: '상세보기', cinema: 'MOV홍대점', theater: 1, startTime: '16:55', seat: 'A1', status: <Button title={'예매취소'} outline value={0} onClick={onClickButtonStatus} /> },
             { id: 1, number: 1, title: 'Second Movie', detail: '상세보기', cinema: 'MOV강남점', theater: 1, startTime: '13:55', seat: 'B1', status: '예매완료' },
             { id: 2, number: 2, title: 'Third Movie', detail: '상세보기', cinema: 'MOV홍대점', theater: 2, startTime: '15:55', seat: 'A3', status: '취소완료' },
         ]);
