@@ -1,0 +1,66 @@
+.table-container {
+    /*border: 2px solid black;*/
+}
+.table-container table {
+    border: 2px solid #4F5EE4;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 10px;
+    padding: 15px;
+}
+.table-container table tbody {
+    margin-bottom: 10px;
+}
+.table-container table .table-td-col1 {
+    padding-right: 80px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col2 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col3 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col4 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col5 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col6 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col7 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col8 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col9 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+.table-container table .table-td-col10 {
+    padding-right: 40px;
+    border-bottom: 2px solid #CDD8FF;
+}
+
+.table-page-box {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+.table-page-box-numbers {
+    display: flex;
+    padding: 0 10px;
+}
+.table-page-box-numbers div {
+    padding: 0 5px;
+}
