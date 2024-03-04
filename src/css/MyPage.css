@@ -74,3 +74,62 @@
     display: flex;
 }
 .mypage-reservation-table {}
+
+.mypage-modify-container {
+    height: 100%;
+}
+.mypage-modify-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mypage-modify-detail {
+    width: 60%;
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+    padding: 20px 0;
+}
+.mypage-modify-detail-box {
+    width: 480px;
+}
+.mypage-modify-detail-box-row-button-with {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 85%;
+    margin: 10px 0;
+}
+.mypage-modify-detail-box-row-button-with input {
+    border: none;
+    border-bottom: 1px solid #BCBCBC;
+}
+.mypage-modify-detail-box-col-title {
+}
+.mypage-modify-detail-box-col-input {
+    display: flex;
+    justify-content: space-between;
+    width: 63%;
+}
+.mypage-modify-detail-box-row-button-without {
+    display: flex;
+    justify-content: space-between;
+    width: 67%;
+    margin: 10px 0;
+}
+.mypage-modify-detail-box-row-button-without input {
+    border: none;
+    border-bottom: 1px solid #BCBCBC;
+}
+.mypage-modify-detail-box-row-only-input {
+    display: flex;
+    justify-content: end;
+    width: 66%;
+}
+.mypage-modify-detail-box-row-only-input input {
+    border: none;
+    border-bottom: 1px solid #BCBCBC;
+}
+.mypage-modify-detail-box-row-only-button {
+    display: flex;
+    justify-content: end;
+    width: 85%;
+}

@@ -4,10 +4,11 @@ import {useMemo, useState} from "react";
 import MyPageReservation from "./MyPageReservation";
 import MyPageModify from "./MyPageModify";
 import MyPageWithdrawal from "./MyPageWithdrawal";
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 
 const MyPage = () => {
     let params = useParams();
+    let navigate = useNavigate();
     const stepMenuList = [
         {
             id: 'security',
@@ -34,13 +35,14 @@ const MyPage = () => {
         },
     ];
     const [subComponent, setSubComponent] = useState();
-    const onClickStep = id => console.log(`step id: ${id}`);
+    const onClickStep = id => navigate(`/myPage/${id}`);
     const moveStep = () => {
+        console.log('call moveStep()')
         if (params.step === 'reservation') setSubComponent(<MyPageReservation title={'예매현황'}/>);
         if (params.step === 'modify') setSubComponent(<MyPageModify title={'개인정보 변경'}/>);
         if (params.step === 'withdrawal') setSubComponent(<MyPageWithdrawal title={'회원탈퇴'}/>);
     };
-    useMemo(moveStep, []);
+    useMemo(moveStep, [params]);
     return (
         <div>
             <Navigation />
