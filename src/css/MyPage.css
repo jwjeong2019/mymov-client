@@ -133,3 +133,105 @@
     justify-content: end;
     width: 85%;
 }
+
+.mypage-withdrawal-container {
+    height: 100%;
+}
+.mypage-withdrawal-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.mypage-withdrawal-detail {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+}
+.mypage-withdrawal-detail-box {
+    width: 550px;
+    height: 470px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.mypage-withdrawal-detail-box-row-radio {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+.mypage-withdrawal-detail-box-col-reason-text {
+    font-weight: bold;
+}
+.mypage-withdrawal-detail-box-col-reason-radio {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.mypage-withdrawal-detail-box-col-reason-radio-top {
+    height: 55%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.mypage-withdrawal-detail-box-col-reason-radio textarea {
+    width: 92%;
+    height: 80%;
+    border: 1px solid #BCBCBC;
+    border-radius: 10px;
+    resize: none;
+    padding: 10px;
+}
+.mypage-withdrawal-detail-box-col-reason-radio-box {
+    display: flex;
+
+}
+.mypage-withdrawal-detail-box-col-reason-radio-middle {
+    width: 100%;
+}
+.mypage-withdrawal-detail-box-col-question {
+    font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+}
+.mypage-withdrawal-detail-box-col-note {
+    color: #FF9898;
+    text-align: center;
+    margin-top: 15px;
+}
+.mypage-withdrawal-detail-box-col-reason-radio-bottom {
+    width: 100%;
+}
+.mypage-withdrawal-complete-box {
+    width: 550px;
+    height: 470px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    padding: 20px 30px;
+}
+.mypage-withdrawal-complete-box-center {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.mypage-withdrawal-complete-box-center-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 20%;
+}
+.mypage-withdrawal-complete-box-center-top-icon {
+    font-size: 90px;
+    color: #029E66;
+}
+.mypage-withdrawal-complete-box-center-top-text {
+    font-size: 30px;
+}
