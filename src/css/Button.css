@@ -29,3 +29,17 @@
     border: 3px solid #4F5EE4;
     transition: 0.8s;
 }
+.button-container-caution {
+    border: 3px solid #E4614F;
+    border-radius: 10px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #F34008;
+    font-weight: bold;
+    background: #FFD9CD;
+}
+.button-container-caution:hover {
+    cursor: pointer;
+}

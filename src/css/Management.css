@@ -150,3 +150,76 @@
     justify-content: space-between;
     align-items: center;
 }
+
+/* management-movie-detail */
+.management-movie-detail-container {}
+.management-movie-detail-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-movie-detail-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-movie-detail-content-box {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.management-movie-detail-content-box-top {
+    width: 80%;
+    height: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+.management-movie-detail-content-box-top-image {
+    width: 40%;
+    height: 100%;
+    background-image: url("https://upload.wikimedia.org/wikipedia/ko/2/25/%EC%95%8C%EB%9D%BC%EB%94%98_2019%EB%85%84_%ED%8F%AC%EC%8A%A4%ED%84%B0.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.management-movie-detail-content-box-top-detail {
+    width: 55%;
+}
+.management-movie-detail-content-box-top-row {
+    padding: 7px 0;
+}
+.management-movie-detail-content-box-top-row-col-title {}
+.management-movie-detail-content-box-top-row input {
+    border-radius: 5px;
+    border: 1px solid #BCBCBC;
+    width: 72%;
+    height: 25px;
+}
+.management-movie-detail-content-box-bottom {
+    height: 52%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: end;
+}
+.management-movie-detail-content-box-bottom textarea {
+    width: 95%;
+    resize: none;
+    border-radius: 10px;
+    padding: 10px;
+}
+.management-movie-detail-content-box-bottom-row-attachment {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.management-movie-detail-content-box-bottom-row-col-icon {
+    font-size: 23px;
+}
+.management-movie-detail-content-box-bottom-row-col-attachment {}
+.management-movie-detail-content-box-bottom-row-buttons {
+    width: 52%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
