@@ -35,7 +35,7 @@ const MyPage = () => {
         },
     ];
     const [subComponent, setSubComponent] = useState();
-    const onClickStep = id => navigate(`/myPage/${id}`);
+    const onClickStep = subCategory => navigate(`/myPage/${subCategory.id}`);
     const moveStep = () => {
         console.log('call moveStep()')
         if (params.step === 'reservation') setSubComponent(<MyPageReservation title={'예매현황'}/>);
@@ -63,7 +63,7 @@ const MyPage = () => {
                                             return (
                                                 <div key={`key-step-menu-list-${subCategory.id}`}
                                                      className="mypage-content-box-menu-list-box-subcategory"
-                                                     onClick={() => onClickStep(subCategory.id)}>
+                                                     onClick={() => onClickStep(subCategory)}>
                                                     {subCategory.text}
                                                 </div>
                                             )

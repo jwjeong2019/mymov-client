@@ -1,15 +1,15 @@
 import '../css/Button.css';
 
-const Button = (props) => {
-    const className = props.outline ? "button-container-outline" : "button-container";
+const Button = ({ outline, width, height, value, title, onClick }) => {
+    const className = outline ? "button-container-outline" : "button-container";
     const customStyle = {
-        width: `${props.width}px`,
-        height: `${props.height}px`
+        width: `${width}px`,
+        height: `${height}px`
     }
-    const onClick = e => props.onClick(props.value);
+    const onClickButton = e => onClick(value);
     return (
-        <div className={className} onClick={onClick} style={customStyle}>
-            {props.title}
+        <div className={className} onClick={onClickButton} style={customStyle}>
+            {title}
         </div>
     )
 }

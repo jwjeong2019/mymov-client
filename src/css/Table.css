@@ -2,6 +2,7 @@
     /*border: 2px solid black;*/
 }
 .table-container table {
+    width: 100%;
     border: 2px solid #4F5EE4;
     border-collapse: separate;
     border-spacing: 0;
@@ -12,43 +13,53 @@
     margin-bottom: 10px;
 }
 .table-container table .table-td-col1 {
-    padding-right: 80px;
+    /*padding-right: 80px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col2 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col3 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col4 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col5 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col6 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col7 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col8 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col9 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 .table-container table .table-td-col10 {
-    padding-right: 40px;
+    /*padding-right: 40px;*/
+    text-align: start;
     border-bottom: 2px solid #CDD8FF;
 }
 

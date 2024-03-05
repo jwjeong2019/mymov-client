@@ -2,26 +2,26 @@ import '../css/Table.css';
 import {useMemo, useState} from "react";
 import {IoChevronBackOutline, IoChevronForward} from "react-icons/io5";
 
-const Table = (props) => {
-    const [headers, setHeaders] = useState();
-    const [bodies, setBodies] = useState();
+const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) => {
+    const [headerList, setHeaderList] = useState();
+    const [bodyList, setBodyList] = useState();
     const [pages, setPages] = useState([]);
-    const onClickPage = number => props.onClickPage(number);
+    const onClickPageNumber = number => onClickPage(number);
 
     const makeHeaders = () => {
         let array = [];
-        props?.headers?.length > 0 && props.headers.forEach((value, index) => {
+        headers?.length > 0 && headers.forEach((value, index) => {
             let object = {};
             object.key = `key-timetable-table-header-td${index + 1}`;
             object.className = `table-td-col${index + 1}`;
             object.title = value;
             array.push(object);
         });
-        setHeaders(array);
+        setHeaderList(array);
     };
     const makeBodies = () => {
         let arrayRow = [];
-        props?.bodies?.length > 0 && props.bodies.forEach((data, index) => {
+        bodies?.length > 0 && bodies.forEach((data, index) => {
             let arrayCol = [];
             let objectRow = {
                 key: `timetable-table-body-tr${index + 1}`,
@@ -42,11 +42,11 @@ const Table = (props) => {
             objectRow.list = arrayCol;
             arrayRow.push(objectRow);
         });
-        setBodies(arrayRow);
+        setBodyList(arrayRow);
     };
     const makePages = () => {
-        const offset = (props.page - 1) * props.size;
-        const maxSize = props.total / (props.page * props.size) > 1 ? props.size : props.total % props.size;
+        const offset = (page - 1) * size;
+        const maxSize = total / (page * size) > 1 ? size : total % size;
         let array = [];
         for (let i = 0; i < maxSize; i++) {
             let object = {
@@ -67,7 +67,7 @@ const Table = (props) => {
             <table>
                 <thead>
                     <tr className="table-tr-row1">
-                        {headers?.length > 0 && headers.map(value => {
+                        {headerList?.length > 0 && headerList.map(value => {
                             return (
                                 <th key={value.key} className={value.className}>
                                     {value.title}
@@ -77,9 +77,9 @@ const Table = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                {bodies?.length > 0 && bodies.map(value => {
+                {bodyList?.length > 0 && bodyList.map(value => {
                     return (
-                        <tr key={value.key} className={value.className}>
+                        <tr key={value.key} className={value.className} onClick={onClickRow ? () => onClickRow(value.id) : null}>
                             {value?.list?.length > 0 && value.list.map(value2 => {
                                 return (
                                     <td key={value2.key} className={value2.className}>
@@ -97,7 +97,7 @@ const Table = (props) => {
                 <div className="table-page-box-numbers">
                     {pages.length > 0 && pages.map(value => {
                         return (
-                            <div key={value.key} onClick={() => onClickPage(value.number)}>{value.number}</div>
+                            <div key={value.key} onClick={() => onClickPageNumber(value.number)}>{value.number}</div>
                         )
                     })}
                 </div>

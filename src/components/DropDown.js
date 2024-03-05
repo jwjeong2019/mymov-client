@@ -2,14 +2,14 @@ import '../css/DropDown.css';
 import {useState} from "react";
 import {IoCaretDownOutline} from "react-icons/io5";
 
-const DropDown = (props) => {
+const DropDown = ({ width, height, onClickMenu, menu }) => {
     const customStyle = {
-        width: `${props.width}px`,
-        height: `${props.height}px`,
+        width: `${width}px`,
+        height: `${height}px`,
     }
     const [isOpen, setIsOpen] = useState(false);
     const onClickStyle2 = () => setIsOpen(!isOpen);
-    const onClickMenu = (id) => props.onClickMenu(id);
+    const onClick = (id) => onClickMenu(id);
     return (
         <div className="dropdown-container" style={customStyle}>
             <div className="dropdown-button" onClick={onClickStyle2}>
@@ -18,11 +18,11 @@ const DropDown = (props) => {
             </div>
             {isOpen &&
             <div className="dropdown-open" style={customStyle}>
-                {props.menu.length > 0 && props.menu.map(value => {
+                {menu.length > 0 && menu.map(value => {
                     return (
                         <div key={`dropdown-menu-${value.id}`}
                              className="dropdown-open-menu"
-                             onClick={() => onClickMenu(value.id)}>
+                             onClick={() => onClick(value.id)}>
                             {value.text}
                         </div>
                     )

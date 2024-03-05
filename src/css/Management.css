@@ -1,0 +1,90 @@
+.management-container {
+    display: flex;
+    flex-direction: column;
+    height: 1024px;
+}
+
+.management-header {
+    height: 25%;
+    background-image: url("https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg");
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+.management-header-title {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    height: 40%;
+    letter-spacing: 30px;
+}
+.management-content {
+    height: 65%;
+    display: flex;
+    justify-content: center;
+}
+.management-content-box {
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+.management-content-box-menu-list {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    border-right: 1px solid black;
+    padding: 15px;
+}
+.management-content-box-menu-detail {
+    width: 75%;
+    padding-top: 20px;
+}
+.management-content-box-menu-list-box {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 20px;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-content-box-menu-list-box div {
+    padding: 5px 0;
+}
+.management-content-box-menu-list-box-category {
+    font-weight: bold;
+}
+.management-content-box-menu-list-box-subcategory:hover {
+    cursor: pointer;
+}
+
+/* management-movie-list */
+.management-movie-list-container {}
+.management-movie-list-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-movie-list-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-movie-list-content-box {
+    width: 800px;
+}
+.management-movie-list-content-box-row-search {
+    display: flex;
+    justify-content: space-between;
+}
+.management-movie-list-content-box-row-search-col-left {
+    display: flex;
+}
+.management-movie-list-content-box-row-search-col-right {
+    width: 17%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.management-movie-list-content-box-row-table {
+}

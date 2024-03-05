@@ -2,7 +2,7 @@ import '../css/SortButton.css';
 import {IoSwapVertical} from "react-icons/io5";
 import {useState} from "react";
 
-const SortButton = (props) => {
+const SortButton = ({ onClickMenu }) => {
     const menuList = [
         {
             id: 'rank',
@@ -19,7 +19,7 @@ const SortButton = (props) => {
     ];
     const [isOpen, setIsOpen] = useState(false);
     const onClickStyle2 = () => setIsOpen(!isOpen);
-    const onClickMenu = (id) => props.onClickMenu(id);
+    const onClick = (id) => onClickMenu(id);
 
     return (
         <div className="sort-btn-container">
@@ -30,7 +30,7 @@ const SortButton = (props) => {
                     return (
                         <div key={`sort-menu-${value.id}`}
                              className="sort-btn-dropdown-menu"
-                             onClick={() => onClickMenu(value.id)}>
+                             onClick={() => onClick(value.id)}>
                             {value.text}
                         </div>
                     )

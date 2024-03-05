@@ -10,6 +10,7 @@ import MyPage from "./pages/MyPage";
 import Footer from "./components/Footer";
 import MovieDetail from "./pages/MovieDetail";
 import Reservation from "./pages/Reservation";
+import Management from "./pages/Management";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                   <Route exact path="/myPage/:step" element={<MyPage/>} />
                   <Route exact path="/movie/detail/:id" element={<MovieDetail/>} />
                   <Route exact path="/reservation/:mode" element={<Reservation/>} />
+                  <Route path="/admin/management/:step/:mode" element={<Management/>} />
               </Routes>
               <Footer />
           </BrowserRouter>

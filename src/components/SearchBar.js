@@ -1,17 +1,17 @@
 import '../css/SearchBar.css';
 import {IoSearchOutline} from "react-icons/io5";
 
-const SearchBar = (props) => {
-    const onChange = e => props.onChange(e.target.value);
-    const onClick = () => props.onClick();
+const SearchBar = ({ onChange, onClick }) => {
+    const onChangeInput = e => onChange(e.target.value);
+    const onClickButton = () => onClick();
     return (
         <div className="searchbar-container">
             <div className="searchbar-box-input">
                 <input type="text"
                        placeholder="Search..."
-                       onChange={onChange} />
+                       onChange={onChangeInput} />
             </div>
-            <div className="searchbar-box-button" onClick={onClick}>
+            <div className="searchbar-box-button" onClick={onClickButton}>
                 <IoSearchOutline />
             </div>
         </div>
