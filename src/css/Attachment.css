@@ -1,0 +1,12 @@
+.attachment-container {
+    display: flex;
+}
+.attachment-icon {
+    font-size: 23px;
+}
+.attachment-container label {
+    text-decoration-line: underline;
+}
+.attachment-container input[type='file'] {
+    display: none;
+}

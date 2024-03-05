@@ -1,11 +1,9 @@
 import '../css/Management.css';
 import {useNavigate, useParams} from "react-router";
 import {useMemo, useState} from "react";
-import MyPageReservation from "./MyPageReservation";
-import MyPageModify from "./MyPageModify";
-import MyPageWithdrawal from "./MyPageWithdrawal";
 import Navigation from "../components/Navigation";
 import ManagementMovieList from "./ManagementMovieList";
+import ManagementMovieRegister from "./ManagementMovieRegister";
 
 const Management = () => {
     let params = useParams();
@@ -28,7 +26,7 @@ const Management = () => {
     const moveStep = () => {
         const { step, mode } = params;
         if (step === 'movie' && mode === 'list') setSubComponent(<ManagementMovieList title={'영화 관리'} />);
-        if (step === 'movie' && mode === 'register') setSubComponent(<div></div>);
+        if (step === 'movie' && mode === 'register') setSubComponent(<ManagementMovieRegister title={'영화 관리'} />);
     };
     useMemo(moveStep, [params]);
     return (
