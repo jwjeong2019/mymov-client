@@ -470,3 +470,46 @@
 }
 .management-seat-list-content-box-row-table {
 }
+
+/* management-seat-register */
+.management-seat-register-container {}
+.management-seat-register-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-seat-register-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-seat-register-content-box {
+    width: 250px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.management-seat-register-content-box-top {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.management-seat-register-content-box-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.management-seat-register-content-box-top-row-col-title {}
+.management-seat-register-content-box-top-row input {
+    border-radius: 5px;
+    width: 165px;
+    height: 30px;
+    border: 1px solid #BCBCBC;
+}
+.management-seat-register-content-box-bottom {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-self: end;
+}

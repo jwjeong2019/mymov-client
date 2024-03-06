@@ -12,12 +12,12 @@ const ManagementTheaterRegister = (props) => {
     let navigate = useNavigate();
     const [cinema, setCinema] = useState();
     const [number, setNumber] = useState();
-    const onChangeName = e => setNumber(e.target.value);
+    const onChangeNumber = e => setNumber(e.target.value);
     const onClickButton = value => {
         if (value === 'complete') console.log({ cinema, number });
         if (value === 'cancel') navigate(-1);
     };
-    const onClickOption = id => setCinema(id);
+    const onClickOption = value => setCinema(value);
     return (
         <div className="management-cinema-register-container">
             <div className="management-cinema-register-title">{props.title}</div>
@@ -30,7 +30,7 @@ const ManagementTheaterRegister = (props) => {
                         </div>
                         <div className="management-cinema-register-content-box-top-row">
                             <div className="management-cinema-register-content-box-top-row-col-title">번호:</div>
-                            <input type="text" placeholder={'번호를 입력하세요.'} onChange={onChangeName}/>
+                            <input type="text" placeholder={'번호를 입력하세요.'} onChange={onChangeNumber}/>
                         </div>
                     </div>
                     <div className="management-cinema-register-content-box-bottom">
