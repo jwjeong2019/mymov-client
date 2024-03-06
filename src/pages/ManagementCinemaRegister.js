@@ -5,14 +5,14 @@ import Select from "../components/Select";
 
 const ManagementCinemaRegister = (props) => {
     const optionList = [
-        { id: 'seoul', value: '서울', text: '서울' },
-        { id: 'incheon', value: '인천', text: '인천' },
-        { id: 'suwon', value: '수원', text: '수원' },
-        { id: 'daejeon', value: '대전', text: '대전' },
-        { id: 'daegu', value: '대구', text: '대구' },
-        { id: 'ulsan', value: '울산', text: '울산' },
-        { id: 'busan', value: '부산', text: '부산' },
-        { id: 'jeju', value: '제주도', text: '제주도' },
+        { id: 'seoul', value: 'seoul', text: '서울' },
+        { id: 'incheon', value: 'incheon', text: '인천' },
+        { id: 'suwon', value: 'suwon', text: '수원' },
+        { id: 'daejeon', value: 'daejeon', text: '대전' },
+        { id: 'daegu', value: 'daegu', text: '대구' },
+        { id: 'ulsan', value: 'ulsan', text: '울산' },
+        { id: 'busan', value: 'busan', text: '부산' },
+        { id: 'jeju', value: 'jeju', text: '제주도' },
     ];
     let navigate = useNavigate();
     const [name, setName] = useState();

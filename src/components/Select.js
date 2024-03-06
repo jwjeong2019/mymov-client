@@ -7,7 +7,7 @@ const Select = ({ options, onChange }) => {
             {options.map(value => {
                 return (
                     <option key={`option-region-${value.id}`}
-                            value={value.id}>
+                            value={value.value}>
                         {value.text}
                     </option>
                 );
