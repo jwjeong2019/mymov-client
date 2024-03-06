@@ -12,6 +12,7 @@ import ManagementTheaterList from "./ManagementTheaterList";
 import ManagementTheaterRegister from "./ManagementTheaterRegister";
 import ManagementSeatList from "./ManagementSeatList";
 import ManagementSeatRegister from "./ManagementSeatRegister";
+import ManagementTimetableList from "./ManagementTimetableList";
 
 const Management = () => {
     let params = useParams();
@@ -43,6 +44,7 @@ const Management = () => {
         if (step === 'theater' && mode === 'register') setSubComponent(<ManagementTheaterRegister title={'상영관 관리'} />);
         if (step === 'seat' && mode === 'list') setSubComponent(<ManagementSeatList title={'좌석 관리'} />);
         if (step === 'seat' && mode === 'register') setSubComponent(<ManagementSeatRegister title={'좌석 관리'} />);
+        if (step === 'timetable' && mode === 'list') setSubComponent(<ManagementTimetableList title={'상영표 관리'} />);
     };
     useMemo(moveStep, [params]);
     return (

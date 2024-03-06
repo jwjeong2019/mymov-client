@@ -513,3 +513,32 @@
     justify-content: space-between;
     align-self: end;
 }
+
+/* management-timetable-list */
+.management-timetable-list-container {}
+.management-timetable-list-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-timetable-list-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-timetable-list-content-box {
+    width: 800px;
+}
+.management-timetable-list-content-box-row-search {
+    display: flex;
+    justify-content: space-between;
+}
+.management-timetable-list-content-box-row-search-col-left {
+    display: flex;
+}
+.management-timetable-list-content-box-row-search-col-right {
+    width: 17%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.management-timetable-list-content-box-row-table {
+}
