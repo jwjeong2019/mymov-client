@@ -542,3 +542,46 @@
 }
 .management-timetable-list-content-box-row-table {
 }
+
+/* management-timetable-register */
+.management-timetable-register-container {}
+.management-timetable-register-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-timetable-register-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-timetable-register-content-box {
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.management-timetable-register-content-box-top {
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.management-timetable-register-content-box-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.management-timetable-register-content-box-top-row-col-title {}
+.management-timetable-register-content-box-top-row input {
+    border-radius: 5px;
+    width: 165px;
+    height: 30px;
+    border: 1px solid #BCBCBC;
+}
+.management-timetable-register-content-box-bottom {
+    width: 58%;
+    display: flex;
+    justify-content: space-between;
+    align-self: end;
+}
