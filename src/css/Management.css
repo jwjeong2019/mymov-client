@@ -297,3 +297,32 @@
     justify-content: space-between;
     align-items: center;
 }
+
+/* management-cinema-list */
+.management-cinema-list-container {}
+.management-cinema-list-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-cinema-list-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-cinema-list-content-box {
+    width: 800px;
+}
+.management-cinema-list-content-box-row-search {
+    display: flex;
+    justify-content: space-between;
+}
+.management-cinema-list-content-box-row-search-col-left {
+    display: flex;
+}
+.management-cinema-list-content-box-row-search-col-right {
+    width: 17%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.management-cinema-list-content-box-row-table {
+}
