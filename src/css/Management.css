@@ -441,3 +441,32 @@
     justify-content: space-between;
     align-self: end;
 }
+
+/* management-seat-list */
+.management-seat-list-container {}
+.management-seat-list-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-seat-list-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-seat-list-content-box {
+    width: 800px;
+}
+.management-seat-list-content-box-row-search {
+    display: flex;
+    justify-content: space-between;
+}
+.management-seat-list-content-box-row-search-col-left {
+    display: flex;
+}
+.management-seat-list-content-box-row-search-col-right {
+    width: 17%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.management-seat-list-content-box-row-table {
+}
