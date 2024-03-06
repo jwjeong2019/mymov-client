@@ -7,6 +7,7 @@ import ManagementMovieRegister from "./ManagementMovieRegister";
 import ManagementMovieDetail from "./ManagementMovieDetail";
 import ManagementMovieModify from "./ManagementMovieModify";
 import ManagementCinemaList from "./ManagementCinemaList";
+import ManagementCinemaRegister from "./ManagementCinemaRegister";
 
 const Management = () => {
     let params = useParams();
@@ -33,6 +34,7 @@ const Management = () => {
         if (step === 'movie' && mode === 'detail') setSubComponent(<ManagementMovieDetail title={'영화 관리'} />);
         if (step === 'movie' && mode === 'modify') setSubComponent(<ManagementMovieModify title={'영화 관리'} />);
         if (step === 'cinema' && mode === 'list') setSubComponent(<ManagementCinemaList title={'영화관 관리'} />);
+        if (step === 'cinema' && mode === 'register') setSubComponent(<ManagementCinemaRegister title={'영화관 관리'} />);
     };
     useMemo(moveStep, [params]);
     return (

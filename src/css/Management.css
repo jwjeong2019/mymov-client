@@ -326,3 +326,46 @@
 }
 .management-cinema-list-content-box-row-table {
 }
+
+/* management-cinema-register */
+.management-cinema-register-container {}
+.management-cinema-register-title {
+    font-size: 25px;
+    font-weight: bold;
+}
+.management-cinema-register-content {
+    border-top: 2px solid #BCBCBC;
+    border-bottom: 2px solid #BCBCBC;
+}
+.management-cinema-register-content-box {
+    width: 250px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+.management-cinema-register-content-box-top {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.management-cinema-register-content-box-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.management-cinema-register-content-box-top-row-col-title {}
+.management-cinema-register-content-box-top-row input {
+    border-radius: 5px;
+    width: 165px;
+    height: 30px;
+    border: 1px solid #BCBCBC;
+}
+.management-cinema-register-content-box-bottom {
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    align-self: end;
+}
