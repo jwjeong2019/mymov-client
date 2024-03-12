@@ -1,28 +1,47 @@
 import '../css/SignIn.css';
 import {Link, useNavigate} from "react-router-dom";
 import {useState} from "react";
+import apiAdmin from "../api/apiAdmin";
+import apiMember from "../api/apiMember";
 
 const SignIn = () => {
+    const TEXT_ALERT_FAIL_LOGIN = '아이디 또는 비밀번호가 일치하지 않습니다.';
     const navigate = useNavigate();
-    const tempUser = { userId: 'testuser', userPwd: '1234', role: 'USER'};
-    const tempAdmin = { userId: 'testadmin', userPwd: '12345', role: 'ADMIN_MASTER'};
-    const [userId, setUserId] = useState();
-    const [userPwd, setUserPwd] = useState();
+    const [userId, setUserId] = useState('');
+    const [userPwd, setUserPwd] = useState('');
 
     const onClickBtnSignIn = () => {
-        if (tempUser.userId === userId && tempUser.userPwd === userPwd) {
-            localStorage.setItem('auth', JSON.stringify(tempUser));
-            navigate('/');
-        } else if (tempAdmin.userId === userId && tempAdmin.userPwd === userPwd) {
-            localStorage.setItem('auth', JSON.stringify(tempAdmin));
-            navigate('/');
-        } else {
-            alert('아이디 또는 비밀번호 불일치');
+        let params = {};
+        if (isContainedWordFrom('admin', userId)) {
+            params.adminId = userId;
+            params.adminPw = userPwd;
+            apiAdmin.createToken(params)
+                .then(response => {
+                    const { data } = response;
+                    if (isContainedWordFrom('fail', data.msg)) return alert(TEXT_ALERT_FAIL_LOGIN);
+                    localStorage.setItem('auth', JSON.stringify(data.token));
+                    return navigate('/');
+                })
+                .catch(err => alert(TEXT_ALERT_FAIL_LOGIN));
+            return;
         }
+
+        params.memberId = userId;
+        params.memberPw = userPwd;
+        apiMember.createToken(params)
+            .then(response => {
+                const { data } = response;
+                if (isContainedWordFrom('fail', data.msg)) return alert(TEXT_ALERT_FAIL_LOGIN);
+                localStorage.setItem('auth', JSON.stringify(data.token));
+                return navigate('/');
+            })
+            .catch(err => alert(TEXT_ALERT_FAIL_LOGIN));
     }
     const onClickBtnHome = () => navigate('/');
     const onChangeInputId = e => setUserId(e.target.value);
     const onChangeInputPwd = e => setUserPwd(e.target.value);
+
+    const isContainedWordFrom = (word, data) => data.indexOf(word) > -1;
 
     return (
         <div className="signin-container">
