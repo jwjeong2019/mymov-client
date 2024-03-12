@@ -17,7 +17,7 @@ const Main = () => {
         const role = localStorage.getItem('role');
 
         if (auth && role === 'ADMIN') {
-            setData({ userId: '관리자' });
+            setData({ userId: '관리자', role: role });
             return apiAdmin.getMyInfo(auth)
                 .then(response => {
                     const { data } = response;
@@ -28,7 +28,7 @@ const Main = () => {
         }
 
         if (auth && role === 'USER') {
-            setData({ userId: '사용자' });
+            setData({ userId: '사용자', role: role });
             return apiMember.getMyInfo(auth)
                 .then(response => {
                     const { data } = response;

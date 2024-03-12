@@ -17,6 +17,11 @@ const Navigation = (props) => {
                     <div className="nav-box-small-link">
                         <Link to="/timetable">상영표</Link>
                     </div>
+                    {props.data?.role === 'ADMIN' &&
+                        <div className="nav-box-small-link">
+                            <Link to="/admin/management/movie/list">관리하기</Link>
+                        </div>
+                    }
                     {props.data ?
                         <div className="nav-box-small-link">
                             <button onClick={onClickButtonName}>{props.data.userId} 님</button>
