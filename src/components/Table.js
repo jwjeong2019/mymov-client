@@ -45,22 +45,31 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
         setBodyList(arrayRow);
     };
     const makePages = () => {
-        const offset = (page - 1) * size;
-        const maxSize = total / (page * size) > 1 ? size : total % size;
+        const unitPerBlock = 10;
+        let pageData = {
+            offset: Math.floor(page / size) * size,
+            totalThisBlock: total - total % (size * unitPerBlock),
+            totalLastBlock: total % (size * unitPerBlock),
+            pagesThisBlock: Math.round(total / size)
+        }
+        if (total < unitPerBlock) pageData.totalThisBlock = total;
+        if (pageData.offset === 0) pageData.pagesThisBlock = Math.round(pageData.totalThisBlock / size);
+        if (pageData.offset > 0) pageData.pagesThisBlock += 1;
+
         let array = [];
-        for (let i = 0; i < maxSize; i++) {
+        for (let i = pageData.offset; i < pageData.pagesThisBlock; i++) {
             let object = {
                 key: `table-page${i + 1}`,
-                number: offset + (i + 1)
+                number: i + 1
             };
             array.push(object);
         }
         setPages(array);
     };
 
-    useMemo(makeHeaders, []);
-    useMemo(makeBodies, []);
-    useMemo(makePages, []);
+    useMemo(makeHeaders, [headers]);
+    useMemo(makeBodies, [bodies]);
+    useMemo(makePages, [total]);
 
     return (
         <div className="table-container">

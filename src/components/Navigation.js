@@ -2,6 +2,8 @@ import '../css/Navigation.css';
 import {Link} from "react-router-dom";
 
 const Navigation = (props) => {
+    const name = localStorage.getItem('name');
+    const role = localStorage.getItem('role');
     const onClickButtonName = e => props.toggleIsOpen();
 
     return (
@@ -17,14 +19,14 @@ const Navigation = (props) => {
                     <div className="nav-box-small-link">
                         <Link to="/timetable">상영표</Link>
                     </div>
-                    {props.data?.role === 'ADMIN' &&
+                    {role === 'ADMIN' &&
                         <div className="nav-box-small-link">
                             <Link to="/admin/management/movie/list">관리하기</Link>
                         </div>
                     }
-                    {props.data ?
+                    {(role && name) ?
                         <div className="nav-box-small-link">
-                            <button onClick={onClickButtonName}>{props.data.userId} 님</button>
+                            <button onClick={onClickButtonName}>{name} 님</button>
                         </div>
                     :
                     <>

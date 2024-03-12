@@ -1,16 +1,22 @@
 import '../css/SideBar.css';
 import {IoAccessibility, IoChevronForwardSharp, IoLogOutOutline, IoMailOutline, IoTicketOutline} from "react-icons/io5";
 import {Link} from "react-router-dom";
+import {useNavigate} from "react-router";
 
 const SideBar = (props) => {
     let containerInlineStyle = {
         display: props.isOpen ? 'block' : 'none'
     }
+    const name = localStorage.getItem('name');
+    const role = localStorage.getItem('role');
 
+    const navigate = useNavigate();
     const onClickButtonBack = () => props.toggleIsOpen();
     const onClickLogout = () => {
         localStorage.removeItem('auth');
-        window.location.reload();
+        localStorage.removeItem('name');
+        localStorage.removeItem('role');
+        navigate('/');
     }
 
     return (
@@ -22,7 +28,7 @@ const SideBar = (props) => {
                             <IoChevronForwardSharp />
                         </button>
                     </div>
-                    <div className="sidebar-box-depth-3-text">환영합니다. {props.data?.userId}님</div>
+                    <div className="sidebar-box-depth-3-text">환영합니다. {name}님</div>
                 </div>
                 <div className="sidebar-box-depth-2-line"/>
                 <div className="sidebar-box-depth-2-bottom">

@@ -2,21 +2,7 @@ import '../css/SortButton.css';
 import {IoSwapVertical} from "react-icons/io5";
 import {useState} from "react";
 
-const SortButton = ({ onClickMenu }) => {
-    const menuList = [
-        {
-            id: 'rank',
-            text: '랭킹순'
-        },
-        {
-            id: 'recent',
-            text: '최신순'
-        },
-        {
-            id: 'age',
-            text: '연령순'
-        },
-    ];
+const SortButton = ({ onClickMenu, list }) => {
     const [isOpen, setIsOpen] = useState(false);
     const onClickStyle2 = () => setIsOpen(!isOpen);
     const onClick = (id) => onClickMenu(id);
@@ -26,7 +12,7 @@ const SortButton = ({ onClickMenu }) => {
             <div className="sort-btn-button-icon" onClick={onClickStyle2}><IoSwapVertical /></div>
             {isOpen &&
             <div className="sort-btn-dropdown">
-                {menuList.map(value => {
+                {list.map(value => {
                     return (
                         <div key={`sort-menu-${value.id}`}
                              className="sort-btn-dropdown-menu"

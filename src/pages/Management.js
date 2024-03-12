@@ -14,6 +14,7 @@ import ManagementSeatList from "./ManagementSeatList";
 import ManagementSeatRegister from "./ManagementSeatRegister";
 import ManagementTimetableList from "./ManagementTimetableList";
 import ManagementTimetableRegister from "./ManagementTimetableRegister";
+import SideBar from "../components/SideBar";
 
 const Management = () => {
     let params = useParams();
@@ -32,7 +33,9 @@ const Management = () => {
         },
     ];
     const [subComponent, setSubComponent] = useState();
+    const [isOpen, setIsOpen] = useState();
     const onClickStep = subCategory => navigate(`/admin/management/${subCategory.path}`);
+    const toggleIsOpen = () => setIsOpen(!isOpen);
     const moveStep = () => {
         const { step, mode } = params;
         if (step === 'movie' && mode === 'list') setSubComponent(<ManagementMovieList title={'영화 관리'} />);
@@ -51,7 +54,9 @@ const Management = () => {
     useMemo(moveStep, [params]);
     return (
         <div>
-            <Navigation />
+            <Navigation toggleIsOpen={toggleIsOpen} />
+            <SideBar isOpen={isOpen}
+                     toggleIsOpen={toggleIsOpen} />
             <div className="management-container">
                 <div className="management-header">
                     <div className="management-header-title">관리하기</div>
