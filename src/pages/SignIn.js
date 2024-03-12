@@ -20,6 +20,7 @@ const SignIn = () => {
                     const { data } = response;
                     if (isContainedWordFrom('fail', data.msg)) return alert(TEXT_ALERT_FAIL_LOGIN);
                     localStorage.setItem('auth', JSON.stringify(data.token));
+                    localStorage.setItem('role', 'ADMIN');
                     return navigate('/');
                 })
                 .catch(err => alert(TEXT_ALERT_FAIL_LOGIN));
@@ -33,6 +34,7 @@ const SignIn = () => {
                 const { data } = response;
                 if (isContainedWordFrom('fail', data.msg)) return alert(TEXT_ALERT_FAIL_LOGIN);
                 localStorage.setItem('auth', JSON.stringify(data.token));
+                localStorage.setItem('role', 'USER');
                 return navigate('/');
             })
             .catch(err => alert(TEXT_ALERT_FAIL_LOGIN));
