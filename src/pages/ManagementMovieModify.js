@@ -1,48 +1,114 @@
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
 import {useMemo, useState} from "react";
 import Button from "../components/Button";
 import Attachment from "../components/Attachment";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementMovieModify = (props) => {
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
+    let location = useLocation();
     const [inputList, setInputList] = useState([]);
     const [title, setTitle] = useState();
     const [age, setAge] = useState();
     const [director, setDirector] = useState();
     const [releaseDate, setReleaseDate] = useState();
+    const [screenDate, setScreenDate] = useState();
     const [detail, setDetail] = useState();
+    const [imageUrl, setImageUrl] = useState();
+    const [file, setFile] = useState();
     const onChangeTitle = e => setTitle(e.target.value);
     const onChangeAge = e => setAge(e.target.value);
     const onChangeDirector = e => setDirector(e.target.value);
     const onChangeReleaseDate = e => setReleaseDate(e.target.value);
+    const onChangeScreenDate = e => setScreenDate(e.target.value);
     const onChangeTextarea = e => setDetail(e.target.value);
+    const uploadFile = file => setFile(file);
     const onClickButton = value => {
-        if (value === 'complete') console.log({ title, age, director, releaseDate, detail });
-        if (value === 'cancel') navigate(-1);
+        if (value === 'complete') updateMovieDetail(location.state.id);
+        if (value === 'cancel') navigate('/admin/management/movie/list');
     }
-    const makeInputList = () => {
-        setInputList([
-            { keyName: 'title', text: '제목', value: 'First Movie', placeholder: '제목을 입력하세요.', onChange: onChangeTitle },
-            { keyName: 'age', text: '연령', value: '전체', placeholder: '연령을 입력하세요.', onChange: onChangeAge },
-            { keyName: 'director', text: '감독', value: '존 스미스', placeholder: '감독을 입력하세요.', onChange: onChangeDirector },
-            { keyName: 'releaseDate', text: '개봉일', value: '2024-01-20', placeholder: '개봉일을 입력하세요.', onChange: onChangeReleaseDate },
-        ]);
-        setDetail('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim, urna ut semper pharetra, eros dui viverra sapien, vitae eleifend tortor nisl et quam. Nullam dapibus malesuada egestas. Sed gravida, odio sit amet bibendum dignissim, augue mi dignissim nibh, nec fringilla dui magna ut libero. Integer mollis ex sed quam sodales faucibus. Nunc ut tortor sollicitudin, auctor ligula eu, sollicitudin est. In condimentum tristique arcu, at tincidunt risus sollicitudin et. Curabitur venenatis justo at nibh porttitor ornare.');
+    const init = () => {
+        const { state } = location;
+        const array = state.inputList.map(object => {
+            let result = {
+                keyName: object.keyName,
+                text: object.text,
+                value: object.value,
+                placeholder: '',
+                onChangeState: () => {}
+            };
+            if (object.keyName === 'title') {
+                result.placeholder = '제목을 입력하세요.';
+                result.onChangeState = onChangeTitle;
+                setTitle(object.value);
+            }
+            else if (object.keyName === 'age') {
+                result.placeholder = '연령을 입력하세요.';
+                result.onChangeState = onChangeAge;
+                setAge(object.value);
+            }
+            else if (object.keyName === 'releaseDate') {
+                result.placeholder = '개봉일을 입력하세요.';
+                result.onChangeState = onChangeReleaseDate;
+                setReleaseDate(object.value);
+            }
+            else if (object.keyName === 'screenDate') {
+                result.placeholder = '상영일을 입력하세요.';
+                result.onChangeState = onChangeScreenDate;
+                setScreenDate(object.value);
+            }
+            return result;
+        });
+        setInputList(array);
+        setDetail(state.detail);
+        setImageUrl(state.imageUrl);
     }
-    useMemo(makeInputList, []);
+    const updateMovieDetail = (id) => {
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('detail', detail);
+        formData.append('age', age);
+        formData.append('releaseDate', releaseDate);
+        formData.append('screenDate', screenDate);
+        formData.append('file', file);
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            id,
+            formData
+        }
+        apiAdmin.updateMovie(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 수정 실패: ${data.msg}`);
+                alert('영화를 정상적으로 수정하였습니다.');
+                navigate(`/admin/management/movie/detail`, {
+                    state: location.state
+                });
+            })
+            .catch(err => alert(`영화 수정 실패:\n${err.message}`));
+    }
+    useMemo(init, []);
     return (
         <div className="management-movie-modify-container">
             <div className="management-movie-modify-title">{props.title}</div>
             <div className="management-movie-modify-content">
                 <div className="management-movie-modify-content-box">
                     <div className="management-movie-modify-content-box-top">
-                        <div className="management-movie-modify-content-box-top-image" />
+                        <img src={imageUrl} alt="movie_poster" />
                         <div className="management-movie-modify-content-box-top-detail">
                             {inputList.length > 0 && inputList.map(value => {
+                                let state = ''
+                                if (value.keyName === 'title') state = title;
+                                else if (value.keyName === 'age') state = age;
+                                else if (value.keyName === 'releaseDate') state = releaseDate;
+                                else if (value.keyName === 'screenDate') state = screenDate;
                                 return (
                                     <div key={`management-movie-modify-row-${value.keyName}`} className="management-movie-modify-content-box-top-row">
                                         <div className="management-movie-modify-content-box-top-row-col-title">{value.text}:</div>
-                                        <input type="text" placeholder={value.placeholder} value={value.value} onChange={value.onChange}/>
+                                        <input type="text" placeholder={value.placeholder} value={state} onChange={value.onChangeState}/>
                                     </div>
                                 )
                             })}
@@ -51,7 +117,7 @@ const ManagementMovieModify = (props) => {
                     <div className="management-movie-modify-content-box-bottom">
                         <textarea name="textarea" id="textarea" cols="30" rows="10" placeholder={'설명을 입력하세요.'} value={detail} onChange={onChangeTextarea} />
                         <div className="management-movie-modify-content-box-bottom-row-attachment">
-                            <Attachment />
+                            <Attachment upload={uploadFile} />
                         </div>
                         <div className="management-movie-modify-content-box-bottom-row-buttons">
                             <Button title={'완료'} width={80} value={'complete'} onClick={onClickButton} />

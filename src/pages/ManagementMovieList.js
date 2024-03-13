@@ -63,7 +63,7 @@ const ManagementMovieList = (props) => {
                         obj.title = value.title;
                         obj.age = value.age;
                         obj.director = '존 스미스';
-                        obj.releaseDate = value.releaseDate;
+                        obj.releaseDate = value.releaseDate?.replace('T', ' ');
                         arr.push(obj);
                     });
                     setBodies(arr);

@@ -11,7 +11,14 @@ const ManagementMovieRegister = (props) => {
     const [detail, setDetail] = useState();
     const [imageUrl, setImageUrl] = useState();
     const onClickButton = value => {
-        if (value === 'modify') navigate(`/admin/management/movie/${value}`);
+        if (value === 'modify') navigate(`/admin/management/movie/${value}`, {
+            state: {
+                id: location.state.id,
+                inputList,
+                detail,
+                imageUrl
+            }
+        });
         if (value === 'delete') {
             let result = window.confirm('삭제하시겠습니까?');
             console.log(`confirm result: ${result}`);
@@ -32,17 +39,23 @@ const ManagementMovieRegister = (props) => {
                 const resultKeys = Object.keys(data.result);
                 const filteredResultKeys = resultKeys.filter(key => key === 'title' || key === 'age' || key === 'releaseDate' || key === 'screenDate');
                 const array = filteredResultKeys.map(key => {
-                    let valueText = '';
-                    if (key === 'title') valueText = '제목';
-                    else if (key === 'age') valueText = '연령';
-                    else if (key === 'releaseDate') valueText = '개봉일';
-                    else if (key === 'screenDate') valueText = '상영일';
-                    else valueText = 'No Text';
-                    return {
+                    let result = {
                         keyName: key,
-                        text: valueText,
-                        value: data.result[key],
-                    };
+                        text: '',
+                        value: data.result[key]
+                    }
+                    if (key === 'title') result.text = '제목';
+                    else if (key === 'age') result.text = '연령';
+                    else if (key === 'releaseDate') {
+                        result.text = '개봉일';
+                        result.value = result.value.replace('T', ' ');
+                    }
+                    else if (key === 'screenDate') {
+                        result.text = '상영일';
+                        result.value = result.value.replace('T', ' ');
+                    }
+                    else result.text = 'No Text';
+                    return result;
                 });
                 setInputList(array);
                 setDetail(data.result.detail);
