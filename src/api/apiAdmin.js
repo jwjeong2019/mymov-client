@@ -7,6 +7,12 @@ const apiAdmin = {
             Authorization: `${params.grantType} ${params.accessToken}`
         }
     }),
+    createMovie: (params) => api.post(`/admins/movies`, params.formData, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+            "Content-Type": "multipart/form-data"
+        }
+    }),
 };
 
 export default apiAdmin;
