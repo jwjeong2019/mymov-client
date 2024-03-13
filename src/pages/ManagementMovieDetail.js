@@ -1,21 +1,15 @@
 import Button from "../components/Button";
 import {useMemo, useState} from "react";
-import Attachment from "../components/Attachment";
-import {useNavigate} from "react-router";
+import {useLocation, useNavigate} from "react-router";
+import apiMovie from "../api/apiMovie";
+import {Utils} from "../utils/Utils";
 
 const ManagementMovieRegister = (props) => {
     let navigate = useNavigate();
+    let location = useLocation();
     const [inputList, setInputList] = useState([]);
-    const [title, setTitle] = useState();
-    const [age, setAge] = useState();
-    const [director, setDirector] = useState();
-    const [releaseDate, setReleaseDate] = useState();
     const [detail, setDetail] = useState();
-    const onChangeTitle = e => setTitle(e.target.value);
-    const onChangeAge = e => setAge(e.target.value);
-    const onChangeDirector = e => setDirector(e.target.value);
-    const onChangeReleaseDate = e => setReleaseDate(e.target.value);
-    const onChangeTextarea = e => setDetail(e.target.value);
+    const [imageUrl, setImageUrl] = useState();
     const onClickButton = value => {
         if (value === 'modify') navigate(`/admin/management/movie/${value}`);
         if (value === 'delete') {
@@ -24,23 +18,46 @@ const ManagementMovieRegister = (props) => {
         }
         if (value === 'back') navigate(-1);
     }
-    const makeInputList = () => {
-        setInputList([
-            { keyName: 'title', text: '제목', value: 'First Movie', onChange: onChangeTitle },
-            { keyName: 'age', text: '연령', value: '전체', onChange: onChangeAge },
-            { keyName: 'director', text: '감독', value: '존 스미스', onChange: onChangeDirector },
-            { keyName: 'releaseDate', text: '개봉일', value: '2024-01-20', onChange: onChangeReleaseDate },
-        ]);
-        setDetail('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque dignissim, urna ut semper pharetra, eros dui viverra sapien, vitae eleifend tortor nisl et quam. Nullam dapibus malesuada egestas. Sed gravida, odio sit amet bibendum dignissim, augue mi dignissim nibh, nec fringilla dui magna ut libero. Integer mollis ex sed quam sodales faucibus. Nunc ut tortor sollicitudin, auctor ligula eu, sollicitudin est. In condimentum tristique arcu, at tincidunt risus sollicitudin et. Curabitur venenatis justo at nibh porttitor ornare.');
+    const init = () => {
+        const { state } = location;
+        getMovieDetail(state.id);
     }
-    useMemo(makeInputList, []);
+    const getMovieDetail = (id) => {
+        const params = { id };
+        apiMovie.getDetail(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert('영화 정보가 존재하지 않습니다.');
+
+                const resultKeys = Object.keys(data.result);
+                const filteredResultKeys = resultKeys.filter(key => key === 'title' || key === 'age' || key === 'releaseDate' || key === 'screenDate');
+                const array = filteredResultKeys.map(key => {
+                    let valueText = '';
+                    if (key === 'title') valueText = '제목';
+                    else if (key === 'age') valueText = '연령';
+                    else if (key === 'releaseDate') valueText = '개봉일';
+                    else if (key === 'screenDate') valueText = '상영일';
+                    else valueText = 'No Text';
+                    return {
+                        keyName: key,
+                        text: valueText,
+                        value: data.result[key],
+                    };
+                });
+                setInputList(array);
+                setDetail(data.result.detail);
+                setImageUrl(data.result.attachment);
+            })
+            .catch(err => alert(`영화 정보 불러오기 실패: ${err}`));
+    }
+    useMemo(init, []);
     return (
         <div className="management-movie-detail-container">
             <div className="management-movie-detail-title">{props.title}</div>
             <div className="management-movie-detail-content">
                 <div className="management-movie-detail-content-box">
                     <div className="management-movie-detail-content-box-top">
-                        <div className="management-movie-detail-content-box-top-image" />
+                        <img src={imageUrl} alt="movie_poster" />
                         <div className="management-movie-detail-content-box-top-detail">
                         {inputList.length > 0 && inputList.map(value => {
                             return (

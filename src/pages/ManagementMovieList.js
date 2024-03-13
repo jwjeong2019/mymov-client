@@ -29,7 +29,9 @@ const ManagementMovieList = (props) => {
         if (value === 'register') navigate(`/admin/management/movie/${value}`);
     }
     const onClickPage = page => getMovieList(page);
-    const onClickTableRow = id => console.log(`table row id: ${id}`);
+    const onClickTableRow = id => navigate(`/admin/management/movie/detail`, {
+        state: { id }
+    });
     const init = () => {
         setHeaders(['영화번호', '제목', '연령', '감독', '개봉일']);
         setSortList([
