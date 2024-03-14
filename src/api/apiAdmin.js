@@ -32,6 +32,11 @@ const apiAdmin = {
             Authorization: `${params.grantType} ${params.accessToken}`,
         }
     }),
+    deleteCinema: (params) => api.delete(`/admins/cinemas/${params.id}`, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+        }
+    }),
 };
 
 export default apiAdmin;

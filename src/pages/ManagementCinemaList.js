@@ -6,12 +6,15 @@ import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import Table from "../components/Table";
 import apiCinema from "../api/apiCinema";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementCinemaList = (props) => {
     const dropdownMenu = [
         { id: 'name', text: '이름' },
         { id: 'region', text: '지역' },
     ];
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
     const [search, setSearch] = useState();
     const [headers, setHeaders] = useState([]);
@@ -30,7 +33,10 @@ const ManagementCinemaList = (props) => {
         if (value === 'register') navigate(`/admin/management/cinema/${value}`);
     }
     const onClickPage = number => console.log(`click page: ${number}`);
-    const onClickButtonDelete = value => console.log(`delete button value: ${value}`);
+    const onClickButtonDelete = id => {
+        let isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) deleteCinema(id);
+    }
     const init = () => {
         setHeaders(['영화관번호', '이름', '지역', '삭제']);
         setSortList([
@@ -57,6 +63,22 @@ const ManagementCinemaList = (props) => {
                 }
             })
             .catch(err => alert(`데이터 로드 실패:\n${err.message}`));
+    }
+    const deleteCinema = (id) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            id,
+        };
+        apiAdmin.deleteCinema(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 삭제 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('영화를 정상적으로 삭제하였습니다.');
+                getCinemaList();
+            })
+            .catch(err => alert(`영화 삭제 실패:\n${err.message}`));
     }
     useMemo(init, []);
     return (
