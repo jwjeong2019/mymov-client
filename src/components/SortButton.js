@@ -5,7 +5,10 @@ import {useState} from "react";
 const SortButton = ({ onClickMenu, list }) => {
     const [isOpen, setIsOpen] = useState(false);
     const onClickStyle2 = () => setIsOpen(!isOpen);
-    const onClick = (id) => onClickMenu(id);
+    const onClick = (id) => {
+        onClickMenu(id);
+        setIsOpen(!isOpen);
+    }
 
     return (
         <div className="sort-btn-container">

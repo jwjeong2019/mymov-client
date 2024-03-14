@@ -9,7 +9,10 @@ const DropDown = ({ width, height, onClickMenu, menu }) => {
     }
     const [isOpen, setIsOpen] = useState(false);
     const onClickStyle2 = () => setIsOpen(!isOpen);
-    const onClick = (id) => onClickMenu(id);
+    const onClick = (id) => {
+        onClickMenu(id);
+        setIsOpen(!isOpen);
+    }
     return (
         <div className="dropdown-container" style={customStyle}>
             <div className="dropdown-button" onClick={onClickStyle2}>

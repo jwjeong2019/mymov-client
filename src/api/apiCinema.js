@@ -1,8 +1,8 @@
 import api from "./api";
 
-const apiMovie = {
+const apiCinema = {
     getList: () => api.get(`/cinemas`),
     getDetail: (params) => api.get(`/cinemas/${params.id}`),
 };
 
-export default apiMovie;
+export default apiCinema;
