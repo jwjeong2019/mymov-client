@@ -50,11 +50,12 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
             offset: Math.floor(page / size) * size,
             totalThisBlock: total - total % (size * unitPerBlock),
             totalLastBlock: total % (size * unitPerBlock),
-            pagesThisBlock: Math.round(total / size)
+            pagesThisBlock: Math.ceil(total / size)
         }
-        if (total < unitPerBlock) pageData.totalThisBlock = total;
-        if (pageData.offset === 0) pageData.pagesThisBlock = Math.round(pageData.totalThisBlock / size);
-        if (pageData.offset > 0) pageData.pagesThisBlock += 1;
+        if (total < (size * unitPerBlock)) pageData.totalThisBlock = total;
+        if (pageData.offset === 0) pageData.pagesThisBlock = Math.ceil(pageData.totalThisBlock / size);
+
+        console.log(pageData);
 
         let array = [];
         for (let i = pageData.offset; i < pageData.pagesThisBlock; i++) {
