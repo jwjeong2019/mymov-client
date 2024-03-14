@@ -23,7 +23,7 @@ const ManagementMovieList = (props) => {
     const [sortList, setSortList] = useState([]);
     const onClickDropDown = id => setFilterType(id);
     const onChangeSearchBar = value => setSearch(value);
-    const onClickSearchBar = () => getMovieList(0);
+    const onClickSearchBar = () => getMovieList(1);
     const onClickSortButton = id => setSortType(id);
     const onClickButton = value => {
         if (value === 'register') navigate(`/admin/management/movie/${value}`);

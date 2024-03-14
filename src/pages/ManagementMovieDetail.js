@@ -3,8 +3,10 @@ import {useMemo, useState} from "react";
 import {useLocation, useNavigate} from "react-router";
 import apiMovie from "../api/apiMovie";
 import {Utils} from "../utils/Utils";
+import apiAdmin from "../api/apiAdmin";
 
 const ManagementMovieRegister = (props) => {
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
     let location = useLocation();
     const [inputList, setInputList] = useState([]);
@@ -20,8 +22,8 @@ const ManagementMovieRegister = (props) => {
             }
         });
         if (value === 'delete') {
-            let result = window.confirm('삭제하시겠습니까?');
-            console.log(`confirm result: ${result}`);
+            let isOk = window.confirm('삭제하시겠습니까?');
+            if (isOk) deleteMovie(location.state.id);
         }
         if (value === 'back') navigate(-1);
     }
@@ -62,6 +64,20 @@ const ManagementMovieRegister = (props) => {
                 setImageUrl(data.result.attachment);
             })
             .catch(err => alert(`영화 정보 불러오기 실패: ${err}`));
+    }
+    const deleteMovie = (id) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            id
+        };
+        apiAdmin.deleteMovie(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 삭제 실패:\n${data.msg}`);
+                navigate('/admin/management/movie/list');
+            })
+            .catch(err => alert(`영화 삭제 실패:\n${err.message}`));
     }
     useMemo(init, []);
     return (

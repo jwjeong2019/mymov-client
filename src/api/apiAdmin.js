@@ -19,6 +19,11 @@ const apiAdmin = {
             "Content-Type": "multipart/form-data"
         }
     }),
+    deleteMovie: (params) => api.delete(`/admins/movies/${params.id}`, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+        }
+    }),
 };
 
 export default apiAdmin;
