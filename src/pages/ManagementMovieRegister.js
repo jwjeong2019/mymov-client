@@ -24,28 +24,7 @@ const ManagementMovieRegister = (props) => {
     const onChangeTextarea = e => setDetail(e.target.value);
     const uploadFile = file => setFile(file);
     const onClickButton = value => {
-        if (value === 'complete') {
-            const formData = new FormData();
-            formData.append('title', title);
-            formData.append('detail', detail);
-            formData.append('releaseDate', releaseDate);
-            formData.append('screenDate', screenDate);
-            formData.append('age', age);
-            formData.append('file', file);
-            const params = {
-                grantType: auth.grantType,
-                accessToken: auth.accessToken,
-                formData
-            }
-            apiAdmin.createMovie(params)
-                .then(response => {
-                    const { data } = response;
-                    if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 등록 실패: ${data.msg}`);
-                    alert('영화를 정상적으로 등록하였습니다.');
-                    navigate(-1);
-                })
-                .catch(err => alert(`영화 등록 실패: ${err}`));
-        }
+        if (value === 'complete') createMovie();
         if (value === 'cancel') navigate(-1);
     }
     const makeInputList = () => {
@@ -56,6 +35,25 @@ const ManagementMovieRegister = (props) => {
             { keyName: 'releaseDate', text: '개봉일', placeholder: '개봉일을 입력하세요.', onChange: onChangeReleaseDate },
             { keyName: 'screenDate', text: '상영일', placeholder: '상영일을 입력하세요.', onChange: onChangeScreenDate },
         ]);
+    }
+    const createMovie = () => {
+        const data = JSON.stringify({ title, detail, releaseDate, screenDate, age });
+        const formData = new FormData();
+        formData.append('data', data);
+        formData.append('file', file);
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            formData
+        }
+        apiAdmin.createMovie(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 등록 실패: ${data.msg}`);
+                alert('영화를 정상적으로 등록하였습니다.');
+                navigate('/admin/management/movie/list');
+            })
+            .catch(err => alert(`영화 등록 실패: ${err}`));
     }
     useMemo(makeInputList, []);
     return (
