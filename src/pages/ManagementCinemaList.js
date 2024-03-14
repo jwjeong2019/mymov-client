@@ -5,6 +5,7 @@ import DropDown from "../components/DropDown";
 import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import Table from "../components/Table";
+import apiCinema from "../api/apiCinema";
 
 const ManagementCinemaList = (props) => {
     const dropdownMenu = [
@@ -18,6 +19,9 @@ const ManagementCinemaList = (props) => {
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
+    const [filterType, setFilterType] = useState();
+    const [sortType, setSortType] = useState();
+    const [sortList, setSortList] = useState([]);
     const onClickDropDown = id => console.log(`dropdown id: ${id}`);
     const onChangeSearchBar = value => setSearch(value);
     const onClickSearchBar = () => console.log(`search: ${search}`);
@@ -27,18 +31,34 @@ const ManagementCinemaList = (props) => {
     }
     const onClickPage = number => console.log(`click page: ${number}`);
     const onClickButtonDelete = value => console.log(`delete button value: ${value}`);
-    const makeTable = () => {
+    const init = () => {
         setHeaders(['영화관번호', '이름', '지역', '삭제']);
-        setBodies([
-            { id: 0, cinemaId: 0, name: 'MOV홍대점', region: '서울', button: <Button title={'삭제'} type={'caution'} value={0} onClick={onClickButtonDelete} /> },
-            { id: 1, cinemaId: 1, name: 'MOV강남점', region: '서울', button: <Button title={'삭제'} type={'caution'} value={1} onClick={onClickButtonDelete} /> },
-            { id: 2, cinemaId: 2, name: 'MOV해운대점', region: '부산', button: <Button title={'삭제'} type={'caution'} value={2} onClick={onClickButtonDelete} /> },
+        setSortList([
+            { id: 'region', text: '지역순' },
         ]);
-        setPage(3);
-        setSize(10);
-        setTotalElements(27);
-    };
-    useMemo(makeTable, []);
+        getCinemaList();
+    }
+    const getCinemaList = () => {
+        apiCinema.getList()
+            .then(response => {
+                const { data } = response;
+                if (data.result.length > 0) {
+                    const array = data.result.map(value => ({
+                        id: value.id,
+                        cinemaId: value.id,
+                        name: value.name,
+                        region: value.region,
+                        button: <Button title={'삭제'}
+                                        type={'caution'}
+                                        value={value.id}
+                                        onClick={onClickButtonDelete}/>
+                    }));
+                    setBodies(array);
+                }
+            })
+            .catch(err => alert(`데이터 로드 실패:\n${err.message}`));
+    }
+    useMemo(init, []);
     return (
         <div className="management-cinema-list-container">
             <div className="management-cinema-list-title">{props.title}</div>
@@ -53,15 +73,12 @@ const ManagementCinemaList = (props) => {
                             <Button title={'등록'}
                                     value={'register'}
                                     width={80} onClick={onClickButton} />
-                            <SortButton onClickMenu={onClickSortButton} />
+                            <SortButton list={sortList} onClickMenu={onClickSortButton} />
                         </div>
                     </div>
                     <div className="management-cinema-list-content-box-row-table">
                         <Table headers={headers}
                                bodies={bodies}
-                               page={page}
-                               size={size}
-                               total={totalElements}
                                onClickPage={onClickPage} />
                     </div>
                 </div>

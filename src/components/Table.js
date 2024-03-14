@@ -55,8 +55,6 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
         if (total < (size * unitPerBlock)) pageData.totalThisBlock = total;
         if (pageData.offset === 0) pageData.pagesThisBlock = Math.ceil(pageData.totalThisBlock / size);
 
-        console.log(pageData);
-
         let array = [];
         for (let i = pageData.offset; i < pageData.pagesThisBlock; i++) {
             let object = {
@@ -102,17 +100,19 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
                 })}
                 </tbody>
             </table>
-            <div className="table-page-box">
-                <div className="style4-1"><IoChevronBackOutline /></div>
-                <div className="table-page-box-numbers">
-                    {pages.length > 0 && pages.map(value => {
-                        return (
-                            <div key={value.key} onClick={() => onClickPageNumber(value.number)}>{value.number}</div>
-                        )
-                    })}
+            {page && size && total &&
+                <div className="table-page-box">
+                    <div className="style4-1"><IoChevronBackOutline /></div>
+                    <div className="table-page-box-numbers">
+                        {pages.length > 0 && pages.map(value => {
+                            return (
+                                <div key={value.key} onClick={() => onClickPageNumber(value.number)}>{value.number}</div>
+                            )
+                        })}
+                    </div>
+                    <div className="style4-1"><IoChevronForward /></div>
                 </div>
-                <div className="style4-1"><IoChevronForward /></div>
-            </div>
+            }
         </div>
     )
 }
