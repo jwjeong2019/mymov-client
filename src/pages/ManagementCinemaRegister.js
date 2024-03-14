@@ -2,27 +2,47 @@ import Button from "../components/Button";
 import {useState} from "react";
 import {useNavigate} from "react-router";
 import Select from "../components/Select";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementCinemaRegister = (props) => {
+    const auth = JSON.parse(localStorage.getItem('auth'));
     const optionList = [
-        { id: 'seoul', value: 'seoul', text: '서울' },
-        { id: 'incheon', value: 'incheon', text: '인천' },
-        { id: 'suwon', value: 'suwon', text: '수원' },
-        { id: 'daejeon', value: 'daejeon', text: '대전' },
-        { id: 'daegu', value: 'daegu', text: '대구' },
-        { id: 'ulsan', value: 'ulsan', text: '울산' },
-        { id: 'busan', value: 'busan', text: '부산' },
-        { id: 'jeju', value: 'jeju', text: '제주도' },
+        { id: 'seoul', value: '서울', text: '서울' },
+        { id: 'incheon', value: '인천', text: '인천' },
+        { id: 'suwon', value: '수원', text: '수원' },
+        { id: 'daejeon', value: '대전', text: '대전' },
+        { id: 'daegu', value: '대구', text: '대구' },
+        { id: 'ulsan', value: '울산', text: '울산' },
+        { id: 'busan', value: '부산', text: '부산' },
+        { id: 'jeju', value: '제주도', text: '제주도' },
     ];
     let navigate = useNavigate();
     const [name, setName] = useState();
     const [region, setRegion] = useState();
     const onChangeName = e => setName(e.target.value);
     const onClickButton = value => {
-        if (value === 'complete') console.log({ name, region });
+        if (value === 'complete') createCinema();
         if (value === 'cancel') navigate(-1);
     };
-    const onClickOption = id => setRegion(id);
+    const onClickOption = value => setRegion(value);
+    const createCinema = () => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            name,
+            region
+        };
+        apiAdmin.createCinema(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화관 등록 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('영화관을 정상적으로 등록하였습니다.');
+                navigate('/admin/management/cinema/list');
+            })
+            .catch(err => alert(`영화관 등록 실패:\n${err.message}`));
+    }
     return (
         <div className="management-cinema-register-container">
             <div className="management-cinema-register-title">{props.title}</div>

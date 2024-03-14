@@ -24,6 +24,14 @@ const apiAdmin = {
             Authorization: `${params.grantType} ${params.accessToken}`,
         }
     }),
+    createCinema: (params) => api.post(`/admins/cinemas`, {
+        name: params.name,
+        region: params.region,
+    }, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+        }
+    }),
 };
 
 export default apiAdmin;
