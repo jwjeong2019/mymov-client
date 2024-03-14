@@ -66,12 +66,9 @@ const ManagementMovieModify = (props) => {
         setImageUrl(state.imageUrl);
     }
     const updateMovieDetail = (id) => {
+        const data = JSON.stringify({ title, detail, releaseDate, screenDate, age });
         const formData = new FormData();
-        formData.append('title', title);
-        formData.append('detail', detail);
-        formData.append('age', age);
-        formData.append('releaseDate', releaseDate);
-        formData.append('screenDate', screenDate);
+        formData.append('data', data);
         formData.append('file', file);
         const params = {
             grantType: auth.grantType,
