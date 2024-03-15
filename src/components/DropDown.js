@@ -8,15 +8,17 @@ const DropDown = ({ width, height, onClickMenu, menu }) => {
         height: `${height}px`,
     }
     const [isOpen, setIsOpen] = useState(false);
+    const [type, setType] = useState('전체');
     const onClickStyle2 = () => setIsOpen(!isOpen);
-    const onClick = (id) => {
-        onClickMenu(id);
+    const onClick = (value) => {
+        setType(value.text);
+        onClickMenu(value.id);
         setIsOpen(!isOpen);
     }
     return (
         <div className="dropdown-container" style={customStyle}>
             <div className="dropdown-button" onClick={onClickStyle2}>
-                <div className="dropdown-button-text">전체</div>
+                <div className="dropdown-button-text">{type}</div>
                 <div className="dropdown-button-icon"><IoCaretDownOutline /></div>
             </div>
             {isOpen &&
@@ -25,7 +27,7 @@ const DropDown = ({ width, height, onClickMenu, menu }) => {
                     return (
                         <div key={`dropdown-menu-${value.id}`}
                              className="dropdown-open-menu"
-                             onClick={() => onClick(value.id)}>
+                             onClick={() => onClick(value)}>
                             {value.text}
                         </div>
                     )
