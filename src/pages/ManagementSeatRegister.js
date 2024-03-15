@@ -1,30 +1,82 @@
 import {useNavigate} from "react-router";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import Select from "../components/Select";
 import Button from "../components/Button";
+import apiCinema from "../api/apiCinema";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementSeatRegister = (props) => {
-    const cinemaOptionList = [
-        { id: 'hongdae', value: 0, text: 'MOV홍대점' },
-        { id: 'gangnam', value: 1, text: 'MOV강남점' },
-        { id: 'haundae', value: 2, text: 'MOV해운대점' },
-    ];
-    const theaterOptionList = [
-        { id: 'theater1', value: 0, text: '1상영관' },
-        { id: 'theater2', value: 1, text: '2상영관' },
-        { id: 'theater3', value: 2, text: '3상영관' },
-    ];
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
-    const [cinema, setCinema] = useState();
-    const [theater, setTheater] = useState();
+    const [cinemaId, setCinemaId] = useState();
+    const [theaterId, setTheaterId] = useState();
     const [seat, setSeat] = useState();
+    const [cinemaOptionList, setCinemaOptionList] = useState([]);
+    const [theaterOptionList, setTheaterOptionList] = useState([]);
     const onChangeSeat = e => setSeat(e.target.value);
     const onClickButton = value => {
-        if (value === 'complete') console.log({ cinema, theater, seat });
+        if (value === 'complete') createSeat();
         if (value === 'cancel') navigate(-1);
     };
-    const onClickOptionCinema = value => setCinema(value);
-    const onClickOptionTheater = value => setTheater(value);
+    const onClickOptionCinema = value => {
+        if (value === 'no-value') setTheaterOptionList([]);
+        else {
+            setCinemaId(value.id);
+            setTheaterOptionList(value.theaterList);
+        }
+    }
+    const onClickOptionTheater = value => setTheaterId(value);
+    const init = () => getCinemaList();
+    const getCinemaList = () => {
+        const params = {
+            page: 0,
+            size: 10000,
+        };
+        apiCinema.getList(params)
+            .then(response => {
+                const { data } = response;
+                if (data.result.length > 0) {
+                    const array = data.result.map(value => ({
+                        id: value.id,
+                        value: value.id,
+                        text: value.name,
+                        theaterList: makeTheaterList(value.theaters),
+                    }));
+                    setCinemaOptionList(array);
+                }
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    const makeTheaterList = theaters => {
+        if (theaters?.length === 0) return [];
+        return theaters.map(value => ({
+            id: value.id,
+            value: value.id,
+            text: `${value.number}상영관`,
+        }));
+    };
+    const createSeat = () => {
+        const seatList = [
+            { position: seat },
+        ];
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            theaterId,
+            seats: seatList,
+        };
+        apiAdmin.createSeat(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`좌석 등록 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('좌석을 정상적으로 등록하였습니다.');
+                navigate('/admin/management/seat/list');
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    }
+    useMemo(init, []);
     return (
         <div className="management-seat-register-container">
             <div className="management-seat-register-title">{props.title}</div>
@@ -33,7 +85,7 @@ const ManagementSeatRegister = (props) => {
                     <div className="management-seat-register-content-box-top">
                         <div className="management-seat-register-content-box-top-row">
                             <div className="management-seat-register-content-box-top-row-col-title">영화관:</div>
-                            <Select options={cinemaOptionList} onChange={onClickOptionCinema} />
+                            <Select advanced options={cinemaOptionList} onChange={onClickOptionCinema} />
                         </div>
                         <div className="management-seat-register-content-box-top-row">
                             <div className="management-seat-register-content-box-top-row-col-title">상영관:</div>
