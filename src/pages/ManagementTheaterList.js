@@ -6,12 +6,15 @@ import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import Table from "../components/Table";
 import apiTheater from "../api/apiTheater";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementTheaterList = (props) => {
     const dropdownMenu = [
         { id: 'CINEMA_NAME', text: '영화관명' },
         { id: 'CINEMA_REGION', text: '지역' },
     ];
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
     const [search, setSearch] = useState();
     const [headers, setHeaders] = useState([]);
@@ -38,7 +41,10 @@ const ManagementTheaterList = (props) => {
         if (value === 'register') navigate(`/admin/management/theater/${value}`);
     }
     const onClickPage = number => getTheaterList(number);
-    const onClickButtonDelete = value => console.log(`delete button value: ${value}`);
+    const onClickButtonDelete = value => {
+        let isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) deleteTheater(value);
+    }
     const init = () => {
         setHeaders(['상영관번호', '번호', '영화관명', '지역', '삭제']);
         setSortList([
@@ -77,6 +83,22 @@ const ManagementTheaterList = (props) => {
                 }
             })
             .catch(err => alert(`데이터 로드 실패:\n${err.message}`));
+    }
+    const deleteTheater = (id) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            id
+        };
+        apiAdmin.deleteTheater(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`상영관 삭제 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('상영관을 정상적으로 삭제하였습니다.');
+                getTheaterList(page, currentSortType);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
     }
     useMemo(init, []);
     return (
