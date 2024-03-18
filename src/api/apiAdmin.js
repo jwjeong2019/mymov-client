@@ -57,7 +57,15 @@ const apiAdmin = {
         headers: {
             Authorization: `${params.grantType} ${params.accessToken}`,
         }
-    })
+    }),
+    deleteSeat: (params) => api.delete(`/admins/seats`, {
+        data: {
+            seatIds: params.seatIds,
+        },
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+        }
+    }),
 };
 
 export default apiAdmin;

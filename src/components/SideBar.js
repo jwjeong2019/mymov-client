@@ -16,6 +16,7 @@ const SideBar = (props) => {
         localStorage.removeItem('auth');
         localStorage.removeItem('name');
         localStorage.removeItem('role');
+        props.toggleIsOpen();
         navigate('/');
     }
 

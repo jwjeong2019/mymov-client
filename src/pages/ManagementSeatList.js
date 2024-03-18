@@ -6,12 +6,15 @@ import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import Table from "../components/Table";
 import apiSeat from "../api/apiSeat";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementSeatList = (props) => {
     const dropdownMenu = [
         { id: 'THEATER_NUMBER', text: '상영관' },
         { id: 'CINEMA_NAME', text: '영화관' },
     ];
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
     const [search, setSearch] = useState();
     const [headers, setHeaders] = useState([]);
@@ -38,7 +41,15 @@ const ManagementSeatList = (props) => {
         if (value === 'register') navigate(`/admin/management/seat/${value}`);
     }
     const onClickPage = number => getSeatList(number);
-    const onClickButtonDelete = value => console.log(`delete button value: ${value}`);
+    const onClickButtonDelete = value => {
+        let isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) {
+            const seatIdList = [
+                value,
+            ]
+            deleteSeat(seatIdList);
+        }
+    }
     const init = () => {
         setHeaders(['좌석번호', '좌석명', '상태', '상영관', '영화관', '지역', '삭제']);
         setSortList([
@@ -78,6 +89,22 @@ const ManagementSeatList = (props) => {
                     setSize(10);
                     setTotalElements(data.result.totalElements);
                 }
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    }
+    const deleteSeat = (seatIdList) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            seatIds: seatIdList,
+        };
+        apiAdmin.deleteSeat(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 삭제 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('좌석을 정상적으로 삭제하였습니다.');
+                getSeatList(page, currentSortType);
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     }
