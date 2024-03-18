@@ -1,43 +1,117 @@
 import {useNavigate} from "react-router";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import Select from "../components/Select";
 import Button from "../components/Button";
+import apiCinema from "../api/apiCinema";
+import apiMovie from "../api/apiMovie";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementTimetableRegister = (props) => {
-    const movieOptionList = [
-        { id: 'first-movie', value: 0, text: 'First Movie' },
-        { id: 'second-movie', value: 1, text: 'Second Movie' },
-        { id: 'third-movie', value: 2, text: 'Third Movie' },
-    ];
-    const cinemaOptionList = [
-        { id: 'hongdae', value: 0, text: 'MOV홍대점' },
-        { id: 'gangnam', value: 1, text: 'MOV강남점' },
-        { id: 'haundae', value: 2, text: 'MOV해운대점' },
-    ];
-    const theaterOptionList = [
-        { id: 'theater1', value: 0, text: '1상영관' },
-        { id: 'theater2', value: 1, text: '2상영관' },
-        { id: 'theater3', value: 2, text: '3상영관' },
-    ];
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
-    const [movie, setMovie] = useState();
-    const [cinema, setCinema] = useState();
-    const [theater, setTheater] = useState();
+    const [movieId, setMovieId] = useState();
+    const [cinemaId, setCinemaId] = useState();
+    const [theaterId, setTheaterId] = useState();
     const [startDate, setStartDate] = useState();
     const [endDate, setEndDate] = useState();
     const [startTime, setStartTime] = useState();
     const [endTime, setEndTime] = useState();
+    const [movieOptionList, setMovieOptionList] = useState([]);
+    const [cinemaOptionList, setCinemaOptionList] = useState([]);
+    const [theaterOptionList, setTheaterOptionList] = useState([]);
     const onChangeStartDate = e => setStartDate(e.target.value);
     const onChangeEndDate = e => setEndDate(e.target.value);
     const onChangeStartTime = e => setStartTime(e.target.value);
     const onChangeEndTime = e => setEndTime(e.target.value);
     const onClickButton = value => {
-        if (value === 'complete') console.log({ movie, cinema, theater, startDate, endDate, startTime, endTime });
+        if (value === 'complete') createTimetable();
         if (value === 'cancel') navigate(-1);
     };
-    const onClickOptionMovie = value => setMovie(value);
-    const onClickOptionCinema = value => setCinema(value);
-    const onClickOptionTheater = value => setTheater(value);
+    const onClickOptionMovie = value => setMovieId(value);
+    const onClickOptionCinema = value => {
+        if (value === 'no-value') setTheaterOptionList([]);
+        else {
+            setCinemaId(value.id);
+            setTheaterOptionList(value.theaterList);
+        }
+    }
+    const onClickOptionTheater = value => setTheaterId(value);
+    const init = () => {
+        getMovieList();
+        getCinemaList();
+    };
+    const getMovieList = () => {
+        const params = {
+            page: 0,
+            size: 10000,
+        };
+        apiMovie.getList(params)
+            .then(response => {
+                const { data } = response;
+                if (data.result.totalElements > 0) {
+                    const array = data.result.content.map(value => ({
+                        id: value.id,
+                        value: value.id,
+                        text: value.title,
+                    }));
+                    setMovieOptionList(array);
+                }
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    const getCinemaList = () => {
+        const params = {
+            page: 0,
+            size: 10000,
+        };
+        apiCinema.getList(params)
+            .then(response => {
+                const { data } = response;
+                if (data.result.length > 0) {
+                    const array = data.result.map(value => ({
+                        id: value.id,
+                        value: value.id,
+                        text: value.name,
+                        theaterList: makeTheaterList(value.theaters),
+                    }));
+                    setCinemaOptionList(array);
+                }
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    const makeTheaterList = theaters => {
+        if (theaters?.length === 0) return [];
+        return theaters.map(value => ({
+            id: value.id,
+            value: value.id,
+            text: `${value.number}상영관`,
+        }));
+    };
+    const createTimetable = () => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            cinemaId,
+            theaterId,
+            movieId,
+            startDate,
+            endDate,
+            startTime,
+            endTime,
+        };
+        apiAdmin.createTimetable(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`상영표 등록 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('must', data.msg)) return alert(`상영표 등록 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert(`상영표를 정상적으로 등록하였습니다.`);
+                navigate('/admin/management/timetable/list');
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    }
+    useMemo(init, []);
     return (
         <div className="management-timetable-register-container">
             <div className="management-timetable-register-title">{props.title}</div>
@@ -50,7 +124,7 @@ const ManagementTimetableRegister = (props) => {
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
                             <div className="management-timetable-register-content-box-top-row-col-title">영화관:</div>
-                            <Select options={cinemaOptionList} onChange={onClickOptionCinema} />
+                            <Select advanced options={cinemaOptionList} onChange={onClickOptionCinema} />
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
                             <div className="management-timetable-register-content-box-top-row-col-title">상영관:</div>

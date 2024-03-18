@@ -66,6 +66,18 @@ const apiAdmin = {
             Authorization: `${params.grantType} ${params.accessToken}`,
         }
     }),
+    createTimetable: (params) => api.post(`/admins/cinemas/${params.cinemaId}/timetables`, {
+        theaterId: params.theaterId,
+        movieId: params.movieId,
+        startDate: params.startDate,
+        endDate: params.endDate,
+        startTime: params.startTime,
+        endTime: params.endTime,
+    }, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+        }
+    }),
 };
 
 export default apiAdmin;
