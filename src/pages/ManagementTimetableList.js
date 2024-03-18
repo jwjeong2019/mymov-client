@@ -6,12 +6,15 @@ import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import Table from "../components/Table";
 import apiTimetable from "../api/apiTimetable";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementTimetableList = (props) => {
     const dropdownMenu = [
         { id: 'MOVIE_TITLE', text: '영화명' },
         { id: 'CINEMA_NAME', text: '영화관' },
     ];
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
     const [search, setSearch] = useState();
     const [headers, setHeaders] = useState([]);
@@ -38,7 +41,10 @@ const ManagementTimetableList = (props) => {
         if (value === 'register') navigate(`/admin/management/timetable/${value}`);
     }
     const onClickPage = number => getTimetableList(number);
-    const onClickButtonDelete = value => console.log(`delete button value: ${value}`);
+    const onClickButtonDelete = value => {
+        let isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) deleteTimetable(value);
+    }
     const init = () => {
         setHeaders(['상영표번호', '영화명', '연령', '상영관', '영화관', '지역', '시작시간', '종료시간', '삭제']);
         setSortList([
@@ -84,6 +90,22 @@ const ManagementTimetableList = (props) => {
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     };
+    const deleteTimetable = (id) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            id,
+        };
+        apiAdmin.deleteTimetable(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`상영표 삭제 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('상영표를 정상적으로 삭제하였습니다.');
+                getTimetableList(1, currentSortType);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    }
     useMemo(init, []);
     return (
         <div className="management-timetable-list-container">

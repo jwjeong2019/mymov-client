@@ -78,6 +78,14 @@ const apiAdmin = {
             Authorization: `${params.grantType} ${params.accessToken}`,
         }
     }),
+    deleteTimetable: (params) => api.delete(`/admins/timetables`, {
+        data: {
+            id: params.id,
+        },
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+        }
+    }),
 };
 
 export default apiAdmin;
