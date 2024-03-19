@@ -5,52 +5,78 @@ import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import CardList from "../components/CardList";
 import {useEffect, useMemo, useState} from "react";
+import apiMovie from "../api/apiMovie";
+import {useNavigate} from "react-router";
 
 const MovieList = () => {
     const dropdownMenuList = [
         {
-            id: 'all',
-            text: '전체'
-        },
-        {
-            id: 'title',
+            id: 'TITLE',
             text: '제목'
         },
-        {
-            id: 'type',
-            text: '종류'
-        },
     ];
-
-    const [movieList, setMovieList] = useState();
+    const navigate = useNavigate();
+    const [movieList, setMovieList] = useState([]);
     const [isFirst, setIsFirst] = useState(false);
     const [isLast, setIsLast] = useState(false);
     const [search, setSearch] = useState();
+    const [page, setPage] = useState(0);
+    const [filterType, setFilterType] = useState();
+    const [currentSortType, setCurrentSortType] = useState();
+    const [sortList, setSortList] = useState([]);
 
-    const onClickBack = () => console.log('Click card list back');
-    const onClickForward = () => console.log('Click card list forward');
-    const onClickCard = (value) => console.log(`Click a card with ${value.title} Title.`);
-    const onClickMenu = (id) => console.log(`Menu: ${id}`);
-    const onClickDropdownMenu = (id) => console.log(`drop down Menu: ${id}`);
-    const onChangeSearchBar = value => setSearch(value);
-    const onClickSearchBar = () => console.log(`search: ${search}`);
-
-    const makeMovieList = () => {
-        setMovieList([
-            { title: 'First Movie', age: 'ALL', score: 4.1, type: 'Family' },
-            { title: 'Second Movie', age: '12', score: 4.3, type: 'Comedy' },
-            { title: 'Third Movie', age: '15', score: 3.9, type: 'Action' },
-            { title: 'Forth Movie', age: '19', score: 3.1, type: 'Ero' },
-            { title: 'Fifth Movie', age: 'ALL', score: 4.1, type: 'Family' },
-            { title: 'Sixth Movie', age: 'ALL', score: 4.1, type: 'Family' },
-            { title: 'Seventh Movie', age: 'ALL', score: 4.1, type: 'Family' },
-            { title: 'Eighth Movie', age: 'ALL', score: 4.1, type: 'Family' },
-            { title: 'Ninth Movie', age: 'ALL', score: 4.1, type: 'Family' },
-        ]);
+    const onClickBack = () => getMovieList(page - 1, currentSortType);
+    const onClickForward = () => getMovieList(page + 1, currentSortType);
+    const onClickCard = (value) => navigate(`/movie/detail/${value.id}`);
+    const onClickMenu = (id) => {
+        if (id === currentSortType) {
+            getMovieList(1);
+            setCurrentSortType(undefined);
+        } else {
+            getMovieList(1, id);
+            setCurrentSortType(id);
+        }
     }
-
-    useMemo(makeMovieList, [])
-
+    const onClickDropdownMenu = (id) => setFilterType(id);
+    const onChangeSearchBar = value => setSearch(value);
+    const onClickSearchBar = () => getMovieList(1, currentSortType);
+    const init = () => {
+        setSortList([
+            { id: 'title', text: '제목순' },
+            { id: 'age', text: '연령순' },
+        ]);
+        getMovieList(1);
+    }
+    const getMovieList = (page, sortType) => {
+        const params = {
+            page: page - 1,
+            size: 9,
+            keyword: search,
+            keywordField: filterType,
+            sortField: sortType,
+            sortType: 'DESC'
+        };
+        apiMovie.getList(params)
+            .then(response => {
+                const { data } = response;
+                if (data.result.totalElements > 0) {
+                    const array = data.result.content.map(value => ({
+                        id: value.id,
+                        title: value.title,
+                        age: value.age < 12 ? 'ALL' : value.age,
+                        score: 4.1,
+                        type: 'Family',
+                        imageUrl: value.attachment
+                    }));
+                    setMovieList(array);
+                    setPage(page);
+                    setIsFirst(data.result.first);
+                    setIsLast(data.result.last);
+                }
+            })
+            .catch(err => alert('데이터가 존재하지 않습니다.'));
+    }
+    useMemo(init, []);
     return (
         <div>
             <Navigation />
@@ -66,7 +92,7 @@ const MovieList = () => {
                             <SearchBar onChange={onChangeSearchBar} onClick={onClickSearchBar} />
                         </div>
                         <div className="movie-list-content-box-middle">
-                            <SortButton onClickMenu={onClickMenu} />
+                            <SortButton list={sortList} onClickMenu={onClickMenu} />
                         </div>
                         <div className="movie-list-content-box-bottom">
                             <CardList list={movieList}
