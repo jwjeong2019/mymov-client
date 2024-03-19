@@ -3,8 +3,8 @@ import {useMemo, useState} from "react";
 import {IoChevronBackOutline, IoChevronForward} from "react-icons/io5";
 
 const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) => {
-    const [headerList, setHeaderList] = useState();
-    const [bodyList, setBodyList] = useState();
+    const [headerList, setHeaderList] = useState([]);
+    const [bodyList, setBodyList] = useState([]);
     const [pages, setPages] = useState([]);
     const onClickPageNumber = number => onClickPage(number);
 
@@ -85,19 +85,25 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
                     </tr>
                 </thead>
                 <tbody>
-                {bodyList?.length > 0 && bodyList.map(value => {
-                    return (
-                        <tr key={value.key} className={value.className} onClick={onClickRow ? () => onClickRow(value.id) : null}>
-                            {value?.list?.length > 0 && value.list.map(value2 => {
-                                return (
-                                    <td key={value2.key} className={value2.className}>
-                                        {value2.content}
-                                    </td>
-                                )
-                            })}
-                        </tr>
-                    )
-                })}
+                {bodyList?.length > 0 ?
+                    bodyList.map(value => {
+                        return (
+                            <tr key={value.key} className={value.className} onClick={onClickRow ? () => onClickRow(value.id) : null}>
+                                {value?.list?.length > 0 && value.list.map(value2 => {
+                                    return (
+                                        <td key={value2.key} className={value2.className}>
+                                            {value2.content}
+                                        </td>
+                                    )
+                                })}
+                            </tr>
+                        )
+                    })
+                    :
+                    <tr>
+                        <td colSpan={headerList.length} align={'center'}>조회된 데이터가 없습니다.</td>
+                    </tr>
+                }
                 </tbody>
             </table>
             {page && size && total &&

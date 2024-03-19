@@ -6,11 +6,12 @@ import SortButton from "../components/SortButton";
 import Table from "../components/Table";
 import {useMemo, useState} from "react";
 import Button from "../components/Button";
+import apiTimetable from "../api/apiTimetable";
 
 const Timetable = () => {
     const dropdownMenu = [
-        { id: 'title', text: '제목' },
-        { id: 'cinema', text: '영화관' },
+        { id: 'MOVIE_TITLE', text: '제목' },
+        { id: 'CINEMA_NAME', text: '영화관' },
     ];
     const [search, setSearch] = useState();
     const [headers, setHeaders] = useState();
@@ -18,24 +19,69 @@ const Timetable = () => {
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
-    const onClickPage = number => console.log(`go page: ${number}`);
-    const onClickMenu = id => console.log(`menu id: ${id}`);
+    const [filterType, setFilterType] = useState();
+    const [currentSortType, setCurrentSortType] = useState();
+    const [sortList, setSortList] = useState([]);
+    const onClickPage = number => getTimetableList(number);
+    const onClickMenu = id => setFilterType(id);
     const onChangeSearchBar = value => setSearch(value);
-    const onClickSearchBar = () => console.log(`search: ${search}`);
-    const onClickSortButton = id => console.log(`sort id: ${id}`);
-    const onClickButtonReservation = value => console.log(`click table button id: ${value}`);
-    const makeTable = () => {
-        setHeaders(['제목', '연령', '평점', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기']);
-        setBodies([
-            { id: 0, title: 'First Movie', age: 'ALL', score: 4.5, director: '존 스미스', genre: 'comedy', movieTime: 120, cinema: 'MOV홍대점', theater: 1, startTime: '16:55', reserve: <Button title={'예매하기'} outline value={0} onClick={onClickButtonReservation} /> },
-            { id: 1, title: 'Second Movie', age: 12, score: 4.1, director: '존 스미스', genre: 'fun', movieTime: 126, cinema: 'MOV홍대점', theater: 2, startTime: '15:55', reserve: <Button title={'예매하기'} outline value={1} onClick={onClickButtonReservation} /> },
-            { id: 2, title: 'Third Movie', age: 15, score: 4.2, director: '존 스미스', genre: 'action', movieTime: 132, cinema: 'MOV강남점', theater: 3, startTime: '17:55', reserve: <Button title={'예매하기'} outline value={2} onClick={onClickButtonReservation} /> },
-        ]);
-        setPage(3);
-        setSize(10);
-        setTotalElements(27);
+    const onClickSearchBar = () => getTimetableList(1, currentSortType);
+    const onClickSortButton = id => {
+        if (id === currentSortType) {
+            getTimetableList(1);
+            setCurrentSortType(undefined);
+        } else {
+            getTimetableList(1, id);
+            setCurrentSortType(id);
+        }
     }
-    useMemo(makeTable, []);
+    const onClickButtonReservation = value => console.log(`click table button id: ${value}`);
+    const init = () => {
+        setHeaders(['제목', '연령', '평점', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기']);
+        setSortList([
+            { id: 'startTime', text: '시작시간순' },
+            { id: 'cinema.name', text: '영화관순' },
+            { id: 'movie.title', text: '영화명순' },
+        ]);
+        getTimetableList(1);
+    };
+    const getTimetableList = (page, sortType) => {
+        const params = {
+            page: page - 1,
+            size: 10,
+            keyword: search,
+            keywordField: filterType,
+            sortField: sortType,
+            sortType: 'DESC'
+        };
+        apiTimetable.getList(params)
+            .then(response => {
+                const { data } = response;
+                if (data.result.totalElements === 0) return setBodies([]);
+                const array = data.result.content.map(value => ({
+                    id: value.id,
+                    title: value.movie.title,
+                    age: value.movie.age < 12 ? '전체' : value.movie.age,
+                    score: 4.2,
+                    director: '존 스미스',
+                    genre: 'action',
+                    movieTime: `${120}분`,
+                    cinemaName: value.cinema.name,
+                    theaterNumber: value.theater.number,
+                    startTime: value.startTime,
+                    button: <Button title={'예매하기'}
+                                    outline
+                                    value={value.id}
+                                    onClick={onClickButtonReservation} />,
+                }));
+                setBodies(array);
+                setPage(page);
+                setSize(10);
+                setTotalElements(data.result.totalElements);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    useMemo(init, []);
     return (
         <div>
             <Navigation />
@@ -50,7 +96,7 @@ const Timetable = () => {
                             <SearchBar onChange={onChangeSearchBar} onClick={onClickSearchBar} />
                         </div>
                         <div className="timetable-content-box-middle">
-                            <SortButton onClickMenu={onClickSortButton} />
+                            <SortButton list={sortList} onClickMenu={onClickSortButton} />
                         </div>
                         <div className="timetable-content-box-bottom">
                             <Table headers={headers}
