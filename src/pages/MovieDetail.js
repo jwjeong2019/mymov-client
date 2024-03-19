@@ -3,12 +3,35 @@ import '../css/MovieDetail.css';
 import Button from "../components/Button";
 import Tag from "../components/Tag";
 import Score from "../components/Score";
-import {useNavigate} from "react-router";
+import {useNavigate, useParams} from "react-router";
+import {useMemo, useState} from "react";
+import apiMovie from "../api/apiMovie";
 
 const MovieDetail = () => {
+    const params = useParams();
     const navigate = useNavigate();
+    const [data, setData] = useState({});
     const onClickButtonReservation = () => console.log('reserve button');
     const onClickButtonBack = () => navigate("/movie");
+    const init = () => getMovieDetail();
+    const getMovieDetail = () => {
+        apiMovie.getDetail(params)
+            .then(response => {
+                const { data } = response;
+                setData({
+                    title: data.result.title,
+                    age: data.result.age < 12 ? '전체이용가' : data.result.age,
+                    director: '존 스미스',
+                    movieTime: `${120}분`,
+                    score: 4.5,
+                    genreList: ['Family', 'Fun', 'Comedy'],
+                    detail: data.result.detail,
+                    imageUrl: data.result.attachment,
+                });
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    useMemo(init, []);
     return (
         <div>
             <Navigation />
@@ -19,20 +42,18 @@ const MovieDetail = () => {
                 <div className="movie-detail-content">
                     <div className="movie-detail-content-box">
                         <div className="movie-detail-content-box-top">
-                            <div className="movie-detail-content-box-image"></div>
+                            <img src={data.imageUrl} alt="movie_poster"/>
                             <div className="movie-detail-content-box-content">
-                                <div className="movie-detail-content-box-content-title">First Movie</div>
+                                <div className="movie-detail-content-box-content-title">{data.title}</div>
                                 <div className="movie-detail-content-box-content-box">
-                                    <div className="movie-detail-content-box-content-box-common">전체이용가</div>
-                                    <div className="movie-detail-content-box-content-box-common">존 스미스</div>
-                                    <div className="movie-detail-content-box-content-box-common">120분</div>
+                                    <div className="movie-detail-content-box-content-box-common">{data.age}</div>
+                                    <div className="movie-detail-content-box-content-box-common">{data.director}</div>
+                                    <div className="movie-detail-content-box-content-box-common">{data.movieTime}</div>
                                     <div className="movie-detail-content-box-content-box-score">
-                                        <Score value={4.5} />
+                                        <Score value={data.score} />
                                     </div>
                                     <div className="movie-detail-content-box-content-box-tag">
-                                        <Tag title="Family" />
-                                        <Tag title="Fun" />
-                                        <Tag title="Comedy" />
+                                        {data.genreList?.map(value => <Tag title={value} />)}
                                     </div>
                                     <div className="movie-detail-content-box-content-box-reservation">
                                         <Button title="예매하기"
@@ -43,7 +64,7 @@ const MovieDetail = () => {
                             </div>
                         </div>
                         <div className="movie-detail-content-box-middle">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tempor volutpat urna, ut convallis nisi dictum eget. Cras sodales, tellus ut scelerisque volutpat, est urna maximus magna, eget suscipit dolor eros a lorem. Aliquam justo risus, porttitor vitae mi eget, feugiat luctus mi. Quisque suscipit neque ac sagittis posuere. Sed justo nisl, mattis vitae arcu a, laoreet malesuada massa. Donec congue, purus sed rhoncus maximus, lorem nibh pellentesque enim, non ullamcorper urna massa quis enim.
+                            {data.detail}
                         </div>
                         <div className="movie-detail-content-box-bottom">
                             <Button title="다른 영화 찾아보기"
