@@ -7,6 +7,7 @@ const apiMember = {
             Authorization: `${params.grantType} ${params.accessToken}`
         }
     }),
+    createMember: (params) => api.post(`/members`, params),
 };
 
 export default apiMember;

@@ -3,13 +3,47 @@ import {Link} from "react-router-dom";
 import Main from "./Main";
 import {useState} from "react";
 import {IoCheckmarkCircleOutline} from "react-icons/io5";
+import apiMember from "../api/apiMember";
+import {Utils} from "../utils/Utils";
 
 const Join = () => {
     const depth4InputInlineStyle = {
         background: 'white'
     }
     const [isJoining, setIsJoining] = useState(true);
-    const onClickSignUp = () => setIsJoining(false);
+    const [userId, setUserId] = useState();
+    const [userPw, setUserPw] = useState();
+    const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [phone, setPhone] = useState();
+    const [address, setAddress] = useState();
+    const [addressDetail, setAddressDetail] = useState();
+    const onClickSignUp = () => createMember();
+    const onClickSearchAddress = () => setAddress('서울광역시 강남구 가로수길 1-110');
+    const onChangeUserId = e => setUserId(e.target.value);
+    const onChangeUserPw = e => setUserPw(e.target.value);
+    const onChangeName = e => setName(e.target.value);
+    const onChangeEmail = e => setEmail(e.target.value);
+    const onChangePhone = e => setPhone(e.target.value);
+    const onChangeAddressDetail = e => setAddressDetail(e.target.value);
+    const createMember = () => {
+        const params = {
+            id: userId,
+            password: userPw,
+            name,
+            email,
+            phone,
+            address: `${address} ${addressDetail}`
+        };
+        apiMember.createMember(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`회원가입 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('already', data.msg)) return alert(`회원가입 실패:\n${data.msg}`);
+                setIsJoining(false);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    }
 
     return (
         <div className="join-container">
@@ -19,25 +53,25 @@ const Join = () => {
                         <div className="join-box-depth-2-top">
                             <div className="join-box-depth-3-complex">
                                 <div className="join-box-depth-4-input">
-                                    <input type="text" placeholder="아이디를 입력하세요."/>
+                                    <input type="text" placeholder="아이디를 입력하세요." onChange={onChangeUserId}/>
                                 </div>
                                 <div className="join-box-depth-4-btn">중복확인</div>
                             </div>
                             <div className="join-box-depth-3-simple">
-                                <input type="password" placeholder="비밀번호를 입력하세요."/>
+                                <input type="password" placeholder="비밀번호를 입력하세요." onChange={onChangeUserPw}/>
                             </div>
                             <div className="join-box-depth-3-simple">
-                                <input type="text" placeholder="이름을 입력하세요."/>
+                                <input type="text" placeholder="이름을 입력하세요." onChange={onChangeName}/>
                             </div>
                             <div className="join-box-depth-3-complex">
                                 <div className="join-box-depth-4-input">
-                                    <input type="text" placeholder="이메일을 입력하세요."/>
+                                    <input type="text" placeholder="이메일을 입력하세요." onChange={onChangeEmail}/>
                                 </div>
                                 <div className="join-box-depth-4-btn">인증요청</div>
                             </div>
                             <div className="join-box-depth-3-complex">
                                 <div className="join-box-depth-4-input">
-                                    <input type="text" placeholder="휴대폰번호를 입력하세요."/>
+                                    <input type="text" placeholder="휴대폰번호를 입력하세요." onChange={onChangePhone}/>
                                 </div>
                                 <div className="join-box-depth-4-btn">인증요청</div>
                             </div>
@@ -48,10 +82,10 @@ const Join = () => {
                                            disabled
                                            style={depth4InputInlineStyle}/>
                                 </div>
-                                <div className="join-box-depth-4-btn">주소조회</div>
+                                <div className="join-box-depth-4-btn" onClick={onClickSearchAddress}>주소조회</div>
                             </div>
                             <div className="join-box-depth-3-simple">
-                                <input type="text" placeholder="상세주소를 입력하세요."/>
+                                <input type="text" placeholder="상세주소를 입력하세요." onChange={onChangeAddressDetail}/>
                             </div>
                         </div>
                         <div className="join-box-depth-2-bottom">
