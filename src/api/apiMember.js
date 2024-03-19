@@ -8,6 +8,15 @@ const apiMember = {
         }
     }),
     createMember: (params) => api.post(`/members`, params),
+    createTicket: (params) => api.post(`/members/tickets`, {
+        timetableId: params.timetableId,
+        seatId: params.seatId,
+        price: params.price,
+    }, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`
+        }
+    })
 };
 
 export default apiMember;

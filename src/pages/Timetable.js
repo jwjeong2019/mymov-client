@@ -7,12 +7,14 @@ import Table from "../components/Table";
 import {useMemo, useState} from "react";
 import Button from "../components/Button";
 import apiTimetable from "../api/apiTimetable";
+import {useNavigate} from "react-router";
 
 const Timetable = () => {
     const dropdownMenu = [
         { id: 'MOVIE_TITLE', text: '제목' },
         { id: 'CINEMA_NAME', text: '영화관' },
     ];
+    let navigate = useNavigate();
     const [search, setSearch] = useState();
     const [headers, setHeaders] = useState();
     const [bodies, setBodies] = useState();
@@ -35,7 +37,21 @@ const Timetable = () => {
             setCurrentSortType(id);
         }
     }
-    const onClickButtonReservation = value => console.log(`click table button id: ${value}`);
+    const onClickButtonReservation = value => navigate(`/reservation/step2`, {
+        state: {
+            movieId: value.movie.id,
+            movieTitle: value.movie.title,
+            movieAge: value.movie.age,
+            movieDirector: '존 스미스',
+            movieTime: `${120}분`,
+            cinemaId: value.cinema.id,
+            cinemaName: value.cinema.name,
+            theaterId: value.theater.id,
+            theaterNumber: value.theater.number,
+            timetableId: value.id,
+            startTime: value.startTime,
+        }
+    });
     const init = () => {
         setHeaders(['제목', '연령', '평점', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기']);
         setSortList([
@@ -58,20 +74,20 @@ const Timetable = () => {
             .then(response => {
                 const { data } = response;
                 if (data.result.totalElements === 0) return setBodies([]);
-                const array = data.result.content.map(value => ({
-                    id: value.id,
-                    title: value.movie.title,
-                    age: value.movie.age < 12 ? '전체' : value.movie.age,
+                const array = data.result.content.map(timetable => ({
+                    id: timetable.id,
+                    title: timetable.movie.title,
+                    age: timetable.movie.age < 12 ? '전체' : timetable.movie.age,
                     score: 4.2,
                     director: '존 스미스',
                     genre: 'action',
                     movieTime: `${120}분`,
-                    cinemaName: value.cinema.name,
-                    theaterNumber: value.theater.number,
-                    startTime: value.startTime,
+                    cinemaName: timetable.cinema.name,
+                    theaterNumber: timetable.theater.number,
+                    startTime: timetable.startTime,
                     button: <Button title={'예매하기'}
                                     outline
-                                    value={value.id}
+                                    value={timetable}
                                     onClick={onClickButtonReservation} />,
                 }));
                 setBodies(array);

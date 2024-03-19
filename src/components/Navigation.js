@@ -1,16 +1,19 @@
 import '../css/Navigation.css';
 import {Link} from "react-router-dom";
+import {useNavigate} from "react-router";
 
 const Navigation = (props) => {
     const name = localStorage.getItem('name');
     const role = localStorage.getItem('role');
+    let navigate = useNavigate();
     const onClickButtonName = e => props.toggleIsOpen();
+    const onClickLogo = e => navigate('/');
 
     return (
         <div className="nav-container">
             <div className="nav-box-big">
                 <div className="nav-box-small">
-                    <div className="nav-box-small-circle"/>
+                    <div className="nav-box-small-circle" onClick={onClickLogo}/>
                 </div>
                 <div className="nav-box-small">
                     <div className="nav-box-small-link">

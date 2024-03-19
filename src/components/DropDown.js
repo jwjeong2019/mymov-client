@@ -1,8 +1,8 @@
 import '../css/DropDown.css';
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {IoCaretDownOutline} from "react-icons/io5";
 
-const DropDown = ({ width, height, onClickMenu, menu }) => {
+const DropDown = ({ width, height, onClickMenu, menu, advanced }) => {
     const customStyle = {
         width: `${width}px`,
         height: `${height}px`,
@@ -12,9 +12,11 @@ const DropDown = ({ width, height, onClickMenu, menu }) => {
     const onClickStyle2 = () => setIsOpen(!isOpen);
     const onClick = (value) => {
         setType(value.text);
-        onClickMenu(value.id);
+        onClickMenu(advanced ? value : value.id);
         setIsOpen(!isOpen);
     }
+    const init = () => setType('전체');
+    useMemo(init, [menu]);
     return (
         <div className="dropdown-container" style={customStyle}>
             <div className="dropdown-button" onClick={onClickStyle2}>

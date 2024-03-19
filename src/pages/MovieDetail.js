@@ -11,7 +11,15 @@ const MovieDetail = () => {
     const params = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState({});
-    const onClickButtonReservation = () => console.log('reserve button');
+    const onClickButtonReservation = () => navigate(`/reservation/step1`, {
+        state: {
+            movieTitle: data.title,
+            movieAge: data.age,
+            movieDirector: data.director,
+            movieTime: data.movieTime,
+            movieId: data.id,
+        }
+    });
     const onClickButtonBack = () => navigate("/movie");
     const init = () => getMovieDetail();
     const getMovieDetail = () => {
@@ -19,6 +27,7 @@ const MovieDetail = () => {
             .then(response => {
                 const { data } = response;
                 setData({
+                    id: data.result.id,
                     title: data.result.title,
                     age: data.result.age < 12 ? '전체이용가' : data.result.age,
                     director: '존 스미스',
