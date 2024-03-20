@@ -27,16 +27,6 @@ const Main = () => {
                 .catch(err => alert(TEXT_ALERT_FAIL_GET_MY_INFO));
         }
 
-        if (auth && role === 'USER') {
-            setData({ userId: '사용자', role: role });
-            return apiMember.getMyInfo(auth)
-                .then(response => {
-                    const { data } = response;
-                    if (isContainedWordFrom('fail', data.msg)) return alert(TEXT_ALERT_FAIL_GET_MY_INFO);
-                    // setData(data.result);
-                })
-                .catch(err => alert(TEXT_ALERT_FAIL_GET_MY_INFO));
-        }
     };
     const isContainedWordFrom = (word, data) => data.indexOf(word) > -1;
 
@@ -44,11 +34,8 @@ const Main = () => {
 
     return (
         <div className="main-container">
-            <Navigation data={data}
-                        toggleIsOpen={toggleIsOpen} />
-            <SideBar data={data}
-                     isOpen={isOpen}
-                     toggleIsOpen={toggleIsOpen} />
+            <Navigation toggleIsOpen={toggleIsOpen} />
+            <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
         </div>
     )
 }
