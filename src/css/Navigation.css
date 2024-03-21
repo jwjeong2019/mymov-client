@@ -15,28 +15,36 @@
     justify-content: space-between;
 }
 
-.nav-box-small {
+.nav-box-small-left {
     align-self: center;
     width: 25%;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
+}
+
+.nav-box-small-right {
+    align-self: center;
+    width: 30%;
+    display: flex;
+    justify-content: end;
 }
 
 .nav-box-small-link {
     color: white;
+    margin-left: 10px;
 }
 
 .nav-box-small-link a {
     color: white;
     text-decoration-line: none;
-    font-size: 17px;
+    font-size: 23px;
 }
 
 .nav-box-small-link button {
     color: white;
     background: none;
     border: none;
-    font-size: 17px;
+    font-size: 23px;
 }
 
 .nav-box-small-circle {

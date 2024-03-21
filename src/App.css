@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+/* common */
+@font-face {
+  font-family: 'TTHakgyoansimMulgyeolB';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimMulgyeolB.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+.font-HakMulB {
+  font-family: 'TTHakgyoansimMulgyeolB';
+}
