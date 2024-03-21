@@ -5,6 +5,7 @@ import MyPageReservation from "./MyPageReservation";
 import MyPageModify from "./MyPageModify";
 import MyPageWithdrawal from "./MyPageWithdrawal";
 import {useNavigate, useParams} from "react-router";
+import SideBar from "../components/SideBar";
 
 const MyPage = () => {
     let params = useParams();
@@ -35,6 +36,8 @@ const MyPage = () => {
         },
     ];
     const [subComponent, setSubComponent] = useState();
+    const [isOpen, setIsOpen] = useState();
+    const toggleIsOpen = () => setIsOpen(!isOpen);
     const onClickStep = subCategory => navigate(`/myPage/${subCategory.id}`);
     const moveStep = () => {
         console.log('call moveStep()')
@@ -45,7 +48,8 @@ const MyPage = () => {
     useMemo(moveStep, [params]);
     return (
         <div>
-            <Navigation />
+            <Navigation toggleIsOpen={toggleIsOpen} />
+            <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
             <div className="mypage-container">
                 <div className="mypage-header">
                     <div className="mypage-header-title">마이페이지</div>

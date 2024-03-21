@@ -24,18 +24,21 @@ const MyPageReservation = (props) => {
     const [sortList, setSortList] = useState([]);
     const onClickDropDown = id => setFilterType(id);
     const onChangeSearchBar = value => setSearch(value);
-    const onClickSearchBar = () => getTicketList(1, currentSortType);
+    const onClickSearchBar = () => getReservationList(1, currentSortType);
     const onClickSortButton = id => {
         if (id === currentSortType) {
-            getTicketList(1);
+            getReservationList(1);
             setCurrentSortType(undefined);
         } else {
-            getTicketList(1, id);
+            getReservationList(1, id);
             setCurrentSortType(id);
         }
     }
-    const onClickButtonStatus = value => console.log(`click button status value: ${value}`);
-    const onClickPage = number => getTicketList(number);
+    const onClickButtonStatus = value => {
+        let isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) deleteReservation(value);
+    }
+    const onClickPage = number => getReservationList(number);
     const init = () => {
         setHeaders(['예매번호', '제목', '내용', '영화관', '상영관', '시작시간', '좌석', '예매상태']);
         setSortList([
@@ -44,9 +47,9 @@ const MyPageReservation = (props) => {
             { id: 'ticket.timetable.cinema.name', text: '영화관순' },
             { id: 'status', text: '상태순' },
         ]);
-        getTicketList(1);
+        getReservationList(1);
     };
-    const getTicketList = (page, sortType) => {
+    const getReservationList = (page, sortType) => {
         const params = {
             grantType: auth.grantType,
             accessToken: auth.accessToken,
@@ -73,6 +76,9 @@ const MyPageReservation = (props) => {
                         status: makeStatusFromReservation(reservation),
                     }));
                     setBodies(array);
+                    setPage(page);
+                    setSize(10);
+                    setTotalElements(data.result.totalElements);
                 }
             })
             .catch(err => alert(`ERROR: ${err.message}`));
@@ -84,6 +90,21 @@ const MyPageReservation = (props) => {
                                                     outline value={reservation.id}
                                                     onClick={onClickButtonStatus} />;
         return '알수없음';
+    }
+    const deleteReservation = (id) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            id,
+        };
+        apiMember.deleteReservation(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`예매 취소 실패:\n${data.msg}`);
+                alert('예매 취소를 정상적으로 완료하였습니다.');
+                getReservationList(1);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
     }
     useMemo(init, []);
     return (

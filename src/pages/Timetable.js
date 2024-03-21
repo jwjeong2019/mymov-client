@@ -8,6 +8,7 @@ import {useMemo, useState} from "react";
 import Button from "../components/Button";
 import apiTimetable from "../api/apiTimetable";
 import {useNavigate} from "react-router";
+import SideBar from "../components/SideBar";
 
 const Timetable = () => {
     const dropdownMenu = [
@@ -24,6 +25,8 @@ const Timetable = () => {
     const [filterType, setFilterType] = useState();
     const [currentSortType, setCurrentSortType] = useState();
     const [sortList, setSortList] = useState([]);
+    const [isOpen, setIsOpen] = useState();
+    const toggleIsOpen = () => setIsOpen(!isOpen);
     const onClickPage = number => getTimetableList(number);
     const onClickMenu = id => setFilterType(id);
     const onChangeSearchBar = value => setSearch(value);
@@ -100,7 +103,8 @@ const Timetable = () => {
     useMemo(init, []);
     return (
         <div>
-            <Navigation />
+            <Navigation toggleIsOpen={toggleIsOpen} />
+            <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
             <div className="timetable-container">
                 <div className="timetable-header">
                     <div className="timetable-header-title">상영표</div>

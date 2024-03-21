@@ -47,6 +47,14 @@ const apiMember = {
             Authorization: `${params.grantType} ${params.accessToken}`
         }
     }),
+    deleteReservation: (params) => api.delete(`/members/reservations`, {
+        data: {
+            id: params.id,
+        },
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`
+        }
+    }),
 };
 
 export default apiMember;
