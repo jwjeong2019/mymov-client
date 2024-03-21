@@ -42,7 +42,7 @@ const SideBar = (props) => {
                         <IoTicketOutline />
                     </div>
                     <div className="sidebar-box-depth-3-text">
-                        <Link to="/myPage/ticket">예매현황</Link>
+                        <Link to="/myPage/reservation">예매현황</Link>
                     </div>
                 </div>
                 <div className="sidebar-box-depth-2-bottom">
@@ -58,7 +58,7 @@ const SideBar = (props) => {
                         <IoAccessibility />
                     </div>
                     <div className="sidebar-box-depth-3-text">
-                        <Link to="/myPage/modifyInfo">개인정보변경</Link>
+                        <Link to="/myPage/modify">개인정보변경</Link>
                     </div>
                 </div>
             </div>
