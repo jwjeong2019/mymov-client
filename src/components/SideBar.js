@@ -13,9 +13,7 @@ const SideBar = (props) => {
     const navigate = useNavigate();
     const onClickButtonBack = () => props.toggleIsOpen();
     const onClickLogout = () => {
-        localStorage.removeItem('auth');
-        localStorage.removeItem('name');
-        localStorage.removeItem('role');
+        localStorage.clear();
         props.toggleIsOpen();
         navigate('/');
     }

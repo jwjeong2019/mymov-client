@@ -3,8 +3,11 @@ import Radio from "../components/Radio";
 import {useState} from "react";
 import {IoCheckmarkCircleOutline} from "react-icons/io5";
 import {useNavigate} from "react-router";
+import apiMember from "../api/apiMember";
+import {Utils} from "../utils/Utils";
 
 const MyPageWithdrawal = (props) => {
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
     const [radioValue, setRadioValue] = useState();
     const [textareaValue, setTextareaValue] = useState();
@@ -12,11 +15,22 @@ const MyPageWithdrawal = (props) => {
     const onClickRadio = value => setRadioValue(value);
     const onChangeTextarea = e => setTextareaValue(e.target.value);
     const onClickButton = value => {
-        if (value === 'btnWithdrawal') {
-            console.log({ radioValue, textareaValue });
-            setIsCompleted(true);
-        }
+        if (value === 'btnWithdrawal') deleteMember();
         if (value === 'back') navigate('/');
+    }
+    const deleteMember = () => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+        };
+        apiMember.deleteMember(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`회원탈퇴 실패:\n${data.msg}`);
+                localStorage.clear();
+                setIsCompleted(true);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
     }
     return (
         <div className="mypage-withdrawal-container">

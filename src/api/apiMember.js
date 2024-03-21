@@ -20,6 +20,11 @@ const apiMember = {
             Authorization: `${params.grantType} ${params.accessToken}`
         }
     }),
+    deleteMember: (params) => api.delete(`/members`, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`
+        }
+    }),
     createTicket: (params) => api.post(`/members/tickets`, {
         timetableId: params.timetableId,
         seatId: params.seatId,
