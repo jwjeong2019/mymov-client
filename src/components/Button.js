@@ -16,7 +16,7 @@ const Button = ({ outline, width, height, value, title, onClick, type }) => {
     }
     useMemo(makeClassName, []);
     return (
-        <div className={className} onClick={onClickButton} style={customStyle}>
+        <div className={`${className} font-HakDotR`} onClick={onClickButton} style={customStyle}>
             {title}
         </div>
     )

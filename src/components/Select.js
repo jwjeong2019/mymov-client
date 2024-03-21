@@ -7,7 +7,7 @@ const Select = ({ options, onChange, advanced }) => {
         onChange(value);
     }
     return (
-        <select name="mySelect" id="mySelect" onChange={onChangeSelect}>
+        <select className="font-HakDotR" name="mySelect" id="mySelect" onChange={onChangeSelect}>
             <option value={'no-value'}>선택</option>
             {advanced ?
                 options.map(value => {

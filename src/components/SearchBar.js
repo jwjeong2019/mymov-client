@@ -7,7 +7,8 @@ const SearchBar = ({ onChange, onClick }) => {
     return (
         <div className="searchbar-container">
             <div className="searchbar-box-input">
-                <input type="text"
+                <input className="font-HakDotR"
+                       type="text"
                        placeholder="Search..."
                        onChange={onChangeInput} />
             </div>

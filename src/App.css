@@ -47,3 +47,25 @@
 .font-HakMulB {
   font-family: 'TTHakgyoansimMulgyeolB';
 }
+
+@font-face {
+  font-family: 'TTHakgyoansimDotbogiR';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimDotbogiR.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+.font-HakDotR {
+  font-family: 'TTHakgyoansimDotbogiR';
+}
+@font-face {
+  font-family: 'TAEBAEKmilkyway';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2310@1.0/TAEBAEKmilkyway.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+.font-TAEBAEK {
+  font-family: 'TAEBAEKmilkyway';
+}
+input {
+  font-family: 'TAEBAEKmilkyway';
+}

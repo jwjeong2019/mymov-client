@@ -107,7 +107,7 @@ const Timetable = () => {
             <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
             <div className="timetable-container">
                 <div className="timetable-header">
-                    <div className="timetable-header-title">상영표</div>
+                    <div className="timetable-header-title font-HakMulB">상영표</div>
                 </div>
                 <div className="timetable-content">
                     <div className="timetable-content-box">

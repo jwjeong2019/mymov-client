@@ -114,37 +114,37 @@ const ManagementTimetableRegister = (props) => {
     useMemo(init, []);
     return (
         <div className="management-timetable-register-container">
-            <div className="management-timetable-register-title">{props.title}</div>
+            <div className="management-timetable-register-title font-HakDotR">{props.title}</div>
             <div className="management-timetable-register-content">
                 <div className="management-timetable-register-content-box">
                     <div className="management-timetable-register-content-box-top">
                         <div className="management-timetable-register-content-box-top-row">
-                            <div className="management-timetable-register-content-box-top-row-col-title">영화명:</div>
+                            <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">영화명:</div>
                             <Select options={movieOptionList} onChange={onClickOptionMovie} />
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
-                            <div className="management-timetable-register-content-box-top-row-col-title">영화관:</div>
+                            <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">영화관:</div>
                             <Select advanced options={cinemaOptionList} onChange={onClickOptionCinema} />
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
-                            <div className="management-timetable-register-content-box-top-row-col-title">상영관:</div>
+                            <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">상영관:</div>
                             <Select options={theaterOptionList} onChange={onClickOptionTheater} />
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
-                            <div className="management-timetable-register-content-box-top-row-col-title">상영 시작일:</div>
-                            <input type="text" placeholder={'상영 시작일을 입력하세요.'} onChange={onChangeStartDate}/>
+                            <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">상영 시작일:</div>
+                            <input className="font-HakDotR" type="text" placeholder={'상영 시작일을 입력하세요.'} onChange={onChangeStartDate}/>
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
-                            <div className="management-timetable-register-content-box-top-row-col-title">상영 종료일:</div>
-                            <input type="text" placeholder={'상영 종료일을 입력하세요.'} onChange={onChangeEndDate}/>
+                            <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">상영 종료일:</div>
+                            <input className="font-HakDotR" type="text" placeholder={'상영 종료일을 입력하세요.'} onChange={onChangeEndDate}/>
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
-                            <div className="management-timetable-register-content-box-top-row-col-title">시작시간:</div>
-                            <input type="text" placeholder={'시작시간을 입력하세요.'} onChange={onChangeStartTime}/>
+                            <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">시작시간:</div>
+                            <input className="font-HakDotR" type="text" placeholder={'시작시간을 입력하세요.'} onChange={onChangeStartTime}/>
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
-                            <div className="management-timetable-register-content-box-top-row-col-title">종료시간:</div>
-                            <input type="text" placeholder={'종료시간을 입력하세요.'} onChange={onChangeEndTime}/>
+                            <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">종료시간:</div>
+                            <input className="font-HakDotR" type="text" placeholder={'종료시간을 입력하세요.'} onChange={onChangeEndTime}/>
                         </div>
                     </div>
                     <div className="management-timetable-register-content-box-bottom">

@@ -90,7 +90,7 @@ const ManagementMovieModify = (props) => {
     useMemo(init, []);
     return (
         <div className="management-movie-modify-container">
-            <div className="management-movie-modify-title">{props.title}</div>
+            <div className="management-movie-modify-title font-HakDotR">{props.title}</div>
             <div className="management-movie-modify-content">
                 <div className="management-movie-modify-content-box">
                     <div className="management-movie-modify-content-box-top">

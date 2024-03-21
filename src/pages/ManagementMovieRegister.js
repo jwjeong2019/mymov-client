@@ -58,21 +58,21 @@ const ManagementMovieRegister = (props) => {
     useMemo(makeInputList, []);
     return (
         <div className="management-movie-register-container">
-            <div className="management-movie-register-title">{props.title}</div>
+            <div className="management-movie-register-title font-HakDotR">{props.title}</div>
             <div className="management-movie-register-content">
                 <div className="management-movie-register-content-box">
                     <div className="management-movie-register-content-box-top">
                         {inputList.length > 0 && inputList.map(value => {
                             return (
                                 <div key={`management-movie-register-row-${value.keyName}`} className="management-movie-register-content-box-top-row">
-                                    <div className="management-movie-register-content-box-top-row-col-title">{value.text}:</div>
-                                    <input type="text" placeholder={value.placeholder} onChange={value.onChange}/>
+                                    <div className="management-movie-register-content-box-top-row-col-title font-HakDotR">{value.text}:</div>
+                                    <input className="font-HakDotR" type="text" placeholder={value.placeholder} onChange={value.onChange}/>
                                 </div>
                             )
                         })}
                     </div>
                     <div className="management-movie-register-content-box-bottom">
-                        <textarea name="textarea" id="textarea" cols="30" rows="10" placeholder={'설명을 입력하세요.'} onChange={onChangeTextarea} />
+                        <textarea className="font-HakDotR" name="textarea" id="textarea" cols="30" rows="10" placeholder={'설명을 입력하세요.'} onChange={onChangeTextarea} />
                         <div className="management-movie-register-content-box-bottom-row-attachment">
                             <Attachment upload={uploadFile} />
                         </div>

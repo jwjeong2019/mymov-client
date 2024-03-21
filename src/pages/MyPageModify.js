@@ -74,51 +74,51 @@ const MyPageModify = (props) => {
     useMemo(init, []);
     return (
         <div className="mypage-modify-container">
-            <div className="mypage-modify-title">{props.title}</div>
+            <div className="mypage-modify-title font-HakDotR">{props.title}</div>
             <div className="mypage-modify-detail">
                 <div className="mypage-modify-detail-box">
                     <div className="mypage-modify-detail-box-row-button-with">
-                        <div className="mypage-modify-detail-box-col-title">아이디</div>
+                        <div className="mypage-modify-detail-box-col-title font-HakDotR">아이디</div>
                         <div className="mypage-modify-detail-box-col-input">
-                            <input type="text" value={id} placeholder={'아이디를 입력하세요.'} onChange={onChangeId}/>
+                            <input className="font-HakDotR" type="text" value={id} placeholder={'아이디를 입력하세요.'} onChange={onChangeId}/>
                             <Button title={'중복확인'} width={72} outline onClick={onClickDuplicate} />
                         </div>
                     </div>
                     <div className="mypage-modify-detail-box-row-button-without">
-                        <div className="mypage-modify-detail-box-col-title">비밀번호</div>
-                        <input type="password" placeholder={'비밀번호를 입력하세요.'} onChange={onChangePassword}/>
+                        <div className="mypage-modify-detail-box-col-title font-HakDotR">비밀번호</div>
+                        <input className="font-HakDotR" type="password" placeholder={'비밀번호를 입력하세요.'} onChange={onChangePassword}/>
                     </div>
                     <div className="mypage-modify-detail-box-row-button-without">
-                        <div className="mypage-modify-detail-box-col-title">비밀번호확인</div>
-                        <input type="password" placeholder={'비밀번호를 입력하세요.'} onChange={onChangePasswordCheck}/>
+                        <div className="mypage-modify-detail-box-col-title font-HakDotR">비밀번호확인</div>
+                        <input className="font-HakDotR" type="password" placeholder={'비밀번호를 입력하세요.'} onChange={onChangePasswordCheck}/>
                     </div>
                     <div className="mypage-modify-detail-box-row-button-without">
-                        <div className="mypage-modify-detail-box-col-title">이름</div>
-                        <input type="text" value={name} placeholder={'이름을 입력하세요.'} onChange={onChangeName}/>
+                        <div className="mypage-modify-detail-box-col-title font-HakDotR">이름</div>
+                        <input className="font-HakDotR" type="text" value={name} placeholder={'이름을 입력하세요.'} onChange={onChangeName}/>
                     </div>
                     <div className="mypage-modify-detail-box-row-button-with">
-                        <div className="mypage-modify-detail-box-col-title">이메일</div>
+                        <div className="mypage-modify-detail-box-col-title font-HakDotR">이메일</div>
                         <div className="mypage-modify-detail-box-col-input">
-                            <input type="email" value={email} placeholder={'이메일을 입력하세요.'} onChange={onChangeEmail}/>
+                            <input className="font-HakDotR" type="email" value={email} placeholder={'이메일을 입력하세요.'} onChange={onChangeEmail}/>
                             <Button title={'인증요청'} width={72} outline value={'email'} onClick={onClickCertificate} />
                         </div>
                     </div>
                     <div className="mypage-modify-detail-box-row-button-with">
-                        <div className="mypage-modify-detail-box-col-title">휴대폰번호</div>
+                        <div className="mypage-modify-detail-box-col-title font-HakDotR">휴대폰번호</div>
                         <div className="mypage-modify-detail-box-col-input">
-                            <input type="number" value={phone} placeholder={'휴대폰번호를 입력하세요.'} onChange={onChangePhone}/>
+                            <input className="font-HakDotR" type="number" value={phone} placeholder={'휴대폰번호를 입력하세요.'} onChange={onChangePhone}/>
                             <Button title={'인증요청'} width={72} outline value={'phone'} onClick={onClickDuplicate} />
                         </div>
                     </div>
                     <div className="mypage-modify-detail-box-row-button-with">
-                        <div className="mypage-modify-detail-box-col-title">주소</div>
+                        <div className="mypage-modify-detail-box-col-title font-HakDotR">주소</div>
                         <div className="mypage-modify-detail-box-col-input">
-                            <input type="text" value={address} placeholder={'주소를 입력하세요.'} onChange={onChangeAddress}/>
+                            <input className="font-HakDotR" type="text" value={address} placeholder={'주소를 입력하세요.'} onChange={onChangeAddress}/>
                             <Button title={'조회'} width={72} outline onClick={onClickAddress} />
                         </div>
                     </div>
                     <div className="mypage-modify-detail-box-row-only-input">
-                        <input type="text" value={addressDetail} placeholder={'주소를 입력하세요.'} onChange={onChangeAddressDetail}/>
+                        <input className="font-HakDotR" type="text" value={addressDetail} placeholder={'주소를 입력하세요.'} onChange={onChangeAddressDetail}/>
                     </div>
                     <div className="mypage-modify-detail-box-row-only-button">
                         <Button title={'변경'} width={72} onClick={onClickModify} />

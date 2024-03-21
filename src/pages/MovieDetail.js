@@ -46,19 +46,19 @@ const MovieDetail = () => {
             <Navigation />
             <div className="movie-detail-container">
                 <div className="movie-detail-header">
-                    <div className="movie-detail-header-title">영화</div>
+                    <div className="movie-detail-header-title font-HakMulB">영화</div>
                 </div>
                 <div className="movie-detail-content">
                     <div className="movie-detail-content-box">
                         <div className="movie-detail-content-box-top">
                             <img src={data.imageUrl} alt="movie_poster"/>
                             <div className="movie-detail-content-box-content">
-                                <div className="movie-detail-content-box-content-title">{data.title}</div>
+                                <div className="movie-detail-content-box-content-title font-HakDotR">{data.title}</div>
                                 <div className="movie-detail-content-box-content-box">
-                                    <div className="movie-detail-content-box-content-box-common">{data.age}</div>
-                                    <div className="movie-detail-content-box-content-box-common">{data.director}</div>
-                                    <div className="movie-detail-content-box-content-box-common">{data.movieTime}</div>
-                                    <div className="movie-detail-content-box-content-box-score">
+                                    <div className="movie-detail-content-box-content-box-common font-HakDotR">{data.age}</div>
+                                    <div className="movie-detail-content-box-content-box-common font-HakDotR">{data.director}</div>
+                                    <div className="movie-detail-content-box-content-box-common font-HakDotR">{data.movieTime}</div>
+                                    <div className="movie-detail-content-box-content-box-score font-HakDotR">
                                         <Score value={data.score} />
                                     </div>
                                     <div className="movie-detail-content-box-content-box-tag">
@@ -72,7 +72,7 @@ const MovieDetail = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="movie-detail-content-box-middle">
+                        <div className="movie-detail-content-box-middle font-HakDotR">
                             {data.detail}
                         </div>
                         <div className="movie-detail-content-box-bottom">

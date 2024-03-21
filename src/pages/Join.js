@@ -55,7 +55,7 @@ const Join = () => {
                                 <div className="join-box-depth-4-input">
                                     <input type="text" placeholder="아이디를 입력하세요." onChange={onChangeUserId}/>
                                 </div>
-                                <div className="join-box-depth-4-btn">중복확인</div>
+                                <div className="join-box-depth-4-btn font-TAEBAEK">중복확인</div>
                             </div>
                             <div className="join-box-depth-3-simple">
                                 <input type="password" placeholder="비밀번호를 입력하세요." onChange={onChangeUserPw}/>
@@ -67,13 +67,13 @@ const Join = () => {
                                 <div className="join-box-depth-4-input">
                                     <input type="text" placeholder="이메일을 입력하세요." onChange={onChangeEmail}/>
                                 </div>
-                                <div className="join-box-depth-4-btn">인증요청</div>
+                                <div className="join-box-depth-4-btn font-TAEBAEK">인증요청</div>
                             </div>
                             <div className="join-box-depth-3-complex">
                                 <div className="join-box-depth-4-input">
                                     <input type="text" placeholder="휴대폰번호를 입력하세요." onChange={onChangePhone}/>
                                 </div>
-                                <div className="join-box-depth-4-btn">인증요청</div>
+                                <div className="join-box-depth-4-btn font-TAEBAEK">인증요청</div>
                             </div>
                             <div className="join-box-depth-3-complex">
                                 <div className="join-box-depth-4-input">
@@ -82,15 +82,15 @@ const Join = () => {
                                            disabled
                                            style={depth4InputInlineStyle}/>
                                 </div>
-                                <div className="join-box-depth-4-btn" onClick={onClickSearchAddress}>주소조회</div>
+                                <div className="join-box-depth-4-btn font-TAEBAEK" onClick={onClickSearchAddress}>주소조회</div>
                             </div>
                             <div className="join-box-depth-3-simple">
                                 <input type="text" placeholder="상세주소를 입력하세요." onChange={onChangeAddressDetail}/>
                             </div>
                         </div>
                         <div className="join-box-depth-2-bottom">
-                            <div className="join-box-depth-3-btn-signup" onClick={onClickSignUp}>SIGN UP</div>
-                            <div className="join-box-depth-3-btn-home">
+                            <div className="join-box-depth-3-btn-signup font-TAEBAEK" onClick={onClickSignUp}>SIGN UP</div>
+                            <div className="join-box-depth-3-btn-home font-TAEBAEK">
                                 <Link to="/" element={<Main />}>HOME</Link>
                             </div>
                         </div>

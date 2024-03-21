@@ -27,21 +27,21 @@ const SideBar = (props) => {
                             <IoChevronForwardSharp />
                         </button>
                     </div>
-                    <div className="sidebar-box-depth-3-text">환영합니다. {name}님</div>
+                    <div className="sidebar-box-depth-3-text font-TAEBAEK">환영합니다. {name}님</div>
                 </div>
                 <div className="sidebar-box-depth-2-line"/>
                 <div className="sidebar-box-depth-2-bottom">
                     <div className="sidebar-box-depth-3-icon">
                         <IoLogOutOutline />
                     </div>
-                    <div className="sidebar-box-depth-3-logout" onClick={onClickLogout}>로그아웃</div>
+                    <div className="sidebar-box-depth-3-logout font-TAEBAEK" onClick={onClickLogout}>로그아웃</div>
                 </div>
                 <div className="sidebar-box-depth-2-line"/>
                 <div className="sidebar-box-depth-2-bottom">
                     <div className="sidebar-box-depth-3-icon">
                         <IoTicketOutline />
                     </div>
-                    <div className="sidebar-box-depth-3-text">
+                    <div className="sidebar-box-depth-3-text font-TAEBAEK">
                         <Link to="/myPage/reservation">예매현황</Link>
                     </div>
                 </div>
@@ -49,7 +49,7 @@ const SideBar = (props) => {
                     <div className="sidebar-box-depth-3-icon">
                         <IoMailOutline />
                     </div>
-                    <div className="sidebar-box-depth-3-text">
+                    <div className="sidebar-box-depth-3-text font-TAEBAEK">
                         <Link to="/myPage/inquiry">문의현황</Link>
                     </div>
                 </div>
@@ -57,7 +57,7 @@ const SideBar = (props) => {
                     <div className="sidebar-box-depth-3-icon">
                         <IoAccessibility />
                     </div>
-                    <div className="sidebar-box-depth-3-text">
+                    <div className="sidebar-box-depth-3-text font-TAEBAEK">
                         <Link to="/myPage/modify">개인정보변경</Link>
                     </div>
                 </div>

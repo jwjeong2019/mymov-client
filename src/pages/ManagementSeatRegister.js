@@ -79,21 +79,21 @@ const ManagementSeatRegister = (props) => {
     useMemo(init, []);
     return (
         <div className="management-seat-register-container">
-            <div className="management-seat-register-title">{props.title}</div>
+            <div className="management-seat-register-title font-HakDotR">{props.title}</div>
             <div className="management-seat-register-content">
                 <div className="management-seat-register-content-box">
                     <div className="management-seat-register-content-box-top">
                         <div className="management-seat-register-content-box-top-row">
-                            <div className="management-seat-register-content-box-top-row-col-title">영화관:</div>
+                            <div className="management-seat-register-content-box-top-row-col-title font-HakDotR">영화관:</div>
                             <Select advanced options={cinemaOptionList} onChange={onClickOptionCinema} />
                         </div>
                         <div className="management-seat-register-content-box-top-row">
-                            <div className="management-seat-register-content-box-top-row-col-title">상영관:</div>
+                            <div className="management-seat-register-content-box-top-row-col-title font-HakDotR">상영관:</div>
                             <Select options={theaterOptionList} onChange={onClickOptionTheater} />
                         </div>
                         <div className="management-seat-register-content-box-top-row">
-                            <div className="management-seat-register-content-box-top-row-col-title">좌석명:</div>
-                            <input type="text" placeholder={'좌석을 입력하세요.'} onChange={onChangeSeat}/>
+                            <div className="management-seat-register-content-box-top-row-col-title font-HakDotR">좌석명:</div>
+                            <input className="font-HakDotR" type="text" placeholder={'좌석을 입력하세요.'} onChange={onChangeSeat}/>
                         </div>
                     </div>
                     <div className="management-seat-register-content-box-bottom">

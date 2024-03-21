@@ -109,7 +109,7 @@ const ManagementTimetableList = (props) => {
     useMemo(init, []);
     return (
         <div className="management-timetable-list-container">
-            <div className="management-timetable-list-title">{props.title}</div>
+            <div className="management-timetable-list-title font-HakDotR">{props.title}</div>
             <div className="management-timetable-list-content">
                 <div className="management-timetable-list-content-box">
                     <div className="management-timetable-list-content-box-row-search">

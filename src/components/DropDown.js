@@ -20,7 +20,7 @@ const DropDown = ({ width, height, onClickMenu, menu, advanced }) => {
     return (
         <div className="dropdown-container" style={customStyle}>
             <div className="dropdown-button" onClick={onClickStyle2}>
-                <div className="dropdown-button-text">{type}</div>
+                <div className="dropdown-button-text font-HakDotR">{type}</div>
                 <div className="dropdown-button-icon"><IoCaretDownOutline /></div>
             </div>
             {isOpen &&
@@ -28,7 +28,7 @@ const DropDown = ({ width, height, onClickMenu, menu, advanced }) => {
                 {menu.length > 0 && menu.map(value => {
                     return (
                         <div key={`dropdown-menu-${value.id}`}
-                             className="dropdown-open-menu"
+                             className="dropdown-open-menu font-HakDotR"
                              onClick={() => onClick(value)}>
                             {value.text}
                         </div>

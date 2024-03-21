@@ -111,7 +111,7 @@ const ManagementSeatList = (props) => {
     useMemo(init, []);
     return (
         <div className="management-seat-list-container">
-            <div className="management-seat-list-title">{props.title}</div>
+            <div className="management-seat-list-title font-HakDotR">{props.title}</div>
             <div className="management-seat-list-content">
                 <div className="management-seat-list-content-box">
                     <div className="management-seat-list-content-box-row-search">

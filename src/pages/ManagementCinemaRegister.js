@@ -45,16 +45,16 @@ const ManagementCinemaRegister = (props) => {
     }
     return (
         <div className="management-cinema-register-container">
-            <div className="management-cinema-register-title">{props.title}</div>
+            <div className="management-cinema-register-title font-HakDotR">{props.title}</div>
             <div className="management-cinema-register-content">
                 <div className="management-cinema-register-content-box">
                     <div className="management-cinema-register-content-box-top">
                         <div className="management-cinema-register-content-box-top-row">
-                            <div className="management-cinema-register-content-box-top-row-col-title">이름:</div>
-                            <input type="text" placeholder={'이름을 입력하세요.'} onChange={onChangeName}/>
+                            <div className="management-cinema-register-content-box-top-row-col-title font-HakDotR">이름:</div>
+                            <input className="font-HakDotR" type="text" placeholder={'이름을 입력하세요.'} onChange={onChangeName}/>
                         </div>
                         <div className="management-cinema-register-content-box-top-row">
-                            <div className="management-cinema-register-content-box-top-row-col-title">지역:</div>
+                            <div className="management-cinema-register-content-box-top-row-col-title font-HakDotR">지역:</div>
                             <Select options={optionList} onChange={onClickOption} />
                         </div>
                     </div>

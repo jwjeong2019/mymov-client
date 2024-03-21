@@ -82,7 +82,7 @@ const MovieList = () => {
             <Navigation />
             <div className="movie-list-container">
                 <div className="movie-list-header">
-                    <div className="movie-list-header-title">영화</div>
+                    <div className="movie-list-header-title font-HakMulB">영화</div>
                 </div>
                 <div className="movie-list-content">
                     <div className="movie-list-content-box">

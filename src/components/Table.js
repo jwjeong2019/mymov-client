@@ -77,7 +77,7 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
                     <tr className="table-tr-row1">
                         {headerList?.length > 0 && headerList.map(value => {
                             return (
-                                <th key={value.key} className={value.className}>
+                                <th key={value.key} className={`${value.className} font-HakDotR`}>
                                     {value.title}
                                 </th>
                             )
@@ -91,7 +91,7 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
                             <tr key={value.key} className={value.className} onClick={onClickRow ? () => onClickRow(value.id) : null}>
                                 {value?.list?.length > 0 && value.list.map(value2 => {
                                     return (
-                                        <td key={value2.key} className={value2.className}>
+                                        <td key={value2.key} className={`${value2.className} font-HakDotR`}>
                                             {value2.content}
                                         </td>
                                     )
@@ -112,7 +112,7 @@ const Table = ({ onClickPage, headers, bodies, page, size, total, onClickRow }) 
                     <div className="table-page-box-numbers">
                         {pages.length > 0 && pages.map(value => {
                             return (
-                                <div key={value.key} onClick={() => onClickPageNumber(value.number)}>{value.number}</div>
+                                <div className="font-HakDotR" key={value.key} onClick={() => onClickPageNumber(value.number)}>{value.number}</div>
                             )
                         })}
                     </div>

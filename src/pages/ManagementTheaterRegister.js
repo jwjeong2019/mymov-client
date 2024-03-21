@@ -60,17 +60,17 @@ const ManagementTheaterRegister = (props) => {
     useMemo(init, []);
     return (
         <div className="management-cinema-register-container">
-            <div className="management-cinema-register-title">{props.title}</div>
+            <div className="management-cinema-register-title font-HakDotR">{props.title}</div>
             <div className="management-cinema-register-content">
                 <div className="management-cinema-register-content-box">
                     <div className="management-cinema-register-content-box-top">
                         <div className="management-cinema-register-content-box-top-row">
-                            <div className="management-cinema-register-content-box-top-row-col-title">영화관:</div>
+                            <div className="management-cinema-register-content-box-top-row-col-title font-HakDotR">영화관:</div>
                             <Select options={optionList} onChange={onClickOption} />
                         </div>
                         <div className="management-cinema-register-content-box-top-row">
-                            <div className="management-cinema-register-content-box-top-row-col-title">번호:</div>
-                            <input type="text" placeholder={'번호를 입력하세요.'} onChange={onChangeNumber}/>
+                            <div className="management-cinema-register-content-box-top-row-col-title font-HakDotR">번호:</div>
+                            <input className="font-HakDotR" type="text" placeholder={'번호를 입력하세요.'} onChange={onChangeNumber}/>
                         </div>
                     </div>
                     <div className="management-cinema-register-content-box-bottom">

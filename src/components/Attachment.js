@@ -11,7 +11,7 @@ const Attachment = ({ upload }) => {
     return (
         <div className="attachment-container">
             <div className="attachment-icon"><IoAttachOutline /></div>
-            <label htmlFor="file">{fileName}</label>
+            <label className="font-HakDotR" htmlFor="file">{fileName}</label>
             <input type="file" id="file" onChange={onChange} />
         </div>
     )

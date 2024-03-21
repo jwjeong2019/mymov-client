@@ -155,7 +155,7 @@ const Reservation = () => {
             <Navigation />
             <div className="reservation-container">
                 <div className="reservation-header">
-                    <div className="reservation-header-title">예매</div>
+                    <div className="reservation-header-title font-HakMulB">예매</div>
                 </div>
                 <div className="reservation-content">
                     {isCompleted ?
@@ -163,7 +163,7 @@ const Reservation = () => {
                             <div className="reservation-complete-box-center">
                                 <div className="reservation-complete-box-center-top">
                                     <div className="reservation-complete-box-center-top-icon"><IoCheckmarkCircleOutline /></div>
-                                    <div className="reservation-complete-box-center-top-text">예매를 완료하였습니다.</div>
+                                    <div className="reservation-complete-box-center-top-text font-HakDotR">예매를 완료하였습니다.</div>
                                 </div>
                                 <Button title="돌아가기" outline onClick={onClickBack} />
                             </div>
@@ -171,43 +171,43 @@ const Reservation = () => {
                         :
                         <div className="reservation-box">
                             <div className="reservation-box-top">
-                                <div className="reservation-box-row">{`제목: ${data?.movieTitle}`}</div>
-                                <div className="reservation-box-row">{`연령: ${data?.movieAge}`}</div>
-                                <div className="reservation-box-row">{`감독: ${data?.movieDirector}`}</div>
-                                <div className="reservation-box-row">{`시간: ${data?.movieTime}`}</div>
+                                <div className="reservation-box-row font-HakDotR">{`제목: ${data?.movieTitle}`}</div>
+                                <div className="reservation-box-row font-HakDotR">{`연령: ${data?.movieAge}`}</div>
+                                <div className="reservation-box-row font-HakDotR">{`감독: ${data?.movieDirector}`}</div>
+                                <div className="reservation-box-row font-HakDotR">{`시간: ${data?.movieTime}`}</div>
                                 {params?.mode === 'step1' ?
                                     <div className="reservation-box-row-dropdown">
-                                        <div className="reservation-box-column-text">영화관:</div>
+                                        <div className="reservation-box-column-text font-HakDotR">영화관:</div>
                                         <DropDown width={185}
                                                   menu={cinemaMenu}
                                                   advanced
                                                   onClickMenu={onClickDropDownCinema} />
                                     </div>
                                     :
-                                    <div className="reservation-box-row">{`영화관: ${data?.cinemaName}`}</div>
+                                    <div className="reservation-box-row font-HakDotR">{`영화관: ${data?.cinemaName}`}</div>
                                 }
                                 {params?.mode === 'step1' ?
                                     <div className="reservation-box-row-dropdown">
-                                        <div className="reservation-box-column-text">상영관:</div>
+                                        <div className="reservation-box-column-text font-HakDotR">상영관:</div>
                                         <DropDown width={185}
                                                   menu={theaterMenu}
                                                   onClickMenu={onClickDropDownTheater} />
                                     </div>
                                     :
-                                    <div className="reservation-box-row">{`상영관: ${data?.theaterNumber}상영관`}</div>
+                                    <div className="reservation-box-row font-HakDotR">{`상영관: ${data?.theaterNumber}상영관`}</div>
                                 }
                                 {params?.mode === 'step1' ?
                                     <div className="reservation-box-row-dropdown">
-                                        <div className="reservation-box-column-text">시작시간:</div>
+                                        <div className="reservation-box-column-text font-HakDotR">시작시간:</div>
                                         <DropDown width={185}
                                                   menu={timeMenu}
                                                   onClickMenu={onClickDropDownTime} />
                                     </div>
                                     :
-                                    <div className="reservation-box-row">{`시작시간: ${data?.startTime}`}</div>
+                                    <div className="reservation-box-row font-HakDotR">{`시작시간: ${data?.startTime}`}</div>
                                 }
                                 <div className="reservation-box-row-dropdown">
-                                    <div className="reservation-box-column-text">좌석:</div>
+                                    <div className="reservation-box-column-text font-HakDotR">좌석:</div>
                                     <DropDown width={185}
                                               menu={seatMenu}
                                               onClickMenu={onClickDropDownSeat} />
@@ -215,8 +215,8 @@ const Reservation = () => {
                             </div>
                             <div className="reservation-box-bottom">
                                 <div className="reservation-box-row-account">
-                                    <div className="reservation-box-column-text">총 결제금액</div>
-                                    <div className="reservation-box-column-account">14,000원</div>
+                                    <div className="reservation-box-column-text font-HakDotR">총 결제금액</div>
+                                    <div className="reservation-box-column-account font-HakDotR">14,000원</div>
                                 </div>
                                 <Button title="결제하기"
                                         value={'pay'}

@@ -82,7 +82,7 @@ const ManagementMovieRegister = (props) => {
     useMemo(init, []);
     return (
         <div className="management-movie-detail-container">
-            <div className="management-movie-detail-title">{props.title}</div>
+            <div className="management-movie-detail-title font-HakDotR">{props.title}</div>
             <div className="management-movie-detail-content">
                 <div className="management-movie-detail-content-box">
                     <div className="management-movie-detail-content-box-top">
@@ -91,14 +91,14 @@ const ManagementMovieRegister = (props) => {
                         {inputList.length > 0 && inputList.map(value => {
                             return (
                                 <div key={`management-movie-detail-row-${value.keyName}`} className="management-movie-detail-content-box-top-row">
-                                    <div className="management-movie-detail-content-box-top-row-col-title">{value.text}: {value.value}</div>
+                                    <div className="management-movie-detail-content-box-top-row-col-title font-HakDotR">{value.text}: {value.value}</div>
                                 </div>
                             )
                         })}
                         </div>
                     </div>
                     <div className="management-movie-detail-content-box-bottom">
-                        <div>{detail}</div>
+                        <div className="font-HakDotR">{detail}</div>
                         <div className="management-movie-detail-content-box-bottom-row-buttons">
                             <Button title={'수정'} width={80} value={'modify'} onClick={onClickButton} />
                             <Button title={'삭제'} width={80} value={'delete'} type={'caution'} onClick={onClickButton} />

@@ -83,7 +83,7 @@ const ManagementCinemaList = (props) => {
     useMemo(init, []);
     return (
         <div className="management-cinema-list-container">
-            <div className="management-cinema-list-title">{props.title}</div>
+            <div className="management-cinema-list-title font-HakDotR">{props.title}</div>
             <div className="management-cinema-list-content">
                 <div className="management-cinema-list-content-box">
                     <div className="management-cinema-list-content-box-row-search">

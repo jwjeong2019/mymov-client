@@ -103,7 +103,7 @@ const ManagementTheaterList = (props) => {
     useMemo(init, []);
     return (
         <div className="management-theater-list-container">
-            <div className="management-theater-list-title">{props.title}</div>
+            <div className="management-theater-list-title font-HakDotR">{props.title}</div>
             <div className="management-theater-list-content">
                 <div className="management-theater-list-content-box">
                     <div className="management-theater-list-content-box-row-search">

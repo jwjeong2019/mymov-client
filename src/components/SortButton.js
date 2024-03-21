@@ -18,7 +18,7 @@ const SortButton = ({ onClickMenu, list }) => {
                 {list.map(value => {
                     return (
                         <div key={`sort-menu-${value.id}`}
-                             className="sort-btn-dropdown-menu"
+                             className="sort-btn-dropdown-menu font-HakDotR"
                              onClick={() => onClick(value.id)}>
                             {value.text}
                         </div>

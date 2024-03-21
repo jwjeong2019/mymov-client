@@ -109,7 +109,7 @@ const MyPageReservation = (props) => {
     useMemo(init, []);
     return (
         <div className="mypage-reservation-container">
-            <div className="mypage-reservation-title">{props.title}</div>
+            <div className="mypage-reservation-title font-HakDotR">{props.title}</div>
             <div className="mypage-reservation-search">
                 <div className="mypage-reservation-search-left">
                     <DropDown menu={dropdownMenu} onClickMenu={onClickDropDown} />

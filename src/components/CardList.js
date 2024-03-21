@@ -56,19 +56,19 @@ const CardList = ({ list, onClickCard, onClickForward, onClickBack, isLast, isFi
                                         <img src={value1.imageUrl} alt="movie_poster"/>
                                         <div className="card-list-box-detail">
                                             <div className="card-list-box-detail-top">
-                                                <div className="card-list-box-detail-age"
+                                                <div className="card-list-box-detail-age font-HakDotR"
                                                      style={ageStyle}>
                                                     {value1.age}
                                                 </div>
-                                                <div className="card-list-box-detail-title">{value1.title}</div>
+                                                <div className="card-list-box-detail-title font-HakDotR">{value1.title}</div>
                                             </div>
                                             <div className="card-list-box-detail-bottom">
                                                 <div className="card-list-box-detail-score">
                                                     <div className="card-list-box-detail-icon-star"><IoStar /></div>
-                                                    <div className="card-list-box-detail-text-score">{value1.score} / 5</div>
+                                                    <div className="card-list-box-detail-text-score font-HakDotR">{value1.score} / 5</div>
                                                 </div>
                                                 <div className="card-list-box-detail-type">
-                                                    <div className="card-list-box-detail-text-type">{value1.type}</div>
+                                                    <div className="card-list-box-detail-text-type font-HakDotR">{value1.type}</div>
                                                 </div>
                                             </div>
                                         </div>

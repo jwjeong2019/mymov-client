@@ -59,7 +59,7 @@ const Management = () => {
                      toggleIsOpen={toggleIsOpen} />
             <div className="management-container">
                 <div className="management-header">
-                    <div className="management-header-title">관리하기</div>
+                    <div className="management-header-title font-HakMulB">관리하기</div>
                 </div>
                 <div className="management-content">
                     <div className="management-content-box">
@@ -67,13 +67,13 @@ const Management = () => {
                             {stepMenuList.length > 0 && stepMenuList.map(category => {
                                 return (
                                     <div key={`key-step-menu-box-${category.id}`} className="management-content-box-menu-list-box">
-                                        <div key={`key-step-menu-category-${category.id}`} className="management-content-box-menu-list-box-category">
+                                        <div key={`key-step-menu-category-${category.id}`} className="management-content-box-menu-list-box-category font-HakDotR">
                                             {category.category}
                                         </div>
                                         {category.list.length > 0 && category.list.map(subCategory => {
                                             return (
                                                 <div key={`key-step-menu-list-${subCategory.id}`}
-                                                     className="management-content-box-menu-list-box-subcategory"
+                                                     className="management-content-box-menu-list-box-subcategory font-HakDotR"
                                                      onClick={() => onClickStep(subCategory)}>
                                                     {subCategory.text}
                                                 </div>

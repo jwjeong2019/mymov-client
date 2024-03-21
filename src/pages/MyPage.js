@@ -52,7 +52,7 @@ const MyPage = () => {
             <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
             <div className="mypage-container">
                 <div className="mypage-header">
-                    <div className="mypage-header-title">마이페이지</div>
+                    <div className="mypage-header-title font-HakMulB">마이페이지</div>
                 </div>
                 <div className="mypage-content">
                     <div className="mypage-content-box">
@@ -60,13 +60,13 @@ const MyPage = () => {
                             {stepMenuList.length > 0 && stepMenuList.map(category => {
                                 return (
                                     <div key={`key-step-menu-box-${category.id}`} className="mypage-content-box-menu-list-box">
-                                        <div key={`key-step-menu-category-${category.id}`} className="mypage-content-box-menu-list-box-category">
+                                        <div key={`key-step-menu-category-${category.id}`} className="mypage-content-box-menu-list-box-category font-HakDotR">
                                             {category.category}
                                         </div>
                                         {category.list.length > 0 && category.list.map(subCategory => {
                                             return (
                                                 <div key={`key-step-menu-list-${subCategory.id}`}
-                                                     className="mypage-content-box-menu-list-box-subcategory"
+                                                     className="mypage-content-box-menu-list-box-subcategory font-HakDotR"
                                                      onClick={() => onClickStep(subCategory)}>
                                                     {subCategory.text}
                                                 </div>

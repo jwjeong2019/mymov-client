@@ -62,13 +62,13 @@ const SignIn = () => {
                     </div>
                     <div className="signin-box-depth-2-bottom">
                         <div className="signin-box-depth-3-button">
-                            <button id="btn-signin" onClick={onClickBtnSignIn}>SIGN IN</button>
+                            <button className="font-TAEBAEK" id="btn-signin" onClick={onClickBtnSignIn}>SIGN IN</button>
                         </div>
                         <div className="signin-box-depth-3-button">
-                            <button id="btn-home" onClick={onClickBtnHome}>HOME</button>
+                            <button className="font-TAEBAEK" id="btn-home" onClick={onClickBtnHome}>HOME</button>
                         </div>
                         <div className="signin-box-depth-3-button">
-                            <div className="signin-box-depth-4">
+                            <div className="signin-box-depth-4 font-TAEBAEK">
                                 <Link to="/findIdPassword">아이디/비밀번호 찾기</Link>
                                 <Link to="/join">회원가입</Link>
                             </div>
