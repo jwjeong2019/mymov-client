@@ -56,14 +56,14 @@ const ManagementMovieList = (props) => {
                 const { data } = response;
                 if (data.result.totalElements > 0) {
                     let arr = [];
-                    data.result.content.forEach(value => {
+                    data.result.content.forEach(movie => {
                         let obj = {};
-                        obj.id = value.id;
-                        obj.movieId = value.id;
-                        obj.title = value.title;
-                        obj.age = value.age;
+                        obj.id = movie.id;
+                        obj.movieId = movie.id;
+                        obj.title = movie.title;
+                        obj.age = movie.age < 12 ? '전체' : movie.age;
                         obj.director = '존 스미스';
-                        obj.releaseDate = value.releaseDate?.replace('T', ' ');
+                        obj.releaseDate = movie.releaseDate?.replace('T', ' ');
                         arr.push(obj);
                     });
                     setBodies(arr);

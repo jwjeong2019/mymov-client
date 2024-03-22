@@ -67,19 +67,19 @@ const ManagementTimetableList = (props) => {
             .then(response => {
                 const { data } = response;
                 if (data.result.totalElements > 0) {
-                    const array = data.result.content.map(value => ({
-                        id: value.id,
-                        timetableId: value.id,
-                        movieTitle: value.movie.title,
-                        age: value.movie.age,
-                        theaterNumber: `${value.theater.number}상영관`,
-                        cinemaName: value.cinema.name,
-                        cinemaRegions: value.cinema.region,
-                        startTime: value.startTime,
-                        endTime: value.endTime,
+                    const array = data.result.content.map(timetable => ({
+                        id: timetable.id,
+                        timetableId: timetable.id,
+                        movieTitle: timetable.movie.title,
+                        age: timetable.movie.age < 12 ? '전체' : timetable.movie.age,
+                        theaterNumber: `${timetable.theater.number}상영관`,
+                        cinemaName: timetable.cinema.name,
+                        cinemaRegions: timetable.cinema.region,
+                        startTime: timetable.startTime,
+                        endTime: timetable.endTime,
                         button: <Button title={'삭제'}
                                         type={'caution'}
-                                        value={value.id}
+                                        value={timetable.id}
                                         onClick={onClickButtonDelete} />,
                     }));
                     setBodies(array);

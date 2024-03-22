@@ -47,7 +47,10 @@ const ManagementMovieRegister = (props) => {
                         value: data.result[key]
                     }
                     if (key === 'title') result.text = '제목';
-                    else if (key === 'age') result.text = '연령';
+                    else if (key === 'age') {
+                        result.text = '연령';
+                        result.value = result.value < 12 ? '전체이용가' : result.value;
+                    }
                     else if (key === 'releaseDate') {
                         result.text = '개봉일';
                         result.value = result.value.replace('T', ' ');
