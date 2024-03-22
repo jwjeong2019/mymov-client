@@ -31,44 +31,44 @@ const CardList = ({ list, onClickCard, onClickForward, onClickBack, isLast, isFi
                 {!isFirst && <IoChevronBackOutline />}
             </div>
             <div className="card-list-box">
-                {cards.length > 0 && cards.map((value, index) => {
+                {cards.length > 0 && cards.map((row, index) => {
                     return (
                         <div key={`card-list-row-${index}`} className="card-list-box-row">
-                            {value.length > 0 && value.map((value1, index1) => {
+                            {row.length > 0 && row.map((col, index1) => {
                                 let ageStyle = {};
-                                if (value1.age === 12) {
+                                if (col.age === 12) {
                                     ageStyle.borderColor = 'blue';
                                     ageStyle.color = 'blue';
                                     ageStyle.fontSize = '15px';
                                 }
-                                if (value1.age === 15) {
+                                if (col.age === 15) {
                                     ageStyle.borderColor = 'orange';
                                     ageStyle.color = 'orange';
                                     ageStyle.fontSize = '15px';
                                 }
-                                if (value1.age >= 18) {
+                                if (col.age >= 18) {
                                     ageStyle.borderColor = 'red';
                                     ageStyle.color = 'red';
                                     ageStyle.fontSize = '15px';
                                 }
                                 return (
-                                    <div key={`card-list-col-${index1}`} className="card-list-box-column" onClick={() => onClick(value1)}>
-                                        <img src={value1.imageUrl} alt="movie_poster"/>
+                                    <div key={`card-list-col-${index1}`} className="card-list-box-column" onClick={() => onClick(col)}>
+                                        <img src={col.imageUrl} alt="movie_poster"/>
                                         <div className="card-list-box-detail">
                                             <div className="card-list-box-detail-top">
                                                 <div className="card-list-box-detail-age font-HakDotR"
                                                      style={ageStyle}>
-                                                    {value1.age}
+                                                    {col.age}
                                                 </div>
-                                                <div className="card-list-box-detail-title font-HakDotR">{value1.title}</div>
+                                                <div className="card-list-box-detail-title font-HakDotR">{col.title}</div>
                                             </div>
                                             <div className="card-list-box-detail-bottom">
                                                 <div className="card-list-box-detail-score">
                                                     <div className="card-list-box-detail-icon-star"><IoStar /></div>
-                                                    <div className="card-list-box-detail-text-score font-HakDotR">{value1.score} / 5</div>
+                                                    <div className="card-list-box-detail-text-score font-HakDotR">{col.score} / 5</div>
                                                 </div>
                                                 <div className="card-list-box-detail-type">
-                                                    <div className="card-list-box-detail-text-type font-HakDotR">{value1.type}</div>
+                                                    <div className="card-list-box-detail-text-type font-HakDotR">{col.type}</div>
                                                 </div>
                                             </div>
                                         </div>
