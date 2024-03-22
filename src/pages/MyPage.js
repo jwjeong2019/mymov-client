@@ -23,14 +23,12 @@ const MyPage = () => {
             category: '서비스',
             list: [
                 { id: 'reservation', text: '예매현황' },
-                { id: 'inquiry', text: '문의현황' },
             ]
         },
         {
             id: 'etc',
             category: '기타',
             list: [
-                { id: 'customer', text: '고객센터' },
                 { id: 'withdrawal', text: '회원탈퇴' },
             ]
         },
