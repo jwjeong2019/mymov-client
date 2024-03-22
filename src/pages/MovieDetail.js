@@ -9,19 +9,27 @@ import apiMovie from "../api/apiMovie";
 import SideBar from "../components/SideBar";
 
 const MovieDetail = () => {
+    const auth = JSON.parse(localStorage.getItem('auth'));
     const params = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState({});
     const [isOpen, setIsOpen] = useState();
-    const onClickButtonReservation = () => navigate(`/reservation/step1`, {
-        state: {
-            movieTitle: data.title,
-            movieAge: data.age,
-            movieDirector: data.director,
-            movieTime: data.movieTime,
-            movieId: data.id,
+    const onClickButtonReservation = () => {
+        if (!auth) {
+            alert('로그인 후 이용해주세요.');
+            navigate('/');
+            return;
         }
-    });
+        navigate(`/reservation/step1`, {
+            state: {
+                movieTitle: data.title,
+                movieAge: data.age,
+                movieDirector: data.director,
+                movieTime: data.movieTime,
+                movieId: data.id,
+            }
+        });
+    };
     const onClickButtonBack = () => navigate("/movie");
     const toggleIsOpen = () => setIsOpen(!isOpen);
     const init = () => getMovieDetail();

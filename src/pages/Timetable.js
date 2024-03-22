@@ -15,6 +15,7 @@ const Timetable = () => {
         { id: 'MOVIE_TITLE', text: '제목' },
         { id: 'CINEMA_NAME', text: '영화관' },
     ];
+    const auth = JSON.parse(localStorage.getItem('auth'));
     let navigate = useNavigate();
     const [search, setSearch] = useState();
     const [headers, setHeaders] = useState();
@@ -40,21 +41,28 @@ const Timetable = () => {
             setCurrentSortType(id);
         }
     }
-    const onClickButtonReservation = value => navigate(`/reservation/step2`, {
-        state: {
-            movieId: value.movie.id,
-            movieTitle: value.movie.title,
-            movieAge: value.movie.age,
-            movieDirector: '존 스미스',
-            movieTime: `${120}분`,
-            cinemaId: value.cinema.id,
-            cinemaName: value.cinema.name,
-            theaterId: value.theater.id,
-            theaterNumber: value.theater.number,
-            timetableId: value.id,
-            startTime: value.startTime,
+    const onClickButtonReservation = value => {
+        if (!auth) {
+            alert('로그인 후 이용해주세요.');
+            navigate('/');
+            return;
         }
-    });
+        navigate(`/reservation/step2`, {
+            state: {
+                movieId: value.movie.id,
+                movieTitle: value.movie.title,
+                movieAge: value.movie.age,
+                movieDirector: '존 스미스',
+                movieTime: `${120}분`,
+                cinemaId: value.cinema.id,
+                cinemaName: value.cinema.name,
+                theaterId: value.theater.id,
+                theaterNumber: value.theater.number,
+                timetableId: value.id,
+                startTime: value.startTime,
+            }
+        });
+    };
     const init = () => {
         setHeaders(['제목', '연령', '평점', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기']);
         setSortList([
