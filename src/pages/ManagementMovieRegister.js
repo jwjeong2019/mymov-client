@@ -12,9 +12,9 @@ const ManagementMovieRegister = (props) => {
     const [title, setTitle] = useState();
     const [age, setAge] = useState();
     const [director, setDirector] = useState();
-    const [releaseDate, setReleaseDate] = useState();
+    const [releaseDate, setReleaseDate] = useState(Utils.getDateFormat(new Date(), 'yyyy-MM-dd'));
     const [detail, setDetail] = useState();
-    const [screenDate, setScreenDate] = useState();
+    const [screenDate, setScreenDate] = useState(Utils.getDateFormat(new Date(), 'yyyy-MM-dd'));
     const [file, setFile] = useState();
     const onChangeTitle = e => setTitle(e.target.value);
     const onChangeAge = e => setAge(e.target.value);
@@ -27,17 +27,33 @@ const ManagementMovieRegister = (props) => {
         if (value === 'complete') createMovie();
         if (value === 'cancel') navigate(-1);
     }
+    const init = () => {
+        makeInputList();
+        makeInitState();
+    };
     const makeInputList = () => {
         setInputList([
-            { keyName: 'title', text: '제목', placeholder: '제목을 입력하세요.', onChange: onChangeTitle },
-            { keyName: 'age', text: '연령', placeholder: '연령을 입력하세요.', onChange: onChangeAge },
-            { keyName: 'director', text: '감독', placeholder: '감독을 입력하세요.', onChange: onChangeDirector },
-            { keyName: 'releaseDate', text: '개봉일', placeholder: '개봉일을 입력하세요.', onChange: onChangeReleaseDate },
-            { keyName: 'screenDate', text: '상영일', placeholder: '상영일을 입력하세요.', onChange: onChangeScreenDate },
+            { keyName: 'title', type: 'text', text: '제목', placeholder: '제목을 입력하세요.', onChange: onChangeTitle },
+            { keyName: 'age', type: 'text', text: '연령', placeholder: '연령을 입력하세요.', onChange: onChangeAge },
+            { keyName: 'director', type: 'text', text: '감독', placeholder: '감독을 입력하세요.', onChange: onChangeDirector },
+            { keyName: 'releaseDate', type: 'date', text: '개봉일', placeholder: '개봉일을 입력하세요.', onChange: onChangeReleaseDate },
+            { keyName: 'screenDate', type: 'date', text: '상영일', placeholder: '상영일을 입력하세요.', onChange: onChangeScreenDate },
         ]);
+    };
+    const makeInitState = () => {
+        const nowDate = new Date();
+        const date = Utils.getDateFormat(nowDate, 'yyyy-MM-dd');
+        setReleaseDate(date);
+        setScreenDate(date);
     }
     const createMovie = () => {
-        const data = JSON.stringify({ title, detail, releaseDate, screenDate, age });
+        const data = JSON.stringify({
+            title,
+            detail,
+            releaseDate: `${releaseDate} 00:00:00`,
+            screenDate: `${screenDate} 00:00:00`,
+            age
+        });
         const formData = new FormData();
         formData.append('data', data);
         formData.append('file', file);
@@ -55,18 +71,21 @@ const ManagementMovieRegister = (props) => {
             })
             .catch(err => alert(`영화 등록 실패: ${err}`));
     }
-    useMemo(makeInputList, []);
+    useMemo(init, []);
     return (
         <div className="management-movie-register-container">
             <div className="management-movie-register-title font-HakDotR">{props.title}</div>
             <div className="management-movie-register-content">
                 <div className="management-movie-register-content-box">
                     <div className="management-movie-register-content-box-top">
-                        {inputList.length > 0 && inputList.map(value => {
+                        {inputList.length > 0 && inputList.map(input => {
+                            let value = undefined;
+                            if (input.keyName === 'releaseDate') value = releaseDate;
+                            if (input.keyName === 'screenDate') value = screenDate;
                             return (
-                                <div key={`management-movie-register-row-${value.keyName}`} className="management-movie-register-content-box-top-row">
-                                    <div className="management-movie-register-content-box-top-row-col-title font-HakDotR">{value.text}:</div>
-                                    <input className="font-HakDotR" type="text" placeholder={value.placeholder} onChange={value.onChange}/>
+                                <div key={`management-movie-register-row-${input.keyName}`} className="management-movie-register-content-box-top-row">
+                                    <div className="management-movie-register-content-box-top-row-col-title font-HakDotR">{input.text}:</div>
+                                    <input className="font-HakDotR" type={input.type} placeholder={input.placeholder} value={value} onChange={input.onChange}/>
                                 </div>
                             )
                         })}

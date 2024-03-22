@@ -38,8 +38,18 @@ const ManagementTimetableRegister = (props) => {
     }
     const onClickOptionTheater = value => setTheaterId(value);
     const init = () => {
+        makeInitState();
         getMovieList();
         getCinemaList();
+    };
+    const makeInitState = () => {
+        const nowDate = new Date();
+        const date = Utils.getDateFormat(nowDate, 'yyyy-MM-dd');
+        const time = Utils.getDateFormat(nowDate, 'HH:mm');
+        setStartDate(date);
+        setEndDate(date);
+        setStartTime(time);
+        setEndTime(time);
     };
     const getMovieList = () => {
         const params = {
@@ -97,8 +107,8 @@ const ManagementTimetableRegister = (props) => {
             movieId,
             startDate,
             endDate,
-            startTime,
-            endTime,
+            startTime: `${startTime}:00`,
+            endTime: `${endTime}:00`,
         };
         apiAdmin.createTimetable(params)
             .then(response => {
@@ -132,19 +142,19 @@ const ManagementTimetableRegister = (props) => {
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
                             <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">상영 시작일:</div>
-                            <input className="font-HakDotR" type="text" placeholder={'상영 시작일을 입력하세요.'} onChange={onChangeStartDate}/>
+                            <input className="font-HakDotR" type="date" placeholder={'상영 시작일을 입력하세요.'} value={startDate} onChange={onChangeStartDate}/>
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
                             <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">상영 종료일:</div>
-                            <input className="font-HakDotR" type="text" placeholder={'상영 종료일을 입력하세요.'} onChange={onChangeEndDate}/>
+                            <input className="font-HakDotR" type="date" placeholder={'상영 종료일을 입력하세요.'} value={endDate} onChange={onChangeEndDate}/>
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
                             <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">시작시간:</div>
-                            <input className="font-HakDotR" type="text" placeholder={'시작시간을 입력하세요.'} onChange={onChangeStartTime}/>
+                            <input className="font-HakDotR" type="time" placeholder={'시작시간을 입력하세요.'} value={startTime} onChange={onChangeStartTime}/>
                         </div>
                         <div className="management-timetable-register-content-box-top-row">
                             <div className="management-timetable-register-content-box-top-row-col-title font-HakDotR">종료시간:</div>
-                            <input className="font-HakDotR" type="text" placeholder={'종료시간을 입력하세요.'} onChange={onChangeEndTime}/>
+                            <input className="font-HakDotR" type="time" placeholder={'종료시간을 입력하세요.'} value={endTime} onChange={onChangeEndTime}/>
                         </div>
                     </div>
                     <div className="management-timetable-register-content-box-bottom">
