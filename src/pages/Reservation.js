@@ -10,6 +10,7 @@ import apiTheater from "../api/apiTheater";
 import apiTimetable from "../api/apiTimetable";
 import apiMember from "../api/apiMember";
 import {Utils} from "../utils/Utils";
+import SideBar from "../components/SideBar";
 
 const Reservation = () => {
     const auth = JSON.parse(localStorage.getItem('auth'));
@@ -27,6 +28,7 @@ const Reservation = () => {
     const [theaterMenu, setTheaterMenu] = useState([]);
     const [seatMenu, setSeatMenu] = useState([]);
     const [timeMenu, setTimeMenu] = useState([]);
+    const [isOpen, setIsOpen] = useState();
     const onClickDropDownCinema = (value) => {
         setCinemaId(value.id);
         setTheaterId(undefined);
@@ -50,6 +52,7 @@ const Reservation = () => {
         if (mode === 'step2' && value === 'pay') createTicketStep2();
         if (value === 'cancel') navigate(-1);
     }
+    const toggleIsOpen = () => setIsOpen(!isOpen);
     const init = () => {
         const { state } = location;
         const { mode } = params;
@@ -152,7 +155,8 @@ const Reservation = () => {
     useMemo(init, []);
     return (
         <div>
-            <Navigation />
+            <Navigation toggleIsOpen={toggleIsOpen} />
+            <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
             <div className="reservation-container">
                 <div className="reservation-header">
                     <div className="reservation-header-title font-HakMulB">예매</div>

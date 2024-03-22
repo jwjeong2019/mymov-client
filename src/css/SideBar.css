@@ -4,8 +4,8 @@
     width: 255px;
     height: 1024px;
     display: none;
-    /*border: 2px solid red;*/
     background: #F3F3F3;
+    z-index: 1;
 }
 
 .sidebar-box-depth-1 {
@@ -17,19 +17,16 @@
     padding-left: 2%;
     padding-right: 5%;
     color: #8C8BA6;
-    /*border: 2px solid blue;*/
 }
 
 .sidebar-box-depth-2-top {
     display: flex;
     justify-content: space-between;
-    /*border: 2px solid green;*/
 }
 
 .sidebar-box-depth-2-bottom {
     display: flex;
     justify-content: end;
-    /*border: 2px solid white;*/
 }
 
 .sidebar-box-depth-3-icon {

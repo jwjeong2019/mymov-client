@@ -6,11 +6,13 @@ import Score from "../components/Score";
 import {useNavigate, useParams} from "react-router";
 import {useMemo, useState} from "react";
 import apiMovie from "../api/apiMovie";
+import SideBar from "../components/SideBar";
 
 const MovieDetail = () => {
     const params = useParams();
     const navigate = useNavigate();
     const [data, setData] = useState({});
+    const [isOpen, setIsOpen] = useState();
     const onClickButtonReservation = () => navigate(`/reservation/step1`, {
         state: {
             movieTitle: data.title,
@@ -21,6 +23,7 @@ const MovieDetail = () => {
         }
     });
     const onClickButtonBack = () => navigate("/movie");
+    const toggleIsOpen = () => setIsOpen(!isOpen);
     const init = () => getMovieDetail();
     const getMovieDetail = () => {
         apiMovie.getDetail(params)
@@ -43,7 +46,8 @@ const MovieDetail = () => {
     useMemo(init, []);
     return (
         <div>
-            <Navigation />
+            <Navigation toggleIsOpen={toggleIsOpen} />
+            <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
             <div className="movie-detail-container">
                 <div className="movie-detail-header">
                     <div className="movie-detail-header-title font-HakMulB">영화</div>

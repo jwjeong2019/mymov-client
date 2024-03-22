@@ -7,6 +7,7 @@ import CardList from "../components/CardList";
 import {useEffect, useMemo, useState} from "react";
 import apiMovie from "../api/apiMovie";
 import {useNavigate} from "react-router";
+import SideBar from "../components/SideBar";
 
 const MovieList = () => {
     const dropdownMenuList = [
@@ -24,7 +25,7 @@ const MovieList = () => {
     const [filterType, setFilterType] = useState();
     const [currentSortType, setCurrentSortType] = useState();
     const [sortList, setSortList] = useState([]);
-
+    const [isOpen, setIsOpen] = useState();
     const onClickBack = () => getMovieList(page - 1, currentSortType);
     const onClickForward = () => getMovieList(page + 1, currentSortType);
     const onClickCard = (value) => navigate(`/movie/detail/${value.id}`);
@@ -40,6 +41,7 @@ const MovieList = () => {
     const onClickDropdownMenu = (id) => setFilterType(id);
     const onChangeSearchBar = value => setSearch(value);
     const onClickSearchBar = () => getMovieList(1, currentSortType);
+    const toggleIsOpen = () => setIsOpen(!isOpen);
     const init = () => {
         setSortList([
             { id: 'title', text: '제목순' },
@@ -79,7 +81,8 @@ const MovieList = () => {
     useMemo(init, []);
     return (
         <div>
-            <Navigation />
+            <Navigation toggleIsOpen={toggleIsOpen} />
+            <SideBar isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
             <div className="movie-list-container">
                 <div className="movie-list-header">
                     <div className="movie-list-header-title font-HakMulB">영화</div>
