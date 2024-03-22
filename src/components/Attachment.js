@@ -1,11 +1,12 @@
 import '../css/Attachment.css';
 import {IoAttachOutline} from "react-icons/io5";
 import {useState} from "react";
+import {Utils} from "../utils/Utils";
 
 const Attachment = ({ upload }) => {
     const [fileName, setFileName] = useState('첨부파일');
     const onChange = e => {
-        setFileName(e.target.value);
+        setFileName(Utils.getFileName(e.target.value));
         upload(e.target.files[0]);
     }
     return (

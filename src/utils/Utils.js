@@ -27,4 +27,5 @@ export const Utils = {
         }
         return '';
     },
+    getFileName: (fullName) => fullName.split('\\').pop(),
 };
