@@ -1,17 +1,27 @@
 import '../css/SortButton.css';
 import {IoSwapVertical} from "react-icons/io5";
-import {useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
 const SortButton = ({ onClickMenu, list }) => {
+    const ref = useRef();
     const [isOpen, setIsOpen] = useState(false);
     const onClickStyle2 = () => setIsOpen(!isOpen);
     const onClick = (id) => {
         onClickMenu(id);
         setIsOpen(!isOpen);
     }
-
+    const eventMouseDown = useCallback(e => {
+        if (!ref.current.contains(e.target)) setIsOpen(false);
+    }, []);
+    useEffect(() => {
+        if (isOpen) {
+            document.addEventListener('mousedown', eventMouseDown);
+        } else {
+            document.removeEventListener('mousedown', eventMouseDown);
+        }
+    }, [isOpen]);
     return (
-        <div className="sort-btn-container">
+        <div ref={ref} className="sort-btn-container">
             <div className="sort-btn-button-icon" onClick={onClickStyle2}><IoSwapVertical /></div>
             {isOpen &&
             <div className="sort-btn-dropdown">
