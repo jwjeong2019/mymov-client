@@ -47,14 +47,6 @@ const SideBar = (props) => {
                 </div>
                 <div className="sidebar-box-depth-2-bottom">
                     <div className="sidebar-box-depth-3-icon">
-                        <IoMailOutline />
-                    </div>
-                    <div className="sidebar-box-depth-3-text font-TAEBAEK">
-                        <Link to="/myPage/inquiry">문의현황</Link>
-                    </div>
-                </div>
-                <div className="sidebar-box-depth-2-bottom">
-                    <div className="sidebar-box-depth-3-icon">
                         <IoAccessibility />
                     </div>
                     <div className="sidebar-box-depth-3-text font-TAEBAEK">
