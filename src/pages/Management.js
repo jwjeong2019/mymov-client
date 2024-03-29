@@ -15,6 +15,7 @@ import ManagementSeatRegister from "./ManagementSeatRegister";
 import ManagementTimetableList from "./ManagementTimetableList";
 import ManagementTimetableRegister from "./ManagementTimetableRegister";
 import SideBar from "../components/SideBar";
+import ManagementGenreList from "./ManagementGenreList";
 
 const Management = () => {
     let params = useParams();
@@ -25,6 +26,7 @@ const Management = () => {
             category: '서비스',
             list: [
                 { id: 'movieManagement', text: '영화 관리', path: 'movie/list' },
+                { id: 'genreManagement', text: '장르 관리', path: 'genre/list' },
                 { id: 'cinemaManagement', text: '영화관 관리', path: 'cinema/list' },
                 { id: 'theaterManagement', text: '상영관 관리', path: 'theater/list' },
                 { id: 'seatManagement', text: '좌석 관리', path: 'seat/list' },
@@ -42,6 +44,7 @@ const Management = () => {
         if (step === 'movie' && mode === 'register') setSubComponent(<ManagementMovieRegister title={'영화 관리'} />);
         if (step === 'movie' && mode === 'detail') setSubComponent(<ManagementMovieDetail title={'영화 관리'} />);
         if (step === 'movie' && mode === 'modify') setSubComponent(<ManagementMovieModify title={'영화 관리'} />);
+        if (step === 'genre' && mode === 'list') setSubComponent(<ManagementGenreList title={'장르 관리'} />);
         if (step === 'cinema' && mode === 'list') setSubComponent(<ManagementCinemaList title={'영화관 관리'} />);
         if (step === 'cinema' && mode === 'register') setSubComponent(<ManagementCinemaRegister title={'영화관 관리'} />);
         if (step === 'theater' && mode === 'list') setSubComponent(<ManagementTheaterList title={'상영관 관리'} />);
