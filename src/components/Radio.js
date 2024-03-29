@@ -1,10 +1,14 @@
 import '../css/Radio.css';
 
-const Radio = (props) => {
-    const onClick = e => props.onClick(e.target.value);
+const Radio = ({ onClick, title, value, checked, keyName }) => {
+    const onChangeRadio = e => onClick(e.target.value);
     return (
-        <div className="radio-container">
-            <input type="radio" name="radio" value={props.value} onClick={onClick} />{props.title}
+        <div className="radio-container font-TAEBAEK">
+            <input type="radio"
+                   name="radio"
+                   checked={checked}
+                   value={value}
+                   onChange={onChangeRadio} />{title}
         </div>
     )
 }

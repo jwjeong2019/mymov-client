@@ -69,7 +69,7 @@ const SignIn = () => {
                         </div>
                         <div className="signin-box-depth-3-button">
                             <div className="signin-box-depth-4 font-TAEBAEK">
-                                <Link to="/findIdPassword">아이디/비밀번호 찾기</Link>
+                                <Link to="/findIdPwd">아이디/비밀번호 찾기</Link>
                                 <Link to="/join">회원가입</Link>
                             </div>
                         </div>
