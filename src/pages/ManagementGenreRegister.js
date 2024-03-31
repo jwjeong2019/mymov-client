@@ -1,6 +1,8 @@
 import {useNavigate} from "react-router";
 import {useMemo, useState} from "react";
 import Button from "../components/Button";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementGenreRegister = (props) => {
     const auth = JSON.parse(localStorage.getItem('auth'));
@@ -12,6 +14,21 @@ const ManagementGenreRegister = (props) => {
         if (value === 'cancel') navigate(-1);
     };
     const createGenre = () => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            name: genre,
+        };
+        apiAdmin.createGenre(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`장르 생성 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('already', data.msg)) return alert(`장르 생성 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('장르를 정상적으로 등록하였습니다.');
+                navigate('/admin/management/genre/list');
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
     }
     return (
         <div className="management-genre-register-container">

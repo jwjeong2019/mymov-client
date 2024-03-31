@@ -86,6 +86,13 @@ const apiAdmin = {
             Authorization: `${params.grantType} ${params.accessToken}`,
         }
     }),
+    createGenre: (params) => api.post(`/admins/genres`, {
+        name: params.name,
+    }, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`,
+        }
+    }),
     deleteGenre: (params) => api.delete(`/admins/genres`, {
         data: {
             id: params.id,
