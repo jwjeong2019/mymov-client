@@ -5,6 +5,7 @@ import DropDown from "../components/DropDown";
 import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import Table from "../components/Table";
+import apiGenre from "../api/apiGenre";
 
 const ManagementGenreList = (props) => {
     const dropdownMenu = [
@@ -54,6 +55,36 @@ const ManagementGenreList = (props) => {
         getGenreList(1);
     }
     const getGenreList = (page, sortType) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            page: page - 1,
+            size: 10,
+            keyword: search,
+            keywordField: filterType,
+            sortField: sortType,
+            sortType: 'DESC'
+        };
+        apiGenre.getList(params)
+            .then(response => {
+                const { data } = response;
+                if (data.result.totalElements > 0) {
+                    const array = data.result.content.map(genre => ({
+                        id: genre.id,
+                        genreId: genre.id,
+                        name: genre.name,
+                        button: <Button title={'삭제'}
+                                        type={'caution'}
+                                        value={genre.id}
+                                        onClick={onClickButtonDelete}/>
+                    }));
+                    setBodies(array);
+                    setPage(page);
+                    setSize(10);
+                    setTotalElements(data.result.totalElements);
+                }
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
     }
     const deleteGenre = (genreIdList) => {
     }
