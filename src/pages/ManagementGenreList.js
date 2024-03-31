@@ -6,6 +6,8 @@ import SearchBar from "../components/SearchBar";
 import SortButton from "../components/SortButton";
 import Table from "../components/Table";
 import apiGenre from "../api/apiGenre";
+import apiAdmin from "../api/apiAdmin";
+import {Utils} from "../utils/Utils";
 
 const ManagementGenreList = (props) => {
     const dropdownMenu = [
@@ -41,10 +43,7 @@ const ManagementGenreList = (props) => {
     const onClickButtonDelete = value => {
         let isOk = window.confirm('삭제하시겠습니까?');
         if (isOk) {
-            const genreIdList = [
-                value,
-            ]
-            deleteGenre(genreIdList);
+            deleteGenre(value);
         }
     }
     const init = () => {
@@ -86,7 +85,21 @@ const ManagementGenreList = (props) => {
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     }
-    const deleteGenre = (genreIdList) => {
+    const deleteGenre = (id) => {
+        const params = {
+            grantType: auth.grantType,
+            accessToken: auth.accessToken,
+            id,
+        };
+        apiAdmin.deleteGenre(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`장르 삭제 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('authority', data.msg)) return alert(`권한 실패:\n${data.msg}`);
+                alert('장르를 정상적으로 삭제하였습니다.');
+                getGenreList(1, currentSortType);
+            })
+            .catch();
     }
     useMemo(init, []);
     return (
