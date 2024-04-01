@@ -32,6 +32,7 @@ export const Utils = {
     },
     getFileName: (fullName) => fullName.split('\\').pop(),
     checkParams: (params) => {
+        console.log(params);
         const keys = Object.keys(params);
         let result = { validated: true, message: null };
         if (keys.indexOf('userId') > -1 && !params['userId']) {
@@ -41,6 +42,14 @@ export const Utils = {
         if (keys.indexOf('memberId') > -1 && !params['memberId']) {
             result.validated = false;
             result.message = '아이디를 입력해주세요.';
+        }
+        if (keys.indexOf('reasonDetail') > -1 && !params['reasonDetail']) {
+            result.validated = false;
+            result.message = '사유를 입력해주세요.';
+        }
+        if (keys.indexOf('reasonType') > -1 && !params['reasonType']) {
+            result.validated = false;
+            result.message = '사유를 선택해주세요.';
         }
         return result;
     },

@@ -21,6 +21,9 @@ const apiMember = {
         }
     }),
     deleteMember: (params) => api.delete(`/members`, {
+        data: {
+            detail: `유형: ${params.reasonType}\n내용: ${params.reasonDetail}`
+        },
         headers: {
             Authorization: `${params.grantType} ${params.accessToken}`
         }
