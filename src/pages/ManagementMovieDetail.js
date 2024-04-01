@@ -39,7 +39,15 @@ const ManagementMovieRegister = (props) => {
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert('영화 정보가 존재하지 않습니다.');
 
                 const resultKeys = Object.keys(data.result);
-                const filteredResultKeys = resultKeys.filter(key => key === 'title' || key === 'age' || key === 'releaseDate' || key === 'screenDate');
+                const filteredResultKeys = resultKeys.filter(key =>
+                    key === 'title' ||
+                    key === 'age' ||
+                    key === 'releaseDate' ||
+                    key === 'screenDate' ||
+                    key === 'director' ||
+                    key === 'runningTime' ||
+                    key === 'genres'
+                );
                 const array = filteredResultKeys.map(key => {
                     let result = {
                         keyName: key,
@@ -49,15 +57,21 @@ const ManagementMovieRegister = (props) => {
                     if (key === 'title') result.text = '제목';
                     else if (key === 'age') {
                         result.text = '연령';
-                        result.value = result.value < 12 ? '전체이용가' : result.value;
-                    }
-                    else if (key === 'releaseDate') {
+                    } else if (key === 'releaseDate') {
                         result.text = '개봉일';
                         result.value = result.value.replace('T', ' ');
-                    }
-                    else if (key === 'screenDate') {
+                    } else if (key === 'screenDate') {
                         result.text = '상영일';
                         result.value = result.value.replace('T', ' ');
+                    } else if (key === 'director') {
+                        result.text = '감독';
+                    } else if (key === 'runningTime') {
+                        result.text = '시간';
+                    } else if (key === 'genres') {
+                        result.text = '장르';
+                        result.value = result.value.length > 0 ?
+                            result.value.map(genre => genre.name).join(', ').toString() :
+                            'No Genre';
                     }
                     else result.text = 'No Text';
                     return result;
@@ -91,10 +105,13 @@ const ManagementMovieRegister = (props) => {
                     <div className="management-movie-detail-content-box-top">
                         <img src={imageUrl} alt="movie_poster" />
                         <div className="management-movie-detail-content-box-top-detail">
-                        {inputList.length > 0 && inputList.map(value => {
+                        {inputList.length > 0 && inputList.map(input => {
+                            let value = input.value;
+                            if (input.keyName === 'age') value = input.value < 12 ? '전체이용가' : `${input.value}세`;
+                            if (input.keyName === 'runningTime') value = `${input.value}분`;
                             return (
-                                <div key={`management-movie-detail-row-${value.keyName}`} className="management-movie-detail-content-box-top-row">
-                                    <div className="management-movie-detail-content-box-top-row-col-title font-HakDotR">{value.text}: {value.value}</div>
+                                <div key={`management-movie-detail-row-${input.keyName}`} className="management-movie-detail-content-box-top-row">
+                                    <div className="management-movie-detail-content-box-top-row-col-title font-HakDotR">{input.text}: {value}</div>
                                 </div>
                             )
                         })}

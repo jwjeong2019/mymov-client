@@ -33,7 +33,7 @@ const ManagementMovieList = (props) => {
         state: { id }
     });
     const init = () => {
-        setHeaders(['영화번호', '제목', '연령', '감독', '개봉일']);
+        setHeaders(['영화번호', '제목', '연령', '감독', '시간', '개봉일']);
         setSortList([
             { id: 'title', text: '제목순' },
             { id: 'releaseDate', text: '개봉순' },
@@ -62,7 +62,8 @@ const ManagementMovieList = (props) => {
                         obj.movieId = movie.id;
                         obj.title = movie.title;
                         obj.age = movie.age < 12 ? '전체' : movie.age;
-                        obj.director = '존 스미스';
+                        obj.director = movie.director;
+                        obj.runningTime = `${movie.runningTime}분`;
                         obj.releaseDate = movie.releaseDate?.replace('T', ' ');
                         arr.push(obj);
                     });

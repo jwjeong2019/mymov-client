@@ -1,7 +1,7 @@
 .management-container {
     display: flex;
     flex-direction: column;
-    height: 1024px;
+    height: 1096px;
 }
 
 .management-header {
@@ -101,7 +101,7 @@
 }
 .management-movie-register-content-box {
     width: 500px;
-    height: 500px;
+    height: 650px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -163,7 +163,7 @@
 }
 .management-movie-detail-content-box {
     width: 500px;
-    height: 500px;
+    height: 650px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -236,7 +236,7 @@
 }
 .management-movie-modify-content-box {
     width: 500px;
-    height: 500px;
+    height: 650px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
