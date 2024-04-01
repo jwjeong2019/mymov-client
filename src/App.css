@@ -72,3 +72,18 @@ input {
 .viewport-height-full {
   height: 100vh;
 }
+footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #303030;
+  height: 17vh;
+  padding: 20px;
+  color: white;
+}
+footer text {
+  font-size: 30px;
+}
+footer p {
+  margin: 0;
+}
