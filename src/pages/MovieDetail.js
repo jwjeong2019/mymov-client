@@ -25,14 +25,18 @@ const MovieDetail = () => {
                 movieTitle: data.title,
                 movieAge: data.age,
                 movieDirector: data.director,
-                movieTime: data.movieTime,
+                runningTime: data.runningTime,
                 movieId: data.id,
             }
         });
     };
     const onClickButtonBack = () => navigate("/movie");
     const toggleIsOpen = () => setIsOpen(!isOpen);
-    const init = () => getMovieDetail();
+    const init = () => {
+        getMovieDetail();
+        getReviewList();
+    };
+
     const getMovieDetail = () => {
         apiMovie.getDetail(params)
             .then(response => {
@@ -40,14 +44,26 @@ const MovieDetail = () => {
                 setData({
                     id: data.result.id,
                     title: data.result.title,
-                    age: data.result.age < 12 ? '전체이용가' : data.result.age,
-                    director: '존 스미스',
-                    movieTime: `${120}분`,
-                    score: 4.5,
-                    genreList: ['Family', 'Fun', 'Comedy'],
+                    age: data.result.age < 12 ? '전체이용가' : `${data.result.age}세`,
+                    director: data.result.director,
+                    runningTime: `${data.result.runningTime}분`,
+                    genreList: data.result.genres,
                     detail: data.result.detail,
                     imageUrl: data.result.attachment,
                 });
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    const getReviewList = () => {
+        const _params = {
+            page: 0,
+            size: 1000,
+            id: params.id,
+        };
+        apiMovie.getReviewList(_params)
+            .then(response => {
+                const { data } = response;
+                setData(prevState => ({ ...prevState, score: data.averageScore ?? 0 }));
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     };
@@ -69,12 +85,12 @@ const MovieDetail = () => {
                                 <div className="movie-detail-content-box-content-box">
                                     <div className="movie-detail-content-box-content-box-common font-HakDotR">{data.age}</div>
                                     <div className="movie-detail-content-box-content-box-common font-HakDotR">{data.director}</div>
-                                    <div className="movie-detail-content-box-content-box-common font-HakDotR">{data.movieTime}</div>
+                                    <div className="movie-detail-content-box-content-box-common font-HakDotR">{data.runningTime}</div>
                                     <div className="movie-detail-content-box-content-box-score font-HakDotR">
                                         <Score value={data.score} />
                                     </div>
                                     <div className="movie-detail-content-box-content-box-tag">
-                                        {data.genreList?.map(value => <Tag title={value} />)}
+                                        {data.genreList?.map(value => <Tag title={value.name} />)}
                                     </div>
                                     <div className="movie-detail-content-box-content-box-reservation">
                                         <Button title="예매하기"

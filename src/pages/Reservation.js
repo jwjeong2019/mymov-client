@@ -178,7 +178,7 @@ const Reservation = () => {
                                 <div className="reservation-box-row font-HakDotR">{`제목: ${data?.movieTitle}`}</div>
                                 <div className="reservation-box-row font-HakDotR">{`연령: ${data?.movieAge}`}</div>
                                 <div className="reservation-box-row font-HakDotR">{`감독: ${data?.movieDirector}`}</div>
-                                <div className="reservation-box-row font-HakDotR">{`시간: ${data?.movieTime}`}</div>
+                                <div className="reservation-box-row font-HakDotR">{`시간: ${data?.movieRunningTime}`}</div>
                                 {params?.mode === 'step1' ?
                                     <div className="reservation-box-row-dropdown">
                                         <div className="reservation-box-column-text font-HakDotR">영화관:</div>

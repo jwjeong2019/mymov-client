@@ -51,9 +51,9 @@ const Timetable = () => {
             state: {
                 movieId: value.movie.id,
                 movieTitle: value.movie.title,
-                movieAge: value.movie.age,
-                movieDirector: '존 스미스',
-                movieTime: `${120}분`,
+                movieAge: makeAge(value.movie.age),
+                movieDirector: value.movie.director,
+                movieRunningTime: `${value.movie.runningTime}분`,
                 cinemaId: value.cinema.id,
                 cinemaName: value.cinema.name,
                 theaterId: value.theater.id,
@@ -90,9 +90,9 @@ const Timetable = () => {
                     title: timetable.movie.title,
                     age: timetable.movie.age < 12 ? '전체' : timetable.movie.age,
                     score: 4.2,
-                    director: '존 스미스',
-                    genre: 'action',
-                    movieTime: `${120}분`,
+                    director: timetable.movie.director,
+                    genre: makeGenre(timetable.movie.genres),
+                    runningTime: `${timetable.movie.runningTime}분`,
                     cinemaName: timetable.cinema.name,
                     theaterNumber: timetable.theater.number,
                     startTime: timetable.startTime,
@@ -107,6 +107,13 @@ const Timetable = () => {
                 setTotalElements(data.result.totalElements);
             })
             .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    const makeAge = age => {
+        return age < 12 ? '전체이용가' : `${age}세`;
+    };
+    const makeGenre = genres => {
+        if (genres.length === 0) return '';
+        return genres.map(genre => genre.name).join('/').toString();
     };
     useMemo(init, []);
     return (

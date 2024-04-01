@@ -63,12 +63,14 @@ const CardList = ({ list, onClickCard, onClickForward, onClickBack, isLast, isFi
                                                 <div className="card-list-box-detail-title font-HakDotR">{col.title}</div>
                                             </div>
                                             <div className="card-list-box-detail-bottom">
-                                                <div className="card-list-box-detail-score">
-                                                    <div className="card-list-box-detail-icon-star"><IoStar /></div>
-                                                    <div className="card-list-box-detail-text-score font-HakDotR">{col.score} / 5</div>
-                                                </div>
+                                                <div className="font-HakDotR">{col.director}</div>
+                                                <div className="font-HakDotR">{col.runningTime}</div>
                                                 <div className="card-list-box-detail-type">
-                                                    <div className="card-list-box-detail-text-type font-HakDotR">{col.type}</div>
+                                                    {col.genreList.length > 0 && col.genreList.map(value => {
+                                                        return (
+                                                            <div className="card-list-box-detail-text-type font-HakDotR">{value.name}</div>
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         </div>

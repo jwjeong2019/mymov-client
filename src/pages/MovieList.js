@@ -62,13 +62,14 @@ const MovieList = () => {
             .then(response => {
                 const { data } = response;
                 if (data.result.totalElements > 0) {
-                    const array = data.result.content.map(value => ({
-                        id: value.id,
-                        title: value.title,
-                        age: value.age < 12 ? 'ALL' : value.age,
-                        score: 4.1,
-                        type: 'Family',
-                        imageUrl: value.attachment
+                    const array = data.result.content.map(movie => ({
+                        id: movie.id,
+                        title: movie.title,
+                        age: movie.age < 12 ? 'ALL' : movie.age,
+                        director: movie.director,
+                        runningTime: `${movie.runningTime}분`,
+                        genreList: movie.genres,
+                        imageUrl: movie.attachment
                     }));
                     setMovieList(array);
                     setPage(page);
