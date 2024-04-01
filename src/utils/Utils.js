@@ -1,5 +1,8 @@
 export const Utils = {
-    isContainedWordFrom: (word, text) => text.indexOf(word) > -1,
+    isContainedWordFrom: (word, text) => {
+        if (word && text) return text.indexOf(word) > -1;
+        return false;
+    },
     sliceLastElementFromDelimiter: (characters, delimiter) => {
         let split = characters.split(delimiter);
         let last = split.pop();

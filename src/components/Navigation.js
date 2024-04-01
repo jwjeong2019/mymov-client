@@ -1,6 +1,7 @@
 import '../css/Navigation.css';
 import {Link} from "react-router-dom";
 import {useNavigate} from "react-router";
+import {Utils} from "../utils/Utils";
 
 const Navigation = (props) => {
     const name = localStorage.getItem('name');
@@ -22,7 +23,7 @@ const Navigation = (props) => {
                     <div className="nav-box-small-link font-HakMulB">
                         <Link to="/timetable">상영표</Link>
                     </div>
-                    {role === 'ADMIN' &&
+                    {Utils.isContainedWordFrom('ADMIN', role) &&
                         <div className="nav-box-small-link font-HakMulB">
                             <Link to="/admin/management/movie/list">관리하기</Link>
                         </div>

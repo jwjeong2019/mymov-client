@@ -20,8 +20,8 @@ const SignIn = () => {
                     const { data } = response;
                     if (isContainedWordFrom('fail', data.msg)) return alert(TEXT_ALERT_FAIL_LOGIN);
                     localStorage.setItem('auth', JSON.stringify(data.token));
-                    localStorage.setItem('name', '관리자');
-                    localStorage.setItem('role', 'ADMIN');
+                    localStorage.setItem('name', data.detail.name);
+                    localStorage.setItem('role', `ADMIN_${data.detail.role}`);
                     return navigate('/');
                 })
                 .catch(err => alert(TEXT_ALERT_FAIL_LOGIN));
