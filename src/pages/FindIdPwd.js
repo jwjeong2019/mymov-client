@@ -72,7 +72,7 @@ const FindIdPwd = () => {
     }
     useMemo(init, []);
     return (
-        <div className="findidpwd-container">
+        <div className="findidpwd-container viewport-height-full">
             <div className="findidpwd-tab">
                 <div className="findidpwd-tab-menus">
                     <div className="findidpwd-tab-menus-menu font-TAEBAEK"

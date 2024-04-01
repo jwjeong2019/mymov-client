@@ -46,7 +46,7 @@ const Join = () => {
     }
 
     return (
-        <div className="join-container">
+        <div className="join-container viewport-height-full">
             {isJoining ?
                 <div className="join-box-form">
                     <div className="join-box-depth-1">

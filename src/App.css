@@ -69,3 +69,6 @@
 input {
   font-family: 'TAEBAEKmilkyway';
 }
+.viewport-height-full {
+  height: 100vh;
+}
