@@ -17,7 +17,7 @@ const MyPageModify = (props) => {
     const [isDuplicatedId, setIsDuplicatedId] = useState(true);
     const [isCertificatedEmail, setIsCertificatedEmail] = useState(false);
     const [isCertificatedPhone, setIsCertificatedPhone] = useState(false);
-    const onClickDuplicate = value => console.log(`click duplicate: ${value}`);
+    const onClickDuplicate = () => getMemberId();
     const onClickCertificate = value => console.log(`click certificate: ${value}`);
     const onClickAddress = value => console.log(`click address: ${value}`);
     const onChangeId = e => setId(e.target.value);
@@ -68,6 +68,21 @@ const MyPageModify = (props) => {
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`개인정보 변경 실패:\n${data.msg}`);
                 alert('개인정보를 정상적으로 변경하였습니다.');
 
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    }
+    const getMemberId = () => {
+        const params = {
+            memberId: id,
+        };
+        const checkResult = Utils.checkParams(params);
+        if (!checkResult.validated) return alert(checkResult.message);
+        apiMember.getMemberId(params)
+            .then(response => {
+                const { data } = response;
+                if (data.isExist) return alert('사용 불가능한 아이디 입니다.');
+                if (data.isExist === null) return alert('사용 불가능한 아이디 입니다.');
+                return alert('사용 가능한 아이디 입니다.');
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     }

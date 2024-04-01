@@ -31,4 +31,17 @@ export const Utils = {
         return '';
     },
     getFileName: (fullName) => fullName.split('\\').pop(),
+    checkParams: (params) => {
+        const keys = Object.keys(params);
+        let result = { validated: true, message: null };
+        if (keys.indexOf('userId') > -1 && !params['userId']) {
+            result.validated = false;
+            result.message = '아이디를 입력해주세요.';
+        }
+        if (keys.indexOf('memberId') > -1 && !params['memberId']) {
+            result.validated = false;
+            result.message = '아이디를 입력해주세요.';
+        }
+        return result;
+    },
 };

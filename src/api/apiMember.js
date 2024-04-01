@@ -55,6 +55,7 @@ const apiMember = {
             Authorization: `${params.grantType} ${params.accessToken}`
         }
     }),
+    getMemberId: (params) => api.get(`/members/memberId/${params.memberId}`),
 };
 
 export default apiMember;

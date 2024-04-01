@@ -26,6 +26,7 @@ const Join = () => {
     const onChangeEmail = e => setEmail(e.target.value);
     const onChangePhone = e => setPhone(e.target.value);
     const onChangeAddressDetail = e => setAddressDetail(e.target.value);
+    const onClickDuplicate = () => getMemberId();
     const createMember = () => {
         const params = {
             id: userId,
@@ -44,6 +45,21 @@ const Join = () => {
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     }
+    const getMemberId = () => {
+        const params = {
+            memberId: userId,
+        };
+        const checkResult = Utils.checkParams(params);
+        if (!checkResult.validated) return alert(checkResult.message);
+        apiMember.getMemberId(params)
+            .then(response => {
+                const { data } = response;
+                if (data.isExist) return alert('사용 불가능한 아이디 입니다.');
+                if (data.isExist === null) return alert('사용 불가능한 아이디 입니다.');
+                return alert('사용 가능한 아이디 입니다.');
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    }
 
     return (
         <div className="join-container viewport-height-full">
@@ -55,7 +71,7 @@ const Join = () => {
                                 <div className="join-box-depth-4-input">
                                     <input type="text" placeholder="아이디를 입력하세요." onChange={onChangeUserId}/>
                                 </div>
-                                <div className="join-box-depth-4-btn font-TAEBAEK">중복확인</div>
+                                <div className="join-box-depth-4-btn font-TAEBAEK" onClick={onClickDuplicate}>중복확인</div>
                             </div>
                             <div className="join-box-depth-3-simple">
                                 <input type="password" placeholder="비밀번호를 입력하세요." onChange={onChangeUserPw}/>
