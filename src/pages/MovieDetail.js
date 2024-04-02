@@ -25,7 +25,7 @@ const MovieDetail = () => {
                 movieTitle: data.title,
                 movieAge: data.age,
                 movieDirector: data.director,
-                runningTime: data.runningTime,
+                movieRunningTime: data.runningTime,
                 movieId: data.id,
             }
         });

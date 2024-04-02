@@ -33,6 +33,7 @@
     border-radius: 10px;
     padding: 5px;
     background: white;
+    z-index: 1;
 }
 .dropdown-open-menu {
     padding: 5px;

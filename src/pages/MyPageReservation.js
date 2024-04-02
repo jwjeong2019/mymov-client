@@ -40,7 +40,7 @@ const MyPageReservation = (props) => {
     }
     const onClickPage = number => getReservationList(number);
     const init = () => {
-        setHeaders(['예매번호', '제목', '내용', '영화관', '상영관', '시작시간', '좌석', '예매상태']);
+        setHeaders(['예매번호', '제목', '영화관', '상영관', '시작시간', '좌석', '예매상태']);
         setSortList([
             { id: 'ticket.timetable.startTime', text: '시작시간순' },
             { id: 'ticket.timetable.movie.title', text: '제목순' },
@@ -68,7 +68,6 @@ const MyPageReservation = (props) => {
                         id: reservation.id,
                         reservationId: reservation.id,
                         movieTitle: reservation.ticket.timetable.movie.title,
-                        movieDetail: '상세보기',
                         cinemaName: reservation.ticket.timetable.cinema.name,
                         theaterNumber: reservation.ticket.timetable.theater.number,
                         startTime: reservation.ticket.timetable.startTime,

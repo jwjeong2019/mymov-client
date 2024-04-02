@@ -64,7 +64,7 @@ const Timetable = () => {
         });
     };
     const init = () => {
-        setHeaders(['제목', '연령', '평점', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기']);
+        setHeaders(['제목', '연령', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기']);
         setSortList([
             { id: 'startTime', text: '시작시간순' },
             { id: 'cinema.name', text: '영화관순' },
@@ -89,7 +89,6 @@ const Timetable = () => {
                     id: timetable.id,
                     title: timetable.movie.title,
                     age: timetable.movie.age < 12 ? '전체' : timetable.movie.age,
-                    score: 4.2,
                     director: timetable.movie.director,
                     genre: makeGenre(timetable.movie.genres),
                     runningTime: `${timetable.movie.runningTime}분`,

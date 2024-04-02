@@ -6,8 +6,9 @@
 
 .mypage-header {
     height: 25%;
-    background-image: url("https://starwalk.space/gallery/images/what-is-space/1920x1080.jpg");
+    background-image: url("https://cdn.pixabay.com/photo/2022/10/03/23/41/house-7497002_1280.png");
     background-repeat: no-repeat;
+    background-size: cover;
     display: flex;
     justify-content: center;
     align-items: end;
@@ -146,7 +147,6 @@
     border-bottom: 2px solid #BCBCBC;
     padding: 20px 0;
     display: flex;
-    justify-content: center;
 }
 .mypage-withdrawal-detail-box {
     width: 550px;
