@@ -43,14 +43,14 @@ const MyPageModify = (props) => {
                 setName(data.result.name);
                 setEmail(data.result.email);
                 setPhone(data.result.phone);
-
-                const slicedObject = Utils.sliceLastElementFromDelimiter(data.result.address, ' ');
-                setAddress(slicedObject.rest);
-                setAddressDetail(slicedObject.last);
+                setAddress(data.result.address);
+                setAddressDetail(data.result.addressDetail)
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     };
     const updateMember = () => {
+        if (!password) return alert('비밀번호를 입력해주세요.');
+        if (!passwordCheck) return alert('비밀번호 확인을 입력해주세요.');
         if (password !== passwordCheck) return alert('비밀번호를 다시 확인해주세요.');
         const params = {
             grantType: auth.grantType,
@@ -60,7 +60,8 @@ const MyPageModify = (props) => {
             name,
             email,
             phone,
-            address: `${address} ${addressDetail}`,
+            address,
+            addressDetail,
         };
         apiMember.updateMember(params)
             .then(response => {

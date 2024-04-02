@@ -15,6 +15,7 @@ const apiMember = {
         email: params.email,
         phone: params.phone,
         address: params.address,
+        addressDetail: params.addressDetail,
     }, {
         headers: {
             Authorization: `${params.grantType} ${params.accessToken}`

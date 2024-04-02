@@ -34,7 +34,8 @@ const Join = () => {
             name,
             email,
             phone,
-            address: `${address} ${addressDetail}`
+            address,
+            addressDetail,
         };
         apiMember.createMember(params)
             .then(response => {
