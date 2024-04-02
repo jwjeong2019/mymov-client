@@ -7,6 +7,7 @@ import {useNavigate, useParams} from "react-router";
 import {useMemo, useState} from "react";
 import apiMovie from "../api/apiMovie";
 import SideBar from "../components/SideBar";
+import SelectScore from "../components/SelectScore";
 
 const MovieDetail = () => {
     const auth = JSON.parse(localStorage.getItem('auth'));
@@ -32,6 +33,7 @@ const MovieDetail = () => {
     };
     const onClickButtonBack = () => navigate("/movie");
     const toggleIsOpen = () => setIsOpen(!isOpen);
+    const onClickSelectScore = score => console.log(score);
     const init = () => {
         getMovieDetail();
         getReviewList();
@@ -103,12 +105,14 @@ const MovieDetail = () => {
                         <div className="movie-detail-content-box-middle font-HakDotR">
                             {data.detail}
                         </div>
+
                         <div className="movie-detail-content-box-bottom">
                             <Button title="다른 영화 찾아보기"
                                     width={220}
                                     onClick={onClickButtonBack}
                                     outline />
                         </div>
+                        {auth && <SelectScore onClick={onClickSelectScore} />}
                     </div>
                 </div>
             </div>
