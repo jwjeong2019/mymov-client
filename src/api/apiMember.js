@@ -59,6 +59,7 @@ const apiMember = {
         }
     }),
     getMemberId: (params) => api.get(`/members/memberId/${params.memberId}`),
+    updatePassword: (params) => api.put(`/members/password`, params),
 };
 
 export default apiMember;

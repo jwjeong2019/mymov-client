@@ -3,6 +3,9 @@ import Button from "../components/Button";
 import {useMemo, useState} from "react";
 import Radio from "../components/Radio";
 import {useNavigate} from "react-router";
+import apiCertification from "../api/apiCertification";
+import {Utils} from "../utils/Utils";
+import apiMember from "../api/apiMember";
 const FindIdPwd = () => {
     const tabInlineStyle = {
         backgroundColor: '#CDD8FF'
@@ -20,6 +23,7 @@ const FindIdPwd = () => {
     const [isChangingPwd, setIsChangingPwd] = useState(true);
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
+    const [userIdOrId, setUserIdOrId] = useState('');
     const onClickTab = menu => {
         clearInput();
         setTab(menu);
@@ -37,22 +41,22 @@ const FindIdPwd = () => {
     const onChangeEmail = e => setEmail(e.target.value);
     const onChangeCode = e => setCode(e.target.value);
     const onClickCertification = value => {
-        if (value === 'phone') console.log('certificate by phone');
-        if (value === 'email') console.log('certificate by email');
+        if (value === 'phone') requestCertificationByPhone();
+        if (value === 'email') requestCertificationByEmail();
     };
     const onClickConfirm = () => {
-        console.log({userId, userName, email, phone, code});
-        setIsStartStep(prevState => !prevState);
-    }
+        if (checkedRadio === 'phone') confirmCertificationByPhone();
+        if (checkedRadio === 'email') confirmCertificationByEmail();
+    };
     const onClickBack = () => navigate(-1);
     const onClickButtonFindPwd = () => {
         clearInput();
-        setTab('findPwd');
+        setTab('findPw');
         setCheckedRadio('phone');
         setIsStartStep(true);
     };
     const onClickButtonLogin = () => navigate('/signIn');
-    const onClickButtonChangePwd = () => setIsChangingPwd(false);
+    const onClickButtonChangePwd = () => changePassword();
     const onChangePassword = e => setPassword(e.target.value);
     const onChangePasswordCheck = e => setPasswordCheck(e.target.value);
     const clearInput = () => {
@@ -70,6 +74,86 @@ const FindIdPwd = () => {
             { keyName: 'email', value: 'email', title: '이메일인증', onClick: onClickRadio},
         ]);
     }
+    const requestCertificationByPhone = () => {
+        const params = {
+            memberId: userId,
+            name: userName,
+            phone,
+            purpose: tab,
+        };
+        apiCertification.requestCertificationByPhone(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('success', data.msg)) return alert(`인증번호 발송: ${data.code}`);
+                return alert(data.msg);
+            })
+            .catch(err => `ERROR: ${err.message}`);
+    };
+    const requestCertificationByEmail = () => {
+        const params = {
+            memberId: userId,
+            name: userName,
+            email,
+            purpose: tab,
+        };
+        apiCertification.requestCertificationByEmail(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('success', data.msg)) return alert(`인증번호 발송: ${data.code}`);
+                return alert(data.msg);
+            })
+            .catch(err => `ERROR: ${err.message}`);
+    };
+    const confirmCertificationByPhone = () => {
+        const params = {
+            code,
+            purpose: tab,
+        };
+        apiCertification.confirmCertificationByPhone(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('success', data.msg)) {
+                    setIsStartStep(prevState => !prevState);
+                    setUserIdOrId(data.data);
+                    return;
+                }
+                return alert(data.msg);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    const confirmCertificationByEmail = () => {
+        const params = {
+            code,
+            purpose: tab,
+        };
+        apiCertification.confirmCertificationByEmail(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('success', data.msg)) {
+                    setIsStartStep(prevState => !prevState);
+                    setUserIdOrId(data.data);
+                    return;
+                }
+                return alert(data.msg);
+            })
+            .catch(err => alert(`ERROR: ${err.message}`));
+    };
+    const changePassword = () => {
+        const params = {
+            id: userIdOrId,
+            password,
+        };
+        apiMember.updatePassword(params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('success', data.msg)) {
+                    setIsChangingPwd(false);
+                    return;
+                }
+                return alert(data.msg);
+            })
+            .catch(err => `ERROR: ${err.message}`);
+    };
     useMemo(init, []);
     return (
         <div className="findidpwd-container viewport-height-full">
@@ -79,13 +163,13 @@ const FindIdPwd = () => {
                          style={tab === 'findId' ? tabInlineStyle : null}
                          onClick={() => onClickTab('findId')}>아이디 찾기</div>
                     <div className="findidpwd-tab-menus-menu font-TAEBAEK"
-                         style={tab === 'findPwd' ? tabInlineStyle : null}
-                         onClick={() => onClickTab('findPwd')}>비밀번호 찾기</div>
+                         style={tab === 'findPw' ? tabInlineStyle : null}
+                         onClick={() => onClickTab('findPw')}>비밀번호 찾기</div>
                 </div>
                 <div className="findidpwd-tab-contents">
                     {isStartStep ?
                         <div className="findidpwd-tab-contents-box">
-                            {tab === 'findPwd' &&
+                            {tab === 'findPw' &&
                             <div className="findidpwd-tab-contents-box-row">
                                 <div className="findidpwd-tab-contents-box-row-title font-TAEBAEK">아이디:</div>
                                 <div className="findidpwd-tab-contents-box-row-input">
@@ -142,7 +226,7 @@ const FindIdPwd = () => {
                             {tab === 'findId' ?
                                 <div className="findidpwd-tab-contents-result-box-row-top">
                                     <div className="findidpwd-tab-contents-result-box-row-title font-TAEBAEK">회원님의 아이디를 찾았습니다.</div>
-                                    <div className="findidpwd-tab-contents-result-box-row-id font-HakDotR">abcd@efghijk.com</div>
+                                    <div className="findidpwd-tab-contents-result-box-row-id font-HakDotR">{userIdOrId}</div>
                                 </div>
                                 :
                                 <div className="findidpwd-tab-contents-result-box-row-top">
