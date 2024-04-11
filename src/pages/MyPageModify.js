@@ -2,6 +2,8 @@ import Button from "../components/Button";
 import {useMemo, useState} from "react";
 import apiMember from "../api/apiMember";
 import {Utils} from "../utils/Utils";
+import Modal from "../components/Modal";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 const MyPageModify = (props) => {
     const auth = JSON.parse(localStorage.getItem('auth'));
@@ -17,9 +19,10 @@ const MyPageModify = (props) => {
     const [isDuplicatedId, setIsDuplicatedId] = useState(true);
     const [isCertificatedEmail, setIsCertificatedEmail] = useState(false);
     const [isCertificatedPhone, setIsCertificatedPhone] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const onClickDuplicate = () => getMemberId();
     const onClickCertificate = value => console.log(`click certificate: ${value}`);
-    const onClickAddress = value => console.log(`click address: ${value}`);
+    const onClickAddress = () => setIsVisible(true);
     const onChangeId = e => setId(e.target.value);
     const onChangePassword = e => setPassword(e.target.value);
     const onChangePasswordCheck = e => setPasswordCheck(e.target.value);
@@ -29,6 +32,11 @@ const MyPageModify = (props) => {
     const onChangeAddress = e => setAddress(e.target.value);
     const onChangeAddressDetail = e => setAddressDetail(e.target.value);
     const onClickModify = value => updateMember();
+    const onClickModalClose = value => setIsVisible(value);
+    const handleComplete = data => {
+        setAddress(data.address);
+        setIsVisible(false);
+    }
     const init = () => getMemberDetail();
     const getMemberDetail = () => {
         const params = {
@@ -90,6 +98,9 @@ const MyPageModify = (props) => {
     useMemo(init, []);
     return (
         <div className="mypage-modify-container">
+            {isVisible && <Modal component={<DaumPostcodeEmbed onComplete={handleComplete} />}
+                                 visible={isVisible}
+                                 onClose={onClickModalClose} />}
             <div className="mypage-modify-title font-HakDotR">{props.title}</div>
             <div className="mypage-modify-detail">
                 <div className="mypage-modify-detail-box">
