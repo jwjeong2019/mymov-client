@@ -5,6 +5,8 @@ import {useState} from "react";
 import {IoCheckmarkCircleOutline} from "react-icons/io5";
 import apiMember from "../api/apiMember";
 import {Utils} from "../utils/Utils";
+import Modal from "../components/Modal";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 const Join = () => {
     const depth4InputInlineStyle = {
@@ -18,8 +20,9 @@ const Join = () => {
     const [phone, setPhone] = useState();
     const [address, setAddress] = useState();
     const [addressDetail, setAddressDetail] = useState();
+    const [isVisible, setIsVisible] = useState(false);
     const onClickSignUp = () => createMember();
-    const onClickSearchAddress = () => setAddress('서울광역시 강남구 가로수길 1-110');
+    const onClickSearchAddress = () => setIsVisible(true);
     const onChangeUserId = e => setUserId(e.target.value);
     const onChangeUserPw = e => setUserPw(e.target.value);
     const onChangeName = e => setName(e.target.value);
@@ -27,6 +30,11 @@ const Join = () => {
     const onChangePhone = e => setPhone(e.target.value);
     const onChangeAddressDetail = e => setAddressDetail(e.target.value);
     const onClickDuplicate = () => getMemberId();
+    const onClickModalClose = value => setIsVisible(value);
+    const handleComplete = data => {
+        setAddress(data.address);
+        setIsVisible(false);
+    }
     const createMember = () => {
         const params = {
             id: userId,
@@ -64,6 +72,9 @@ const Join = () => {
 
     return (
         <div className="join-container viewport-height-full">
+            {isVisible && <Modal component={<DaumPostcodeEmbed onComplete={handleComplete} />}
+                                 visible={isVisible}
+                                 onClose={onClickModalClose} />}
             {isJoining ?
                 <div className="join-box-form">
                     <div className="join-box-depth-1">
@@ -90,6 +101,7 @@ const Join = () => {
                                 <div className="join-box-depth-4-input">
                                     <input type="text"
                                            placeholder="주소를 입력하세요."
+                                           value={address}
                                            disabled
                                            style={depth4InputInlineStyle}/>
                                 </div>
