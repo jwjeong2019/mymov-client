@@ -123,19 +123,13 @@ const MyPageModify = (props) => {
                         <div className="mypage-modify-detail-box-col-title font-HakDotR">이름</div>
                         <input className="font-HakDotR" type="text" value={name} placeholder={'이름을 입력하세요.'} onChange={onChangeName}/>
                     </div>
-                    <div className="mypage-modify-detail-box-row-button-with">
+                    <div className="mypage-modify-detail-box-row-button-without">
                         <div className="mypage-modify-detail-box-col-title font-HakDotR">이메일</div>
-                        <div className="mypage-modify-detail-box-col-input">
-                            <input className="font-HakDotR" type="email" value={email} placeholder={'이메일을 입력하세요.'} onChange={onChangeEmail}/>
-                            <Button title={'인증요청'} width={72} outline value={'email'} onClick={onClickCertificate} />
-                        </div>
+                        <input className="font-HakDotR" type="email" value={email} placeholder={'이메일을 입력하세요.'} onChange={onChangeEmail}/>
                     </div>
-                    <div className="mypage-modify-detail-box-row-button-with">
+                    <div className="mypage-modify-detail-box-row-button-without">
                         <div className="mypage-modify-detail-box-col-title font-HakDotR">휴대폰번호</div>
-                        <div className="mypage-modify-detail-box-col-input">
-                            <input className="font-HakDotR" type="number" value={phone} placeholder={'휴대폰번호를 입력하세요.'} onChange={onChangePhone}/>
-                            <Button title={'인증요청'} width={72} outline value={'phone'} onClick={onClickDuplicate} />
-                        </div>
+                        <input className="font-HakDotR" type="number" value={phone} placeholder={'휴대폰번호를 입력하세요.'} onChange={onChangePhone}/>
                     </div>
                     <div className="mypage-modify-detail-box-row-button-with">
                         <div className="mypage-modify-detail-box-col-title font-HakDotR">주소</div>
