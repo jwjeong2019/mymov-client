@@ -80,17 +80,11 @@ const Join = () => {
                             <div className="join-box-depth-3-simple">
                                 <input type="text" placeholder="이름을 입력하세요." onChange={onChangeName}/>
                             </div>
-                            <div className="join-box-depth-3-complex">
-                                <div className="join-box-depth-4-input">
-                                    <input type="text" placeholder="이메일을 입력하세요." onChange={onChangeEmail}/>
-                                </div>
-                                <div className="join-box-depth-4-btn font-TAEBAEK">인증요청</div>
+                            <div className="join-box-depth-3-simple">
+                                <input type="text" placeholder="이메일을 입력하세요." onChange={onChangeEmail}/>
                             </div>
-                            <div className="join-box-depth-3-complex">
-                                <div className="join-box-depth-4-input">
-                                    <input type="text" placeholder="휴대폰번호를 입력하세요." onChange={onChangePhone}/>
-                                </div>
-                                <div className="join-box-depth-4-btn font-TAEBAEK">인증요청</div>
+                            <div className="join-box-depth-3-simple">
+                                <input type="text" placeholder="휴대폰번호를 입력하세요." onChange={onChangePhone}/>
                             </div>
                             <div className="join-box-depth-3-complex">
                                 <div className="join-box-depth-4-input">
