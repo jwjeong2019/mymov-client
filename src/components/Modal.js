@@ -1,6 +1,7 @@
 import {useEffect, useRef} from "react";
 import '../css/Modal.css';
 import {IoCloseCircleOutline} from "react-icons/io5";
+import {createPortal} from "react-dom";
 
 const Modal = ({ component, visible, onClose }) => {
     const ref = useRef();
@@ -9,7 +10,7 @@ const Modal = ({ component, visible, onClose }) => {
         let display = visible ? 'flex' : 'none';
         ref.current.style.setProperty('display', display);
     }, [visible]);
-    return (
+    return createPortal(
         <div ref={ref} className='modal-container'>
             <div className='modal-box'>
                 <div className='modal-button-close' onClick={onClickClose}>
@@ -19,7 +20,8 @@ const Modal = ({ component, visible, onClose }) => {
                     {component}
                 </div>
             </div>
-        </div>
+        </div>,
+        document.getElementById("modal")
     );
 };
 
