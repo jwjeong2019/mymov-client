@@ -95,6 +95,32 @@ const AdminManagementMovie = () => {
                     </Col>
                 </Row>
             </Container>
+            <Modal show={false}>
+                <Modal.Header className={'bg-dark text-light'}>
+                    <Modal.Title>영화관 등록하기</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group>
+                            <Form.Label>이름</Form.Label>
+                            <Form.Control />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>지역</Form.Label>
+                            <Form.Select>
+                                <option value={'ALL'}>전체</option>
+                                <option value={'SEOUL'}>서울</option>
+                                <option value={'DAEGU'}>대구</option>
+                                <option value={'BUSAN'}>부산</option>
+                            </Form.Select>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant={'dark'}>완료</Button>
+                    <Button variant={'outline-dark'}>닫기</Button>
+                </Modal.Footer>
+            </Modal>
         </>
     );
 };
