@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 import {IoIosSearch} from "react-icons/io";
 
-const AdminManagementMovie = () => {
+const AdminManagementCinema = () => {
     return (
         <>
             <Container>
@@ -125,4 +125,4 @@ const AdminManagementMovie = () => {
     );
 };
 
-export default AdminManagementMovie;
+export default AdminManagementCinema;
