@@ -1,6 +1,6 @@
 import {Container, Image, Nav, Navbar, Offcanvas, Stack} from "react-bootstrap";
 import {IoIosLogOut} from "react-icons/io";
-import {IoShieldHalf, IoTicketOutline} from "react-icons/io5";
+import {IoCube, IoCubeOutline, IoShieldHalf, IoTicketOutline} from "react-icons/io5";
 import {Outlet} from 'react-router-dom';
 
 const UserMain = () => {
@@ -50,6 +50,12 @@ const UserMain = () => {
                                     </Stack>
                                 </Nav.Link>
                                 <hr />
+                                <Nav.Link disabled>
+                                    <Stack className={'h4 fw-bold'} direction={'horizontal'} gap={2}>
+                                        <IoCube />
+                                        <div>마이페이지</div>
+                                    </Stack>
+                                </Nav.Link>
                                 <Nav.Link>
                                     <Stack direction={'horizontal'} gap={2}>
                                         <IoShieldHalf className={'h4 m-0'} />
@@ -60,6 +66,13 @@ const UserMain = () => {
                                     <Stack direction={'horizontal'} gap={2}>
                                         <IoTicketOutline className={'h4 m-0'} />
                                         <div>예매조회</div>
+                                    </Stack>
+                                </Nav.Link>
+                                <hr/>
+                                <Nav.Link disabled>
+                                    <Stack className={'h4 fw-bold'} direction={'horizontal'} gap={2}>
+                                        <IoCube />
+                                        <div>기타</div>
                                     </Stack>
                                 </Nav.Link>
                             </Nav>
