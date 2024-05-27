@@ -13,13 +13,34 @@ import AdminManagementCinema from "./admin/page/AdminManagementCinema";
 import AdminManagementTheater from "./admin/page/AdminManagementTheater";
 import AdminManagementSeat from "./admin/page/AdminManagementSeat";
 import AdminManagementTimetable from "./admin/page/AdminManagementTimetable";
+import UserMain from "./user/page/UserMain";
+import UserHome from "./user/page/UserHome";
+import UserMovies from "./user/page/UserMovies";
+import UserTimetable from "./user/page/UserTimetable";
+import UserMoviesDetail from "./user/page/UserMoviesDetail";
+import UserReservation from "./user/page/UserReservation";
+import UserMyPage from "./user/page/UserMyPage";
+import UserPrivacy from "./user/page/UserPrivacy";
+import UserTickets from "./user/page/UserTickets";
+import UserWithdrawal from "./user/page/UserWithdrawal";
 
 function App() {
   return (
       <div>
           <BrowserRouter>
               <Routes>
-                  <Route exact path="/" element={<Main/>} />
+                  <Route exact path="/" element={<UserMain />}>
+                      <Route path={'home'} element={<UserHome />} />
+                      <Route path={'movies'} element={<UserMovies />} />
+                      <Route path={'movies/:id'} element={<UserMoviesDetail />} />
+                      <Route path={'timetable'} element={<UserTimetable />} />
+                      <Route path={'reservation'} element={<UserReservation />} />
+                      <Route path={'/mypage'} element={<UserMyPage />}>
+                          <Route path={'privacy'} element={<UserPrivacy />} />
+                          <Route path={'tickets'} element={<UserTickets />} />
+                          <Route path={'withdrawal'} element={<UserWithdrawal />} />
+                      </Route>
+                  </Route>
                   <Route path={'/admin'} element={<AdminMain />}>
                       <Route path={'management/genre'} element={<AdminManagementGenre />} />
                       <Route path={'management/movie'} element={<AdminManagementMovie />} />
