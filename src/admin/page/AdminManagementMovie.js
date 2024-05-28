@@ -12,8 +12,92 @@ import {
     Table
 } from "react-bootstrap";
 import {IoIosSearch} from "react-icons/io";
+import {useMemo, useState} from "react";
+import apiMovie from "../../api/apiMovie";
+import CustomTable from "../component/CustomTable";
+import {useNavigate} from "react-router";
 
 const AdminManagementMovie = () => {
+    const navigate = useNavigate();
+    const [searchData, setSearchData] = useState({});
+    const [tableHeaders, setTableHeaders] = useState([]);
+    const [movies, setMovies] = useState([]);
+    const [tablePage, setTablePage] = useState({});
+    const [filters, setFilters] = useState([]);
+    const [sorts, setSorts] = useState([]);
+    const [currentFilter, setCurrentFilter] = useState({});
+    const [currentSort, setCurrentSort] = useState({});
+    const handleClickRegister = () => navigate('/admin/management/movie/register');
+    const handleChangeSearchDataKeyword = e => setSearchData(prevState => ({ ...prevState, keyword: e.target.value }));
+    const handleChangeSearchDataFilter = filter => {
+        setSearchData(prevState => ({...prevState, filter: filter.value}));
+        setCurrentFilter(filter);
+    };
+    const handleChangeSearchDataSort = sort => {
+        const _nextSearchData = { ...searchData, sort: sort.value };
+        setSearchData(_nextSearchData);
+        setCurrentSort(sort);
+        getMovies(tablePage.page, _nextSearchData);
+    };
+    const handleClickSearch = () => getMovies(1, searchData);
+    const handleClickTablePage = number => getMovies(number);
+    const getMovies = (page, search) => {
+        const _params = {
+            page: page - 1,
+            size: 10,
+            keyword: search?.keyword,
+            keywordField: search?.filter,
+            sortField: search?.sort,
+            sortType: 'DESC'
+        };
+        apiMovie.getList(_params)
+            .then(response => {
+                const { data } = response;
+                if (data.result.totalElements > 0) {
+                    const _movies = data.result.content.map(movie => ({
+                        id: movie.id,
+                        title: movie.title,
+                        age: movie.age,
+                        director: movie.director,
+                        runningTime: movie.runningTime,
+                        releaseDate: movie.releaseDate?.replace('T', ' ')
+                    }));
+                    setMovies(_movies);
+                }
+                setTablePage(prevState => ({
+                    ...prevState,
+                    page,
+                    size: 10,
+                    total: data.result.totalElements ?? 0
+                }));
+            })
+            .catch(err => alert(`error: ${err.message}`));
+    };
+    const makeTableHeaders = () => {
+        setTableHeaders([ '#', '제목', '연령', '감독', '시간', '개봉일' ]);
+    };
+    const makeFilters = () => {
+        setFilters([
+            { title: '전체' },
+            { value: 'TITLE', title: '제목' },
+        ]);
+    };
+    const makeSorts = () => {
+        setSorts([
+            { title: '전체' },
+            { value: 'title', title: '제목순' },
+            { value: 'releaseDate', title: '개봉순' },
+            { value: 'screenDate', title: '상영순' },
+            { value: 'age', title: '연령순' },
+        ]);
+    };
+    const init = () => {
+        makeTableHeaders();
+        makeFilters();
+        makeSorts();
+        getMovies(1);
+    };
+    useMemo(init, []);
     return (
         <>
             <Container>
@@ -23,12 +107,17 @@ const AdminManagementMovie = () => {
                             <Card.Body>
                                 <Card.Title>Conditions</Card.Title>
                                 <Stack direction={'horizontal'} gap={3}>
-                                    <DropdownButton variant={'outline-dark'} title={'전체'}>
-                                        <Dropdown.Item>전체</Dropdown.Item>
+                                    <DropdownButton variant={'outline-dark'} title={currentFilter.title ?? '전체'}>
+                                        {filters.map((filter, filterIdx) => {
+                                            return <Dropdown.Item key={`dropdown-item-filter-${filterIdx}`}
+                                                                  onClick={() => handleChangeSearchDataFilter(filter)}>{filter.title}</Dropdown.Item>;
+                                        })}
                                     </DropdownButton>
                                     <InputGroup>
-                                        <Form.Control />
-                                        <Button variant={'dark'}><IoIosSearch className={'h3 m-0'} /></Button>
+                                        <Form.Control onChange={handleChangeSearchDataKeyword} />
+                                        <Button variant={'dark'} onClick={handleClickSearch}>
+                                            <IoIosSearch className={'h3 m-0'} />
+                                        </Button>
                                     </InputGroup>
                                 </Stack>
                             </Card.Body>
@@ -41,65 +130,21 @@ const AdminManagementMovie = () => {
                             <Card.Body>
                                 <Card.Title>Result</Card.Title>
                                 <Stack className={'justify-content-end'} direction={'horizontal'} gap={2}>
-                                    <Button variant={'dark'}>등록</Button>
-                                    <DropdownButton variant={'outline-dark'} title={'전체'}>
-                                        <Dropdown.Item>제목순</Dropdown.Item>
-                                        <Dropdown.Item>개봉순</Dropdown.Item>
-                                        <Dropdown.Item>상영순</Dropdown.Item>
-                                        <Dropdown.Item>연령순</Dropdown.Item>
+                                    <Button variant={'dark'} onClick={handleClickRegister}>등록</Button>
+                                    <DropdownButton variant={'outline-dark'} title={currentSort.title ?? '전체'}>
+                                        {sorts.map((sort, sortIdx) => {
+                                            return <Dropdown.Item key={`dropdown-item-sort-${sortIdx}`}
+                                                                  onClick={() => handleChangeSearchDataSort(sort)}>{sort.title}</Dropdown.Item>;
+                                        })}
                                     </DropdownButton>
                                 </Stack>
                                 <Stack className={'mt-3'}>
-                                    <Table striped bordered hover>
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>제목</th>
-                                                <th>연령</th>
-                                                <th>감독</th>
-                                                <th>시간</th>
-                                                <th>개봉일</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>해리포터와 마법사의 창</td>
-                                                <td>12</td>
-                                                <td>토마스 카일릿</td>
-                                                <td>120분</td>
-                                                <td>2024-04-11</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>해리포터와 마법사의 창</td>
-                                                <td>12</td>
-                                                <td>토마스 카일릿</td>
-                                                <td>120분</td>
-                                                <td>2024-04-11</td>
-                                            </tr>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>해리포터와 마법사의 창</td>
-                                                <td>12</td>
-                                                <td>토마스 카일릿</td>
-                                                <td>120분</td>
-                                                <td>2024-04-11</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colSpan={6}>
-                                                    <Pagination className={'justify-content-center'}>
-                                                        <Pagination.Prev />
-                                                        <Pagination.Item>1</Pagination.Item>
-                                                        <Pagination.Item>2</Pagination.Item>
-                                                        <Pagination.Next />
-                                                    </Pagination>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </Table>
+                                    <CustomTable
+                                        headerData={tableHeaders}
+                                        bodyData={movies}
+                                        pageData={tablePage}
+                                        onClickPage={handleClickTablePage}
+                                    />
                                 </Stack>
                             </Card.Body>
                         </Card>
