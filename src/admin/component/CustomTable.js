@@ -67,7 +67,7 @@ const CustomTable = ({ headerData, bodyData, pageData, onClickPage }) => {
             </tbody>
             <tfoot>
             <tr>
-                <td colSpan={3}>
+                <td colSpan={headerData.length}>
                     <Pagination className={'justify-content-center'}>
                         <Pagination.Prev onClick={handleClickPaginationPrev} linkClassName={'text-dark'} />
                         {pageNumbers.map((item, itemIdx) => {
