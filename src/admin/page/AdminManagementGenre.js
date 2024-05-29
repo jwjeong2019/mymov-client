@@ -67,7 +67,10 @@ const AdminManagementGenre = () => {
                 setIsShow(false);
                 window.location.reload();
             })
-            .catch(err => alert(`error: ${err.message}`));
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
     };
     const getGenres = (page, search) => {
         const _params = {
@@ -100,7 +103,10 @@ const AdminManagementGenre = () => {
                     total: data.result.totalElements ?? 0
                 }));
             })
-            .catch(err => alert(`error: ${err.message}`));
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
     };
     const deleteGenre = id => {
         const _params = {
@@ -116,7 +122,10 @@ const AdminManagementGenre = () => {
                 alert('장르를 정상적으로 삭제하였습니다.');
                 window.location.reload();
             })
-            .catch(err => alert(`error: ${err.message}`));
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
     }
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '장르명', '삭제' ]);
