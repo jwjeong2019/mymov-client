@@ -110,18 +110,16 @@ const AdminManagementTheater = () => {
         apiTheater.getList(_params)
             .then(response => {
                 const { data } = response;
-                if (data.result.totalElements > 0) {
-                    const _theaters = data.result.content.map(theater => ({
-                        id: theater.id,
-                        number: theater.number,
-                        cinemaName: theater.cinema.name,
-                        cinemaRegion: theater.cinema.region,
-                        button: <Button variant={'danger'}
-                                        value={theater.id}
-                                        onClick={handleClickDelete}>삭제</Button>,
-                    }));
-                    setTheaters(_theaters);
-                }
+                const _theaters = data.result.content.map(theater => ({
+                    id: theater.id,
+                    number: theater.number,
+                    cinemaName: theater.cinema.name,
+                    cinemaRegion: theater.cinema.region,
+                    button: <Button variant={'danger'}
+                                    value={theater.id}
+                                    onClick={handleClickDelete}>삭제</Button>,
+                }));
+                setTheaters(_theaters);
                 setTablePage(prevState => ({
                     ...prevState,
                     page,
