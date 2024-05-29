@@ -86,17 +86,15 @@ const AdminManagementCinema = () => {
         apiCinema.getList()
             .then(response => {
                 const { data } = response;
-                if (data.result.length > 0) {
-                    const _cinemas = data.result.map(cinema => ({
-                        id: cinema.id,
-                        name: cinema.name,
-                        region: cinema.region,
-                        button: <Button variant={'danger'}
-                                        value={cinema.id}
-                                        onClick={handleClickDelete}>삭제</Button>,
-                    }));
-                    setCinemas(_cinemas);
-                }
+                const _cinemas = data.result.map(cinema => ({
+                    id: cinema.id,
+                    name: cinema.name,
+                    region: cinema.region,
+                    button: <Button variant={'danger'}
+                                    value={cinema.id}
+                                    onClick={handleClickDelete}>삭제</Button>,
+                }));
+                setCinemas(_cinemas);
                 setTablePage(prevState => ({
                     ...prevState,
                     page,
