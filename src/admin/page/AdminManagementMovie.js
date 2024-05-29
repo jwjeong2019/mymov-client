@@ -71,7 +71,10 @@ const AdminManagementMovie = () => {
                     total: data.result.totalElements ?? 0
                 }));
             })
-            .catch(err => alert(`error: ${err.message}`));
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
     };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '제목', '연령', '감독', '시간', '개봉일' ]);
