@@ -86,16 +86,14 @@ const AdminManagementGenre = () => {
         apiGenre.getList(_params)
             .then(response => {
                 const { data } = response;
-                if (data.result.totalElements > 0) {
-                    const _genres = data.result.content.map(genre => ({
-                        id: genre.id,
-                        name: genre.name,
-                        button: <Button variant={'danger'}
-                                        value={genre.id}
-                                        onClick={handleClickDelete}>삭제</Button>,
-                    }));
-                    setGenres(_genres);
-                }
+                const _genres = data.result.content.map(genre => ({
+                    id: genre.id,
+                    name: genre.name,
+                    button: <Button variant={'danger'}
+                                    value={genre.id}
+                                    onClick={handleClickDelete}>삭제</Button>,
+                }));
+                setGenres(_genres);
                 setTablePage(prevState => ({
                     ...prevState,
                     page,
