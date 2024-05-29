@@ -53,17 +53,15 @@ const AdminManagementMovie = () => {
         apiMovie.getList(_params)
             .then(response => {
                 const { data } = response;
-                if (data.result.totalElements > 0) {
-                    const _movies = data.result.content.map(movie => ({
-                        id: movie.id,
-                        title: movie.title,
-                        age: movie.age,
-                        director: movie.director,
-                        runningTime: movie.runningTime,
-                        releaseDate: movie.releaseDate?.replace('T', ' ')
-                    }));
-                    setMovies(_movies);
-                }
+                const _movies = data.result.content.map(movie => ({
+                    id: movie.id,
+                    title: movie.title,
+                    age: movie.age,
+                    director: movie.director,
+                    runningTime: movie.runningTime,
+                    releaseDate: movie.releaseDate?.replace('T', ' ')
+                }));
+                setMovies(_movies);
                 setTablePage(prevState => ({
                     ...prevState,
                     page,
