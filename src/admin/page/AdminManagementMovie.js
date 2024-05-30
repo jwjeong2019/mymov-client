@@ -41,6 +41,7 @@ const AdminManagementMovie = () => {
     };
     const handleClickSearch = () => getMovies(1, searchData);
     const handleClickTablePage = number => getMovies(number);
+    const handleClickTableRecord = record => navigate(`/admin/management/movie/${record.id}`);
     const getMovies = (page, search) => {
         const _params = {
             page: page - 1,
@@ -145,6 +146,7 @@ const AdminManagementMovie = () => {
                                         bodyData={movies}
                                         pageData={tablePage}
                                         onClickPage={handleClickTablePage}
+                                        onClickRecord={handleClickTableRecord}
                                     />
                                 </Stack>
                             </Card.Body>
