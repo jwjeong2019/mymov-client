@@ -1,7 +1,7 @@
 import {Col, Form, Row} from "react-bootstrap";
 import {useState} from "react";
 
-const CustomImageUpload = ({ onUpload }) => {
+const CustomImageUpload = ({ hidden, onUpload }) => {
     const [fileName, setFileName] = useState('');
     const handleChangeFile = e => {
         const file = e.target.files[0];
@@ -16,7 +16,7 @@ const CustomImageUpload = ({ onUpload }) => {
         };
     };
     return (
-        <Form>
+        <Form hidden={hidden}>
             <Form.Group as={Row}>
                 <Form.Label>첨부파일</Form.Label>
                 <Col>
