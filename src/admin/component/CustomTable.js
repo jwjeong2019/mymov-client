@@ -1,7 +1,7 @@
 import {Button, Pagination, Table} from "react-bootstrap";
 import {useMemo, useState} from "react";
 
-const CustomTable = ({ headerData, bodyData, pageData, onClickPage }) => {
+const CustomTable = ({ headerData, bodyData, pageData, onClickPage, onClickRecord }) => {
     const [tableBody, setTableBody] = useState([]);
     const [pageNumbers, setPageNumbers] = useState([]);
     const [pageLastNumber, setPageLastNumber] = useState();
@@ -14,10 +14,16 @@ const CustomTable = ({ headerData, bodyData, pageData, onClickPage }) => {
         let _nextPage = pageData.page + 1;
         if (_nextPage <= pageLastNumber) onClickPage(_nextPage);
     }
+    const handleClickRecord = record => {
+        if (onClickRecord) onClickRecord(record);
+    }
     const makeTableBody = () => {
         const _tableBody = bodyData.map(data => {
             const keys = Object.keys(data);
-            return keys.map(key => data[key]);
+            return {
+                id: data[keys[0]],
+                values: keys.map(key => data[key])
+            };
         });
         setTableBody(_tableBody);
     };
@@ -55,10 +61,10 @@ const CustomTable = ({ headerData, bodyData, pageData, onClickPage }) => {
             </tr>
             </thead>
             <tbody>
-            {tableBody.map((values, trIdx) => {
+            {tableBody.map((record, trIdx) => {
                 return (
-                    <tr key={`table-body-tr-${trIdx}`}>
-                        {values.map((value, tdIdx) => {
+                    <tr key={`table-body-tr-${trIdx}`} onClick={() => handleClickRecord(record)}>
+                        {record.values.map((value, tdIdx) => {
                             return <td key={`table-body-td-${tdIdx}`}>{value}</td>;
                         })}
                     </tr>
