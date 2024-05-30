@@ -1,6 +1,152 @@
 import {Button, Card, Col, Container, Form, Image, Row, Stack} from "react-bootstrap";
+import {useNavigate, useParams} from "react-router";
+import {useMemo, useState} from "react";
+import apiMovie from "../../api/apiMovie";
+import {Utils} from "../../utils/Utils";
+import CustomImageUpload from "../component/CustomImageUpload";
+import apiAdmin from "../../api/apiAdmin";
+import apiGenre from "../../api/apiGenre";
 
 const AdminManagementMovieDetail = () => {
+    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const params = useParams();
+    const navigate = useNavigate();
+    const [optionsGenre, setOptionsGenre] = useState([]);
+    const [movie, setMovie] = useState({});
+    const [inputs, setInputs] = useState({});
+    const [isReading, setIsReading] = useState(true);
+    const handleChangeInputsTitle = e => setInputs(prevState => ({ ...prevState, title: e.target.value }));
+    const handleChangeInputsAge = e => setInputs(prevState => ({ ...prevState, age: e.target.value }));
+    const handleChangeInputsDirector = e => setInputs(prevState => ({ ...prevState, director: e.target.value }));
+    const handleChangeInputsDetail = e => setInputs(prevState => ({ ...prevState, detail: e.target.value }));
+    const handleChangeInputsRunningTime = e => setInputs(prevState => ({ ...prevState, runningTime: e.target.value }));
+    const handleChangeInputsReleaseDate = e => setInputs(prevState => ({ ...prevState, releaseDate: e.target.value }));
+    const handleChangeInputsScreenDate = e => setInputs(prevState => ({ ...prevState, screenDate: e.target.value }));
+    const handleChangeInputsGenre = e => {
+        const _genreIds = [ e.target.value ];
+        setInputs(prevState => ({ ...prevState, genreIds: _genreIds }));
+    };
+    const handleChangeInputsFile = file => {
+        setInputs(prevState => ({ ...prevState, fileData: file }));
+    };
+    const handleClickModify = () => {
+        setIsReading(false);
+    };
+    const handleClickComplete = () => {
+        updateMovie();
+    };
+    const handleClickCancel = () => {
+        setInputs(movie);
+        setIsReading(true);
+    };
+    const handleClickDelete = () => {
+        const isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) deleteMovie();
+    };
+    const getGenres = () => {
+        const _params = {
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken,
+            page: 0,
+            size: 1000,
+        };
+        apiGenre.getList(_params)
+            .then(response => {
+                const { data } = response;
+                const _genres = data.result.content.map(genre => ({
+                    id: genre.id,
+                    value: genre.id,
+                    title: genre.name,
+                }));
+                setOptionsGenre(_genres);
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const getMovie = () => {
+        const _params = {
+            ...params
+        };
+        apiMovie.getDetail(_params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert('영화 정보가 존재하지 않습니다.');
+                const _movie = {
+                    ...data.result,
+                    releaseDate: data.result.releaseDate.split('T')[0],
+                    screenDate: data.result.screenDate.split('T')[0],
+                    genreIds: data.result.genres.map(genre => genre.id),
+                    fileData: { url: data.result.attachment },
+                };
+                console.log(_movie);
+                setMovie(_movie);
+                setInputs(_movie);
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const updateMovie = () => {
+        const data = JSON.stringify({
+            title: inputs.title,
+            detail: inputs.detail,
+            releaseDate: `${inputs.releaseDate} 00:00:00`,
+            screenDate: `${inputs.screenDate} 00:00:00`,
+            age: inputs.age,
+            genreIds: inputs.genreIds ?? makeGenreIds(),
+            director: inputs.director,
+            runningTime: inputs.runningTime
+        });
+        const formData = new FormData();
+        formData.append('data', data);
+        formData.append('file', inputs.fileData.file);
+        const _params = {
+            ...params,
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken,
+            formData
+        };
+        apiAdmin.updateMovie(_params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 수정 실패: ${data.msg}`);
+                alert('영화를 정상적으로 수정하였습니다.');
+                window.location.reload();
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const deleteMovie = () => {
+        const _params = {
+            ...params,
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken
+        };
+        apiAdmin.deleteMovie(_params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 삭제 실패:\n${data.msg}`);
+                alert('정상적으로 삭제하였습니다.');
+                navigate('/admin/management/movie');
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const makeGenreIds = () => {
+        return inputs.genres.map(genre => genre.id);
+    };
+    const init = () => {
+        getGenres();
+        getMovie();
+    };
+    useMemo(init, []);
     return (
         <Container>
             <Row>
@@ -11,7 +157,7 @@ const AdminManagementMovieDetail = () => {
                             <Container className={'mt-4'} fluid>
                                 <Row>
                                     <Col md={3}>
-                                        <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2024/05/05/05/55/goose-8740266_1280.jpg'} />
+                                        <Image className={'w-100'} src={inputs.fileData?.url} />
                                     </Col>
                                 </Row>
                                 <Row className={'mt-3'}>
@@ -19,7 +165,12 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>제목</Form.Label>
-                                                <Form.Control readOnly plaintext value={'해리포터와 마법사의 창'} />
+                                                <Form.Control
+                                                    readOnly={isReading}
+                                                    plaintext={isReading}
+                                                    value={inputs.title}
+                                                    onChange={handleChangeInputsTitle}
+                                                />
                                             </Form.Group>
                                         </Form>
                                     </Col>
@@ -27,7 +178,12 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>연령</Form.Label>
-                                                <Form.Control readOnly plaintext value={'12'} />
+                                                <Form.Control
+                                                    readOnly={isReading}
+                                                    plaintext={isReading}
+                                                    value={inputs.age}
+                                                    onChange={handleChangeInputsAge}
+                                                />
                                             </Form.Group>
                                         </Form>
                                     </Col>
@@ -35,7 +191,12 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>감독</Form.Label>
-                                                <Form.Control readOnly plaintext value={'토마스 카일릿'} />
+                                                <Form.Control
+                                                    readOnly={isReading}
+                                                    plaintext={isReading}
+                                                    value={inputs.director}
+                                                    onChange={handleChangeInputsDirector}
+                                                />
                                             </Form.Group>
                                         </Form>
                                     </Col>
@@ -45,7 +206,13 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>설명</Form.Label>
-                                                <Form.Control as={'textarea'} readOnly plaintext value={'해리포터의 모험이 시작된다!'} />
+                                                <Form.Control
+                                                    as={'textarea'}
+                                                    readOnly={isReading}
+                                                    plaintext={isReading}
+                                                    value={inputs.detail}
+                                                    onChange={handleChangeInputsDetail}
+                                                />
                                             </Form.Group>
                                         </Form>
                                     </Col>
@@ -55,7 +222,13 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>시간</Form.Label>
-                                                <Form.Control type={'time'} readOnly plaintext value={'12:33'} />
+                                                <Form.Control
+                                                    type={'number'}
+                                                    readOnly={isReading}
+                                                    plaintext={isReading}
+                                                    value={inputs.runningTime}
+                                                    onChange={handleChangeInputsRunningTime}
+                                                />
                                             </Form.Group>
                                         </Form>
                                     </Col>
@@ -63,7 +236,13 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>개봉일</Form.Label>
-                                                <Form.Control type={'date'} readOnly plaintext value={'2024-04-10'} />
+                                                <Form.Control
+                                                    type={'date'}
+                                                    readOnly={isReading}
+                                                    plaintext={isReading}
+                                                    value={inputs.releaseDate}
+                                                    onChange={handleChangeInputsReleaseDate}
+                                                />
                                             </Form.Group>
                                         </Form>
                                     </Col>
@@ -71,7 +250,13 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>상영일</Form.Label>
-                                                <Form.Control type={'date'} readOnly plaintext value={'2024-04-10'} />
+                                                <Form.Control
+                                                    type={'date'}
+                                                    readOnly={isReading}
+                                                    plaintext={isReading}
+                                                    value={inputs.screenDate}
+                                                    onChange={handleChangeInputsScreenDate}
+                                                />
                                             </Form.Group>
                                         </Form>
                                     </Col>
@@ -81,11 +266,11 @@ const AdminManagementMovieDetail = () => {
                                         <Form>
                                             <Form.Group>
                                                 <Form.Label>장르</Form.Label>
-                                                <Form.Select disabled>
-                                                    <option value={0}>All</option>
-                                                    <option value={1}>Family</option>
-                                                    <option value={2}>Action</option>
-                                                    <option value={3}>SF</option>
+                                                <Form.Select disabled={isReading} value={inputs.genreIds?.[0]} onChange={handleChangeInputsGenre}>
+                                                    <option value={'ALL'}>전체</option>
+                                                    {optionsGenre.map((genre, genreIdx) => {
+                                                        return <option key={`option-genre-${genreIdx}`} value={genre.id}>{genre.title}</option>;
+                                                    })}
                                                 </Form.Select>
                                             </Form.Group>
                                         </Form>
@@ -93,27 +278,21 @@ const AdminManagementMovieDetail = () => {
                                 </Row>
                                 <Row className={'mt-3'}>
                                     <Col>
-                                        <Form hidden={true}>
-                                            <Form.Group as={Row}>
-                                                <Form.Label>첨부파일</Form.Label>
-                                                <Col>
-                                                    <Form.Control />
-                                                </Col>
-                                                <Col>
-                                                    <Form.Group>
-                                                        <Form.Label className={'btn btn-outline-dark'} htmlFor={'file'}>파일찾기</Form.Label>
-                                                        <Form.Control type={'file'} id={'file'} accept={'image/*'} hidden />
-                                                    </Form.Group>
-                                                </Col>
-                                            </Form.Group>
-                                        </Form>
+                                        <CustomImageUpload hidden={isReading} onUpload={handleChangeInputsFile} />
                                     </Col>
                                 </Row>
                                 <Row className={'mt-3'}>
                                     <Col>
                                         <Stack className={'justify-content-end'} direction={'horizontal'} gap={2}>
-                                            <Button variant={'dark'}>수정</Button>
-                                            <Button variant={'danger'}>삭제</Button>
+                                            {isReading ?
+                                                <Button variant={'dark'} onClick={handleClickModify}>수정</Button>
+                                                :
+                                                <>
+                                                    <Button variant={'dark'} onClick={handleClickComplete}>완료</Button>
+                                                    <Button variant={'outline-dark'} onClick={handleClickCancel}>취소</Button>
+                                                </>
+                                            }
+                                            <Button variant={'danger'} onClick={handleClickDelete}>삭제</Button>
                                         </Stack>
                                     </Col>
                                 </Row>
