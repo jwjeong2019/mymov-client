@@ -1,7 +1,105 @@
 import {Badge, Button, Card, Col, Container, Nav, Row, Stack} from "react-bootstrap";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
+import {useMemo, useState} from "react";
+import apiMovie from "../../api/apiMovie";
+import CustomCardTable from "../component/CustomCardTable";
+import apiGenre from "../../api/apiGenre";
 
 const UserMovies = () => {
+    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [genres, setGenres] = useState([]);
+    const [movies, setMovies] = useState([]);
+    const [search, setSearch] = useState('');
+    const [filterType, setFilterType] = useState();
+    const [sortType, setSortType] = useState();
+    const handleClickNavLinkGenre = e => {
+        const genreId = e.target.dataset.rrUiEventKey;
+        console.log(genreId);
+    };
+    const handleClickRecord = id => console.log(id);
+    const handleClickPrev = () => {
+        let _nextPage = page - 1;
+        if (_nextPage > 0) getMovies(_nextPage);
+    };
+    const handleClickNext = () => {
+        let _nextPage = page + 1;
+        if (_nextPage <= totalPages) getMovies(_nextPage);
+    };
+    const getGenres = () => {
+        const _params = {
+            grantType: storageItemAuth?.grantType,
+            accessToken: storageItemAuth?.accessToken,
+            page: 0,
+            size: 1000,
+        };
+        apiGenre.getList(_params)
+            .then(response => {
+                const { data } = response;
+                const _genres = data.result.content.map(genre => ({
+                    id: genre.id,
+                    value: genre.id,
+                    title: genre.name,
+                }));
+                setGenres(_genres);
+            })
+            .catch(err => {
+                // const { status, data } = err.response;
+                // alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const getMovies = (page) => {
+        const _params = {
+            page: page - 1,
+            size: 10,
+            keyword: search,
+            keywordField: filterType,
+            sortField: sortType,
+            sortType: 'DESC'
+        };
+        apiMovie.getList(_params)
+            .then(response => {
+                const { data } = response;
+                const _movies = data.result.content.map(movie => ({
+                    id: movie.id,
+                    image: {
+                        url: movie.attachment
+                    },
+                    title: {
+                        badge: {
+                            bg: makeBadgeBg(movie.age),
+                            value: movie.age,
+                        },
+                        title: movie.title,
+                    },
+                    contents: [
+                        { title: 'Director', detail: movie.director },
+                        { title: 'Released', detail: `${movie.releaseDate.split('T')[0]}` },
+                        { title: 'Duration', detail: `${movie.runningTime}분` },
+                        { title: 'Genre', detail: movie.genres.map(genre => genre.name).join(', ') },
+                    ]
+                }));
+                setMovies(_movies);
+                setTotalPages(data.result.totalPages + 1);
+                setPage(page);
+            })
+            .catch(err => alert(`error: ${err.message}`));
+    };
+    const makeBadgeBg = age => {
+        let bg = 'success';
+        switch (age) {
+            case 12: bg = 'primary'; break;
+            case 15: bg = 'warning'; break;
+            case 18: bg = 'danger'; break;
+        }
+        return bg;
+    };
+    const init = () => {
+        getGenres();
+        getMovies(1);
+    };
+    useMemo(init, []);
     return (
         <Container>
             <Row className={'mt-4'}>
@@ -19,178 +117,28 @@ const UserMovies = () => {
             </Row>
             <Row className={'mt-5'}>
                 <Col>
-                    <Nav className={'h2'} variant={'underline'} defaultActiveKey={'ALL'}>
+                    <Nav className={'h2'} variant={'underline'} defaultActiveKey={'ALL'} onClick={handleClickNavLinkGenre}>
                         <Nav.Item>
                             <Nav.Link className={'text-dark'} eventKey={'ALL'}>All</Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className={'text-dark'} eventKey={'FAMILY'}>Family</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className={'text-dark'} eventKey={'SF'}>SF</Nav.Link>
-                        </Nav.Item>
+                        {genres.map((genre, genreIdx) => {
+                            return (
+                                <Nav.Item key={`nav-item-genre-${genreIdx}`}>
+                                    <Nav.Link className={'text-dark'}
+                                              eventKey={genre.value}>{genre.title}
+                                    </Nav.Link>
+                                </Nav.Item>
+                            );
+                        })}
                     </Nav>
                 </Col>
             </Row>
             <Row className={'mt-5'}>
-                <Col>
-                    <Card>
-                        <Card.Img
-                            variant={'top'}
-                            src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'}
-                            height={300}
-                        />
-                        <Card.Body>
-                            <Card.Title className={'fw-bold'}>
-                                <Stack direction={'horizontal'} gap={2}>
-                                    <Badge bg={'success'}>ALL</Badge>
-                                    <div>Last City</div>
-                                </Stack>
-                            </Card.Title>
-                            <Card.Text>
-                                <div>Genre: SF</div>
-                                <div>Director: Benedict Benjamin</div>
-                                <div>Released: 2024-04-11</div>
-                                <div>Duration: 120m</div>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col>
-                    <Card>
-                        <Card.Img
-                            variant={'top'}
-                            src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'}
-                            height={300}
-                        />
-                        <Card.Body>
-                            <Card.Title className={'fw-bold'}>
-                                <Stack direction={'horizontal'} gap={2}>
-                                    <Badge>12</Badge>
-                                    <div>Last City</div>
-                                </Stack>
-                            </Card.Title>
-                            <Card.Text>
-                                <div>Genre: SF</div>
-                                <div>Director: Benedict Benjamin</div>
-                                <div>Released: 2024-04-11</div>
-                                <div>Duration: 120m</div>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col>
-                    <Card>
-                        <Card.Img
-                            variant={'top'}
-                            src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'}
-                            height={300}
-                        />
-                        <Card.Body>
-                            <Card.Title className={'fw-bold'}>
-                                <Stack direction={'horizontal'} gap={2}>
-                                    <Badge bg={'warning'}>15</Badge>
-                                    <div>Last City</div>
-                                </Stack>
-                            </Card.Title>
-                            <Card.Text>
-                                <div>Genre: SF</div>
-                                <div>Director: Benedict Benjamin</div>
-                                <div>Released: 2024-04-11</div>
-                                <div>Duration: 120m</div>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-            <Row className={'mt-5'}>
-                <Col>
-                    <Card>
-                        <Card.Img
-                            variant={'top'}
-                            src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'}
-                            height={300}
-                        />
-                        <Card.Body>
-                            <Card.Title className={'fw-bold'}>
-                                <Stack direction={'horizontal'} gap={2}>
-                                    <Badge bg={'danger'}>18</Badge>
-                                    <div>Last City</div>
-                                </Stack>
-                            </Card.Title>
-                            <Card.Text>
-                                <div>Genre: SF</div>
-                                <div>Director: Benedict Benjamin</div>
-                                <div>Released: 2024-04-11</div>
-                                <div>Duration: 120m</div>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col>
-                    <Card>
-                        <Card.Img
-                            variant={'top'}
-                            src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'}
-                            height={300}
-                        />
-                        <Card.Body>
-                            <Card.Title className={'fw-bold'}>
-                                <Stack direction={'horizontal'} gap={2}>
-                                    <Badge>12</Badge>
-                                    <div>Last City</div>
-                                </Stack>
-                            </Card.Title>
-                            <Card.Text>
-                                <div>Genre: SF</div>
-                                <div>Director: Benedict Benjamin</div>
-                                <div>Released: 2024-04-11</div>
-                                <div>Duration: 120m</div>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-                <Col>
-                    <Card>
-                        <Card.Img
-                            variant={'top'}
-                            src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'}
-                            height={300}
-                        />
-                        <Card.Body>
-                            <Card.Title className={'fw-bold'}>
-                                <Stack direction={'horizontal'} gap={2}>
-                                    <Badge>12</Badge>
-                                    <div>Last City</div>
-                                </Stack>
-                            </Card.Title>
-                            <Card.Text>
-                                <div>Genre: SF</div>
-                                <div>Director: Benedict Benjamin</div>
-                                <div>Released: 2024-04-11</div>
-                                <div>Duration: 120m</div>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-            <Row className={'mt-5'}>
-                <Col className={'d-flex justify-content-center'}>
-                    <Stack direction={'horizontal'} gap={4}>
-                        <Button variant={'outline-dark'}>
-                            <Stack direction={'horizontal'} gap={2}>
-                                <IoIosArrowBack />
-                                <div>Prev</div>
-                            </Stack>
-                        </Button>
-                        <Button variant={'outline-dark'}>
-                            <Stack direction={'horizontal'} gap={2}>
-                                <div>Next</div>
-                                <IoIosArrowForward />
-                            </Stack>
-                        </Button>
-                    </Stack>
-                </Col>
+                <CustomCardTable data={movies}
+                                 onClickRecord={handleClickRecord}
+                                 onClickPrev={handleClickPrev}
+                                 onClickNext={handleClickNext}
+                />
             </Row>
         </Container>
     );
