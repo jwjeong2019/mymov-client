@@ -21,6 +21,7 @@ const AdminMain = () => {
             { path: `${baseURL}/cinema`, name: '영화관 관리하기' },
             { path: `${baseURL}/theater`, name: '상영관 관리하기' },
             { path: `${baseURL}/seat`, name: '좌석 관리하기' },
+            { path: `${baseURL}/timetable`, name: '상영표 관리하기' },
         ]);
     };
     const makeMenuTitle = () => {
@@ -32,6 +33,7 @@ const AdminMain = () => {
             case 'cinema': titleName = '영화관 관리'; break;
             case 'theater': titleName = '상영관 관리'; break;
             case 'seat': titleName = '좌석 관리'; break;
+            case 'timetable': titleName = '상영표 관리'; break;
         }
         setMenuTitle(titleName);
     };
