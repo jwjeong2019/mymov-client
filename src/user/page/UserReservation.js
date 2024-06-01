@@ -84,6 +84,57 @@ const UserReservation = () => {
             });
     };
     const makeGenres = genres => genres.map(genre => genre.name).join(', ');
+    const getTimetable = () => {
+        const _params = {
+            id: location.state.timetableId
+        };
+        const apiResponse = {
+            "id": 1,
+            "startDate": "2024-06-01",
+            "endDate": "2024-07-01",
+            "startTime": "19:50:00",
+            "endTime": "21:05:00",
+            "cinema": {
+                "id": 1,
+                "name": "강남점",
+                "region": "서울"
+            },
+            "theater": {
+                "id": 1,
+                "number": 1
+            },
+            "movie": {
+                "id": 2,
+                "title": "Ruined City",
+                "detail": "폐허가 되어버린 도시에서 생존하는 다큐멘터리.",
+                "releaseDate": "2024-06-12T00:00:00",
+                "screenDate": "2024-06-13T00:00:00",
+                "age": 12,
+                "attachment": "https://mblogthumb-phinf.pstatic.net/20101123_187/dnwjddn89_1290478462543VehPu_JPEG/5.jpg?type=w420",
+                "genres": [
+                    {
+                        "id": 65,
+                        "name": "Documentary"
+                    }
+                ],
+                "director": "크리스토핑",
+                "runningTime": 210
+            }
+        };
+        setInputs({
+            timetableId: apiResponse.id,
+            cinema: {
+                id: apiResponse.cinema.id,
+                name: apiResponse.cinema.name
+            },
+            theater: {
+                id: apiResponse.theater.id,
+                name: apiResponse.theater.number
+            },
+            startTime: apiResponse.startTime
+        });
+        getTheater(apiResponse.theater.id);
+    };
     const getCinemas = () => {
         apiCinema.getList()
             .then(response => {
@@ -159,6 +210,7 @@ const UserReservation = () => {
             .catch(err => alert(`ERROR: ${err.message}`));
     };
     const init = () => {
+        if (location.state.timetableId) getTimetable();
         getMovie();
         getCinemas();
     };
@@ -191,35 +243,53 @@ const UserReservation = () => {
                                 <Form.Group as={Row}>
                                     <Form.Label column sm={3}>영화관</Form.Label>
                                     <Col>
-                                        <Form.Select defaultValue={'ALL'} onChange={handleChangeInputsCinema}>
-                                            <option value={'ALL'}>전체</option>
-                                            {cinemas.map((cinema, cinemaIdx) => {
-                                                const valueCinema = JSON.stringify(cinema);
-                                                return <option key={`option-cinema-${cinemaIdx}`} value={valueCinema}>{cinema.name}</option>
-                                            })}
-                                        </Form.Select>
+                                        {inputs.cinema ?
+                                            <Form.Select disabled>
+                                                <option>{inputs.cinema.name}</option>
+                                            </Form.Select>
+                                            :
+                                            <Form.Select defaultValue={'ALL'} onChange={handleChangeInputsCinema}>
+                                                <option value={'ALL'}>전체</option>
+                                                {cinemas.map((cinema, cinemaIdx) => {
+                                                    const valueCinema = JSON.stringify(cinema);
+                                                    return <option key={`option-cinema-${cinemaIdx}`} value={valueCinema}>{cinema.name}</option>
+                                                })}
+                                            </Form.Select>
+                                        }
                                     </Col>
                                 </Form.Group>
                                 <Form.Group className={'mt-3'} as={Row}>
                                     <Form.Label column sm={3}>상영관</Form.Label>
                                     <Col>
-                                        <Form.Select defaultValue={'ALL'} onChange={handleChangeInputsTheater}>
-                                            <option value={'ALL'}>전체</option>
-                                            {theaters.map((theater, theaterIdx) => {
-                                                return <option key={`option-theater-${theaterIdx}`} value={theater.value}>{theater.name}상영관</option>
-                                            })}
-                                        </Form.Select>
+                                        {inputs.theater ?
+                                            <Form.Select disabled>
+                                                <option>{inputs.theater.name}상영관</option>
+                                            </Form.Select>
+                                            :
+                                            <Form.Select defaultValue={'ALL'} onChange={handleChangeInputsTheater}>
+                                                <option value={'ALL'}>전체</option>
+                                                {theaters.map((theater, theaterIdx) => {
+                                                    return <option key={`option-theater-${theaterIdx}`} value={theater.value}>{theater.name}상영관</option>
+                                                })}
+                                            </Form.Select>
+                                        }
                                     </Col>
                                 </Form.Group>
                                 <Form.Group className={'mt-3'} as={Row}>
                                     <Form.Label column sm={3}>시작시간</Form.Label>
                                     <Col>
-                                        <Form.Select defaultValue={'ALL'} onChange={handleChangeInputsTimetableId}>
-                                            <option value={'ALL'}>전체</option>
-                                            {timetables.map((timetable, timetableIdx) => {
-                                                return <option key={`option-timetable-${timetableIdx}`} value={timetable.value}>{timetable.name}</option>
-                                            })}
-                                        </Form.Select>
+                                        {inputs.startTime ?
+                                            <Form.Select disabled>
+                                                <option>{inputs.startTime}</option>
+                                            </Form.Select>
+                                            :
+                                            <Form.Select defaultValue={'ALL'} onChange={handleChangeInputsTimetableId}>
+                                                <option value={'ALL'}>전체</option>
+                                                {timetables.map((timetable, timetableIdx) => {
+                                                    return <option key={`option-timetable-${timetableIdx}`} value={timetable.value}>{timetable.name}</option>
+                                                })}
+                                            </Form.Select>
+                                        }
                                     </Col>
                                 </Form.Group>
                                 <Form.Group className={'mt-3'} as={Row}>
