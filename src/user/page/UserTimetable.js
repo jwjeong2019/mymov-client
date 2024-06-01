@@ -13,8 +13,127 @@ import {
     Stack
 } from "react-bootstrap";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
+import {useMemo, useState} from "react";
+import apiCinema from "../../api/apiCinema";
+import apiTimetable from "../../api/apiTimetable";
+import CustomTimeTable from "../component/CustomTimeTable";
+import {useNavigate} from "react-router";
 
 const UserTimetable = () => {
+    const navigate = useNavigate();
+    const [cinemas, setCinemas] = useState([]);
+    const [timetables, setTimetables] = useState([]);
+    const [tablePage, setTablePage] = useState({});
+    const [filters, setFilters] = useState([]);
+    const [search, setSearch] = useState({});
+    const [currentFilter, setCurrentFilter] = useState({});
+    const handleClickNavLinkCinema = e => {
+        const cinemaName = e.target.dataset.rrUiEventKey;
+        let _nextSearch = {};
+        if (cinemaName !== 'ALL') _nextSearch = { ...search, keyword: cinemaName, filter: 'CINEMA_NAME' };
+        getTimetables(1, _nextSearch);
+        setSearch(_nextSearch);
+    };
+    const handleClickReservation = e => {
+        const timetable = JSON.parse(e.target.value);
+        navigate('/reservation', {
+            state: {
+                movieId: timetable.movie.id,
+                timetableId: timetable.id
+            }
+        })
+    };
+    const handleClickTablePage = number => getTimetables(number);
+    const handleChangeSearchKeyword = e => setSearch(prevState => ({ ...prevState, keyword: e.target.value }));
+    const handleChangeSearchFilter = filter => {
+        setSearch(prevState => ({...prevState, filter: filter.value}));
+        setCurrentFilter(filter);
+    };
+    const handleClickSearch = () => getTimetables(1, search);
+    const getCinemas = () => {
+        apiCinema.getList()
+            .then(response => {
+                const { data } = response;
+                const _cinemas = data.result.map(cinema => ({
+                    value: cinema.name,
+                    title: cinema.name,
+                }));
+                setCinemas(_cinemas);
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const getTimetables = (page, search) => {
+        const _params = {
+            page: page - 1,
+            size: 10,
+            keyword: search?.keyword,
+            keywordField: search?.filter,
+        };
+        apiTimetable.getList(_params)
+            .then(response => {
+                const { data } = response;
+                const _timetables = data.result.content.map(timetable => ({
+                    id: timetable.id,
+                    image: {
+                        url: timetable.movie.attachment
+                    },
+                    headers: [ '제목', '연령', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기' ],
+                    contents: [
+                        timetable.movie.title,
+                        makeAge(timetable.movie.age),
+                        timetable.movie.director,
+                        timetable.movie.genres.map(genre => genre.name).join(', '),
+                        timetable.movie.runningTime,
+                        timetable.cinema.name,
+                        timetable.theater.number,
+                        timetable.startTime,
+                        <Button variant={'dark'}
+                                value={JSON.stringify(timetable)}
+                                onClick={handleClickReservation}>예매</Button>
+                    ],
+                }));
+                setTimetables(_timetables);
+                setTablePage(prevState => ({
+                    ...prevState,
+                    page,
+                    size: 10,
+                    total: data.result.totalElements ?? 0
+                }));
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const makeAge = age => {
+        const _title = age < 12 ? 'ALL' : age;
+        let _bg = 'success';
+        switch (age) {
+            case 12: _bg = 'primary'; break;
+            case 15: _bg = 'warning'; break;
+            case 18: _bg = 'danger'; break;
+        }
+        return (
+            <Badge bg={_bg}>
+                <div className={'h5 m-0'}>{_title}</div>
+            </Badge>
+        );
+    };
+    const makeFilters = () => {
+        setFilters([
+            { title: '전체' },
+            { value: 'MOVIE_TITLE', title: '제목' },
+        ]);
+    };
+    const init = () => {
+        makeFilters();
+        getCinemas();
+        getTimetables(1);
+    };
+    useMemo(init, []);
     return (
         <Container>
             <Row className={'mt-4'}>
@@ -32,137 +151,40 @@ const UserTimetable = () => {
             </Row>
             <Row className={'mt-5'}>
                 <Col>
-                    <Nav className={'h2'} variant={'underline'} defaultActiveKey={'ALL'}>
+                    <Nav className={'h2'} variant={'underline'} defaultActiveKey={'ALL'} onClick={handleClickNavLinkCinema}>
                         <Nav.Item>
                             <Nav.Link className={'text-dark'} eventKey={'ALL'}>All</Nav.Link>
                         </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className={'text-dark'} eventKey={1}>강남점</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className={'text-dark'} eventKey={2}>홍대점</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className={'text-dark'} eventKey={3}>영등포점</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item>
-                            <Nav.Link className={'text-dark'} eventKey={4}>용인점</Nav.Link>
-                        </Nav.Item>
+                        {cinemas.map((cinema, cinemaIdx) => {
+                            return (
+                                <Nav.Item key={`nav-item-cinema-${cinemaIdx}`}>
+                                    <Nav.Link className={'text-dark'}
+                                              eventKey={cinema.value}>{cinema.title}
+                                    </Nav.Link>
+                                </Nav.Item>
+                            );
+                        })}
                     </Nav>
                 </Col>
             </Row>
             <Row className={'mt-5'}>
-                <Col md={3}>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'} />
-                </Col>
-                <Col>
-                    <Row className={'h5 fw-bold'}>
-                        <Col>제목</Col>
-                        <Col>연령</Col>
-                        <Col>감독</Col>
-                        <Col>장르</Col>
-                        <Col>영화시간</Col>
-                        <Col>영화관</Col>
-                        <Col>상영관</Col>
-                        <Col>시작시간</Col>
-                        <Col>예매하기</Col>
-                    </Row>
-                    <Row className={'mt-3'}>
-                        <Col>Last City</Col>
-                        <Col className={'h4'}><Badge>12</Badge></Col>
-                        <Col>Benedict Benjamin</Col>
-                        <Col>SF</Col>
-                        <Col>120m</Col>
-                        <Col>강남점</Col>
-                        <Col>1상영관</Col>
-                        <Col>13:50</Col>
-                        <Col>
-                            <Button variant={'dark'}>예매하기</Button>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Row className={'mt-4'}>
-                <Col md={3}>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'} />
-                </Col>
-                <Col>
-                    <Row className={'h5 fw-bold'}>
-                        <Col>제목</Col>
-                        <Col>연령</Col>
-                        <Col>감독</Col>
-                        <Col>장르</Col>
-                        <Col>영화시간</Col>
-                        <Col>영화관</Col>
-                        <Col>상영관</Col>
-                        <Col>시작시간</Col>
-                        <Col>예매하기</Col>
-                    </Row>
-                    <Row className={'mt-3'}>
-                        <Col>Last City</Col>
-                        <Col className={'h4'}><Badge bg={'warning'}>15</Badge></Col>
-                        <Col>Benedict Benjamin</Col>
-                        <Col>SF</Col>
-                        <Col>120m</Col>
-                        <Col>강남점</Col>
-                        <Col>1상영관</Col>
-                        <Col>13:50</Col>
-                        <Col>
-                            <Button variant={'dark'}>예매하기</Button>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Row className={'mt-4'}>
-                <Col md={3}>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'} />
-                </Col>
-                <Col>
-                    <Row className={'h5 fw-bold'}>
-                        <Col>제목</Col>
-                        <Col>연령</Col>
-                        <Col>감독</Col>
-                        <Col>장르</Col>
-                        <Col>영화시간</Col>
-                        <Col>영화관</Col>
-                        <Col>상영관</Col>
-                        <Col>시작시간</Col>
-                        <Col>예매하기</Col>
-                    </Row>
-                    <Row className={'mt-3'}>
-                        <Col>Last City</Col>
-                        <Col className={'h4'}><Badge bg={'danger'}>18</Badge></Col>
-                        <Col>Benedict Benjamin</Col>
-                        <Col>SF</Col>
-                        <Col>120m</Col>
-                        <Col>강남점</Col>
-                        <Col>1상영관</Col>
-                        <Col>13:50</Col>
-                        <Col>
-                            <Button variant={'dark'}>예매하기</Button>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Row className={'mt-5'}>
-                <Col className={'d-flex justify-content-center'}>
-                    <Pagination>
-                        <Pagination.Prev linkClassName={'text-dark'} />
-                        <Pagination.Item linkClassName={'bg-dark text-light'}>1</Pagination.Item>
-                        <Pagination.Item linkClassName={'text-dark'}>2</Pagination.Item>
-                        <Pagination.Next linkClassName={'text-dark'} />
-                    </Pagination>
-                </Col>
+                <CustomTimeTable
+                    data={timetables}
+                    pageData={tablePage}
+                    onClickPage={handleClickTablePage}
+                />
             </Row>
             <Row className={'mt-3'}>
                 <Col className={'d-flex justify-content-center'}>
                     <Stack className={'w-50'} direction={'horizontal'} gap={3}>
-                        <DropdownButton variant={'outline-dark'} title={'전체'}>
-                            <Dropdown.Item>제목</Dropdown.Item>
-                            <Dropdown.Item>영화관</Dropdown.Item>
+                        <DropdownButton variant={'outline-dark'} title={currentFilter.title ?? '전체'}>
+                            {filters.map((filter, filterIdx) => {
+                                return <Dropdown.Item key={`dropdown-item-filter-${filterIdx}`}
+                                                      onClick={() => handleChangeSearchFilter(filter)}>{filter.title}</Dropdown.Item>;
+                            })}
                         </DropdownButton>
-                        <Form.Control />
-                        <Button variant={'dark'}>Search</Button>
+                        <Form.Control onChange={handleChangeSearchKeyword} />
+                        <Button variant={'dark'} onClick={handleClickSearch}>Search</Button>
                     </Stack>
                 </Col>
             </Row>
