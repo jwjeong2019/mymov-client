@@ -4,9 +4,11 @@ import {useMemo, useState} from "react";
 import apiMovie from "../../api/apiMovie";
 import CustomCardTable from "../component/CustomCardTable";
 import apiGenre from "../../api/apiGenre";
+import {useNavigate} from "react-router";
 
 const UserMovies = () => {
     const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [genres, setGenres] = useState([]);
@@ -18,7 +20,7 @@ const UserMovies = () => {
         const genreId = e.target.dataset.rrUiEventKey;
         console.log(genreId);
     };
-    const handleClickRecord = id => console.log(id);
+    const handleClickRecord = id => navigate(`/movies/${id}`);
     const handleClickPrev = () => {
         let _nextPage = page - 1;
         if (_nextPage > 0) getMovies(_nextPage);
