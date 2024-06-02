@@ -23,6 +23,9 @@ import UserMyPage from "./user/page/UserMyPage";
 import UserPrivacy from "./user/page/UserPrivacy";
 import UserTickets from "./user/page/UserTickets";
 import UserWithdrawal from "./user/page/UserWithdrawal";
+import AdminLogin from "./admin/page/AdminLogin";
+import UserJoin from "./user/page/UserJoin";
+import UserLogin from "./user/page/UserLogin";
 
 function App() {
   return (
@@ -31,6 +34,8 @@ function App() {
               <Routes>
                   <Route exact path="/" element={<UserMain />}>
                       <Route path={'home'} element={<UserHome />} />
+                      <Route path={'join'} element={<UserJoin />} />
+                      <Route path={'login'} element={<UserLogin />} />
                       <Route path={'movies'} element={<UserMovies />} />
                       <Route path={'movies/:id'} element={<UserMoviesDetail />} />
                       <Route path={'timetable'} element={<UserTimetable />} />
@@ -41,6 +46,7 @@ function App() {
                           <Route path={'withdrawal'} element={<UserWithdrawal />} />
                       </Route>
                   </Route>
+                  <Route exact path={'/admin/login'} element={<AdminLogin />} />
                   <Route path={'/admin'} element={<AdminMain />}>
                       <Route path={'management/genre'} element={<AdminManagementGenre />} />
                       <Route path={'management/movie'} element={<AdminManagementMovie />} />
