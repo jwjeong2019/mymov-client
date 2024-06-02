@@ -9,12 +9,15 @@ import {
     IoTicketOutline
 } from "react-icons/io5";
 import {Outlet} from 'react-router-dom';
+import {useNavigate} from "react-router";
 
 const UserMain = () => {
     const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const storageItemName = localStorage.getItem('name');
+    const navigate = useNavigate();
     const handleClickLogout = () => {
         localStorage.clear();
-        window.location.reload();
+        navigate('/home');
     };
     return (
         <>
@@ -50,7 +53,7 @@ const UserMain = () => {
                                             height={40}
                                             roundedCircle
                                         />
-                                        <div>사용자님 반갑습니다.</div>
+                                        <div>{storageItemName}님 반갑습니다.</div>
                                     </Stack>
                                 </Offcanvas.Title>
                             </Offcanvas.Header>
