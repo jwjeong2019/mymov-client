@@ -1,8 +1,26 @@
 import {Card, Col, Container, Nav, Row, Stack} from "react-bootstrap";
 import {IoEllipsisVerticalCircleOutline, IoShieldHalf, IoTicketOutline} from "react-icons/io5";
 import {Outlet} from 'react-router-dom';
+import {useLocation} from "react-router";
+import {useMemo, useState} from "react";
 
 const UserMyPage = () => {
+    const location = useLocation();
+    const [menuTitle, setMenuTitle] = useState('');
+    const makeMenuTitle = () => {
+        const type = location.pathname.split('/').pop();
+        let titleName = '';
+        switch (type) {
+            case 'privacy': titleName = '개인정보 변경'; break;
+            case 'tickets': titleName = '예매 현황'; break;
+            case 'withdrawal': titleName = '탈퇴하기'; break;
+        }
+        setMenuTitle(titleName);
+    };
+    const init = () => {
+        makeMenuTitle()
+    };
+    useMemo(init, []);
     return (
         <Container>
             <Row>
@@ -21,7 +39,7 @@ const UserMyPage = () => {
                                 </Stack>
                             </Card.Title>
                             <Nav>
-                                <Nav.Link className={'text-dark'}>개인정보변경</Nav.Link>
+                                <Nav.Link className={'text-dark'} href={'/mypage/privacy'}>개인정보변경</Nav.Link>
                             </Nav>
                             <hr/>
                             <Card.Title>
@@ -31,7 +49,7 @@ const UserMyPage = () => {
                                 </Stack>
                             </Card.Title>
                             <Nav>
-                                <Nav.Link className={'text-dark'}>예매현황</Nav.Link>
+                                <Nav.Link className={'text-dark'} href={'/mypage/tickets'}>예매현황</Nav.Link>
                             </Nav>
                             <hr/>
                             <Card.Title>
@@ -41,7 +59,7 @@ const UserMyPage = () => {
                                 </Stack>
                             </Card.Title>
                             <Nav>
-                                <Nav.Link className={'text-dark'}>탈퇴하기</Nav.Link>
+                                <Nav.Link className={'text-dark'} href={'/mypage/withdrawal'}>탈퇴하기</Nav.Link>
                             </Nav>
                         </Card.Body>
                     </Card>
@@ -49,7 +67,7 @@ const UserMyPage = () => {
                 <Col>
                     <Row>
                         <Col>
-                            <div className={'h2'}>개인정보변경</div>
+                            <div className={'h2'}>{menuTitle}</div>
                         </Col>
                     </Row>
                     <Row className={'mt-4'}>
