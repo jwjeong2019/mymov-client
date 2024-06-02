@@ -47,12 +47,16 @@ const CustomTimeTable = ({ data, pageData, onClickPage }) => {
                         <Col>
                             <Row className={'h5 fw-bold'}>
                                 {item.headers.map((header, headerIdx) => {
-                                    return <Col key={`col-header-${headerIdx}`}>{header}</Col>;
+                                    let md;
+                                    if (headerIdx === 0) md = 1;
+                                    return <Col key={`col-header-${headerIdx}`} md={md}>{header}</Col>;
                                 })}
                             </Row>
                             <Row className={'mt-3'}>
                                 {item.contents.map((content, contentIdx) => {
-                                    return <Col key={`col-content-${contentIdx}`}>{content}</Col>;
+                                    let md;
+                                    if (contentIdx === 0) md = 1;
+                                    return <Col key={`col-content-${contentIdx}`} md={md}>{content}</Col>;
                                 })}
                             </Row>
                         </Col>
