@@ -1,6 +1,51 @@
 import {Button, Col, Container, Form, Row} from "react-bootstrap";
+import {useMemo, useState} from "react";
+import {Utils} from "../../utils/Utils";
+import apiMember from "../../api/apiMember";
+import {useNavigate} from "react-router";
 
 const UserWithdrawal = () => {
+    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const navigate = useNavigate();
+    const [radios, setRadios] = useState([]);
+    const [inputs, setInputs] = useState({});
+    const handleChangeInputsReasonType = e => setInputs(prevState => ({ ...prevState, reasonType: e.target.defaultValue }));
+    const handleChangeInputsReasonDetail = e => setInputs(prevState => ({ ...prevState, reasonDetail: e.target.value }));
+    const handleClickWithdrawal = () => {
+        const isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) deleteMember();
+    };
+    const deleteMember = () => {
+        const _params = {
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken,
+            reasonType: inputs.reasonType,
+            reasonDetail: inputs.reasonDetail ?? '-',
+        };
+        apiMember.deleteMember(_params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`회원탈퇴 실패:\n${data.msg}`);
+                alert('회원탈퇴를 완료하였습니다. 이용해주셔서 감사합니다.');
+                localStorage.clear();
+                navigate('/home');
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const makeRadios = () => {
+        setRadios([
+            { label: '고객 응대 미흡', value: '고객 응대 미흡' },
+            { label: '다른 플랫폼 이용', value: '다른 플랫폼 이용' },
+            { label: '기타', value: '기타' },
+        ]);
+    };
+    const init = () => {
+        makeRadios();
+    };
+    useMemo(init, []);
     return (
         <Container>
             <Row>
@@ -10,10 +55,18 @@ const UserWithdrawal = () => {
             </Row>
             <Row className={'mt-3'}>
                 <Col>
-                    <Form className={'h5 d-flex flex-column gap-2'}>
-                        <Form.Check type={'radio'} name={'radio'} label={'고객 응대 미흡'} defaultChecked />
-                        <Form.Check type={'radio'} name={'radio'} label={'다른 플랫폼 이용'} />
-                        <Form.Check type={'radio'} name={'radio'} label={'기타'} />
+                    <Form className={'h5 d-flex flex-column gap-2'} onChange={handleChangeInputsReasonType}>
+                        {radios.map((radio, radioIdx) => {
+                            return (
+                                <Form.Check
+                                    key={`form-check-radio-${radioIdx}`}
+                                    type={'radio'}
+                                    name={'radio'}
+                                    label={radio.label}
+                                    value={radio.value}
+                                />
+                            );
+                        })}
                     </Form>
                 </Col>
             </Row>
@@ -26,13 +79,18 @@ const UserWithdrawal = () => {
             <Row className={'mt-3'}>
                 <Col>
                     <Form>
-                        <Form.Control as={'textarea'} rows={5} />
+                        <Form.Control
+                            as={'textarea'}
+                            rows={5}
+                            disabled={inputs.reasonType !== '기타'}
+                            onChange={handleChangeInputsReasonDetail}
+                        />
                     </Form>
                 </Col>
             </Row>
             <Row className={'mt-5'}>
                 <Col>
-                    <Button variant={'danger'}>탈퇴하기</Button>
+                    <Button variant={'danger'} onClick={handleClickWithdrawal}>탈퇴하기</Button>
                 </Col>
             </Row>
         </Container>
