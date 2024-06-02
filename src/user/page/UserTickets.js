@@ -11,110 +11,148 @@ import {
     Row,
     Stack
 } from "react-bootstrap";
+import apiMember from "../../api/apiMember";
+import {useMemo, useState} from "react";
+import CustomTimeTable from "../component/CustomTimeTable";
+import {Utils} from "../../utils/Utils";
 
 const UserTickets = () => {
+    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [reservations, setReservations] = useState([]);
+    const [tablePage, setTablePage] = useState({});
+    const [filters, setFilters] = useState([]);
+    const [search, setSearch] = useState({});
+    const [currentFilter, setCurrentFilter] = useState({});
+    const handleClickCancel = id => {
+        const isOk = window.confirm('삭제하시겠습니까?');
+        if (isOk) deleteReservation(id);
+    };
+    const handleClickTablePage = number => getReservations(number, search);
+    const handleChangeSearchKeyword = e => setSearch(prevState => ({ ...prevState, keyword: e.target.value }));
+    const handleChangeSearchFilter = filter => {
+        setSearch(prevState => ({...prevState, filter: filter.value}));
+        setCurrentFilter(filter);
+    };
+    const handleClickSearch = () => getReservations(1, search);
+    const getReservations = (page, search) => {
+        const _params = {
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken,
+            page: page - 1,
+            size: 10,
+            keyword: search?.keyword,
+            keywordField: search?.filter,
+        };
+        apiMember.getReservationList(_params)
+            .then(response => {
+                const { data } = response;
+                const _reservations = data.result.content.map(reservation => ({
+                    image: {
+                        url: reservation.ticket.timetable.movie.attachment
+                    },
+                    headers: [ '#', '제목', '영화관', '상영관', '시작시간', '좌석', '상태' ],
+                    contents: [
+                        reservation.id,
+                        reservation.ticket.timetable.movie.title,
+                        reservation.ticket.timetable.cinema.name,
+                        reservation.ticket.timetable.theater.number,
+                        reservation.ticket.timetable.startTime,
+                        reservation.ticket.seat.position,
+                        makeStatus(reservation.id, reservation.status),
+                    ],
+                }));
+                setReservations(_reservations);
+                setTablePage(prevState => ({
+                    ...prevState,
+                    page,
+                    size: 10,
+                    total: data.result.totalElements ?? 0
+                }));
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const makeStatus = (id, status) => {
+        let buttonProps = {};
+        switch (status) {
+            case 'CAN': {
+                buttonProps.variant = 'secondary';
+                buttonProps.title = '취소완료';
+                buttonProps.disabled = true;
+                break;
+            }
+            case 'ING': {
+                buttonProps.variant = 'danger';
+                buttonProps.title = '예매취소';
+                buttonProps.onClick = () => handleClickCancel(id);
+                break;
+            }
+            case 'COM': {
+                buttonProps.variant = 'success';
+                buttonProps.title = '예매완료';
+                buttonProps.disabled = true;
+                break;
+            }
+        }
+        return (
+            <Button variant={buttonProps.variant}
+                    disabled={buttonProps.disabled}
+                    onClick={buttonProps.onClick}
+            >
+                <div className={'h6 m-0'}>{buttonProps.title}</div>
+            </Button>
+        );
+    };
+    const deleteReservation = (id) => {
+        const _params = {
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken,
+            id,
+        };
+        apiMember.deleteReservation(_params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`예매 취소 실패:\n${data.msg}`);
+                alert('예매 취소를 정상적으로 완료하였습니다.');
+                window.location.reload();
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const makeFilters = () => {
+        setFilters([
+            { title: '전체' },
+            { value: 'MOVIE_TITLE', title: '제목' },
+            { value: 'CINEMA_NAME', title: '영화관' },
+        ]);
+    };
+    const init = () => {
+        makeFilters();
+        getReservations(1);
+    };
+    useMemo(init, []);
     return (
         <Container>
-            <Row className={'mt-4'}>
-                <Col md={3}>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'} />
-                </Col>
-                <Col>
-                    <Row className={'h5 fw-bold'}>
-                        <Col md={1}>#</Col>
-                        <Col>제목</Col>
-                        <Col>영화관</Col>
-                        <Col>상영관</Col>
-                        <Col>시작시간</Col>
-                        <Col>좌석</Col>
-                        <Col>상태</Col>
-                    </Row>
-                    <Row className={'mt-3'}>
-                        <Col md={1}>1</Col>
-                        <Col>Last City</Col>
-                        <Col>강남점</Col>
-                        <Col>1상영관</Col>
-                        <Col>13:50</Col>
-                        <Col>A12</Col>
-                        <Col className={'h4'}>
-                            <Badge bg={'primary'}>예매중</Badge>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Row className={'mt-4'}>
-                <Col md={3}>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'} />
-                </Col>
-                <Col>
-                    <Row className={'h5 fw-bold'}>
-                        <Col md={1}>#</Col>
-                        <Col>제목</Col>
-                        <Col>영화관</Col>
-                        <Col>상영관</Col>
-                        <Col>시작시간</Col>
-                        <Col>좌석</Col>
-                        <Col>상태</Col>
-                    </Row>
-                    <Row className={'mt-3'}>
-                        <Col md={1}>1</Col>
-                        <Col>Last City</Col>
-                        <Col>강남점</Col>
-                        <Col>1상영관</Col>
-                        <Col>13:50</Col>
-                        <Col>A12</Col>
-                        <Col className={'h4'}>
-                            <Badge bg={'secondary'}>예매취소</Badge>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Row className={'mt-4'}>
-                <Col md={3}>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2022/11/17/22/49/city-7599045_1280.jpg'} />
-                </Col>
-                <Col>
-                    <Row className={'h5 fw-bold'}>
-                        <Col md={1}>#</Col>
-                        <Col>제목</Col>
-                        <Col>영화관</Col>
-                        <Col>상영관</Col>
-                        <Col>시작시간</Col>
-                        <Col>좌석</Col>
-                        <Col>상태</Col>
-                    </Row>
-                    <Row className={'mt-3'}>
-                        <Col md={1}>1</Col>
-                        <Col>Last City</Col>
-                        <Col>강남점</Col>
-                        <Col>1상영관</Col>
-                        <Col>13:50</Col>
-                        <Col>A12</Col>
-                        <Col className={'h4'}>
-                            <Badge bg={'success'}>예매완료</Badge>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
-            <Row className={'mt-5'}>
-                <Col className={'d-flex justify-content-center'}>
-                    <Pagination>
-                        <Pagination.Prev linkClassName={'text-dark'} />
-                        <Pagination.Item linkClassName={'bg-dark text-light'}>1</Pagination.Item>
-                        <Pagination.Item linkClassName={'text-dark'}>2</Pagination.Item>
-                        <Pagination.Next linkClassName={'text-dark'} />
-                    </Pagination>
-                </Col>
-            </Row>
+            <CustomTimeTable
+                data={reservations}
+                pageData={tablePage}
+                onClickPage={handleClickTablePage}
+            />
             <Row className={'mt-3'}>
                 <Col className={'d-flex justify-content-center'}>
                     <Stack className={'w-50'} direction={'horizontal'} gap={3}>
-                        <DropdownButton variant={'outline-dark'} title={'전체'}>
-                            <Dropdown.Item>제목</Dropdown.Item>
-                            <Dropdown.Item>영화관</Dropdown.Item>
+                        <DropdownButton variant={'outline-dark'} title={currentFilter.title ?? '전체'}>
+                            {filters.map((filter, filterIdx) => {
+                                return <Dropdown.Item key={`dropdown-item-filter-${filterIdx}`}
+                                                      onClick={() => handleChangeSearchFilter(filter)}>{filter.title}</Dropdown.Item>;
+                            })}
                         </DropdownButton>
-                        <Form.Control />
-                        <Button variant={'dark'}>Search</Button>
+                        <Form.Control onChange={handleChangeSearchKeyword} />
+                        <Button variant={'dark'} onClick={handleClickSearch}>Search</Button>
                     </Stack>
                 </Col>
             </Row>
