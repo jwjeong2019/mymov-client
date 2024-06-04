@@ -51,6 +51,7 @@ const UserPrivacy = () => {
                     phone: data.result.phone,
                     address: data.result.address,
                     addressDetail: data.result.addressDetail,
+                    imageUrl: data.result.imageUrl
                 };
                 setInputs(_member);
             })
@@ -76,9 +77,7 @@ const UserPrivacy = () => {
             });
     };
     const updateMember = () => {
-        const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+        const data = JSON.stringify({
             memberId: inputs.memberId,
             memberPw: inputs.memberPw,
             name: inputs.name,
@@ -86,6 +85,14 @@ const UserPrivacy = () => {
             phone: inputs.phone,
             address: inputs.address,
             addressDetail: inputs.addressDetail,
+        });
+        const formData = new FormData();
+        formData.append('data', data);
+        formData.append('file', inputs.file);
+        const _params = {
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken,
+            formData
         };
         apiMember.updateMember(_params)
             .then(response => {

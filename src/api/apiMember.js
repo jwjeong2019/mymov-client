@@ -8,17 +8,10 @@ const apiMember = {
         }
     }),
     createMember: (params) => api.post(`/members`, params),
-    updateMember: (params) => api.put(`/members`, {
-        memberId: params.memberId,
-        memberPw: params.memberPw,
-        name: params.name,
-        email: params.email,
-        phone: params.phone,
-        address: params.address,
-        addressDetail: params.addressDetail,
-    }, {
+    updateMember: (params) => api.put(`/members`, params.formData, {
         headers: {
-            Authorization: `${params.grantType} ${params.accessToken}`
+            Authorization: `${params.grantType} ${params.accessToken}`,
+            "Content-Type": "multipart/form-data"
         }
     }),
     deleteMember: (params) => api.delete(`/members`, {
