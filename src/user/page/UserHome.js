@@ -79,7 +79,7 @@ const UserHome = () => {
         <Container>
             <Row>
                 <Col>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2023/11/18/19/06/futuristic-home-8397004_1280.jpg'} height={650} />
+                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2016/06/03/12/42/film-roll-1433330_1280.jpg'} height={650} style={{ filter: 'brightness(50%)'}} />
                     <div className={'text-light position-absolute font-Ownglyph_ryurue-Rg w-75'} style={{ top: '50%', left: '10%' }}>
                         <Stack gap={3}>
                             <p className={'h2'}>You’ll have bad times, but it’ll always wake you up to the good stuff you weren’t paying attention to.</p>
