@@ -2,6 +2,7 @@ import {Badge, Button, Card, Col, Container, Image, Row, Stack} from "react-boot
 import {useMemo, useState} from "react";
 import apiMovie from "../../api/apiMovie";
 import {useNavigate} from "react-router";
+import {FaArrowRight, FaChevronRight} from "react-icons/fa6";
 
 const UserHome = () => {
     const titleStyle = {
@@ -12,7 +13,7 @@ const UserHome = () => {
     const navigate = useNavigate();
     const [popularMovies, setPopularMovies] = useState([]);
     const [releasedMovies, setReleasedMovies] = useState([]);
-    const handleClickShowMore = () => navigate('/movies');
+    const handleClickSeeAll = () => navigate('/movies');
     const getPopularMovies = () => {
         const _params = {
             page: 0,
@@ -78,8 +79,8 @@ const UserHome = () => {
         <Container>
             <Row>
                 <Col>
-                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2016/10/20/18/35/earth-1756274_1280.jpg'} />
-                    <div className={'text-light position-absolute font-HakDotR w-75'} style={{ top: '50%', left: '10%' }}>
+                    <Image className={'w-100'} src={'https://cdn.pixabay.com/photo/2023/11/18/19/06/futuristic-home-8397004_1280.jpg'} height={650} />
+                    <div className={'text-light position-absolute font-Ownglyph_ryurue-Rg w-75'} style={{ top: '50%', left: '10%' }}>
                         <Stack gap={3}>
                             <p className={'h2'}>You’ll have bad times, but it’ll always wake you up to the good stuff you weren’t paying attention to.</p>
                             <p className={'h4'}>-Good Will Hunting-</p>
@@ -91,9 +92,9 @@ const UserHome = () => {
                     </div>
                 </Col>
             </Row>
-            <Row className={'mt-5'} style={titleStyle}>
+            <Row className={'mt-5'}>
                 <Col>
-                    <div className={'font-HakMulB text-light'} style={{ fontSize: 60 }}>Popular List</div>
+                    <div className={'font-HakMulB'} style={{ fontSize: 60 }}>Popular List</div>
                 </Col>
             </Row>
             <Row>
@@ -116,10 +117,16 @@ const UserHome = () => {
                         </Col>
                     );
                 })}
+                <Col className={'d-flex justify-content-center align-items-center'}>
+                    <Button variant={'outline-dark'} onClick={handleClickSeeAll}>
+                        <span className={'fw-bold h5'}>See All </span>
+                        <FaArrowRight className={'h6 m-0'} />
+                    </Button>
+                </Col>
             </Row>
-            <Row className={'mt-5'} style={titleStyle}>
+            <Row className={'mt-5'}>
                 <Col>
-                    <div className={'font-HakMulB text-light'} style={{ fontSize: 60 }}>Released List</div>
+                    <div className={'font-HakMulB'} style={{ fontSize: 60 }}>Released List</div>
                 </Col>
             </Row>
             <Row>
@@ -142,10 +149,11 @@ const UserHome = () => {
                         </Col>
                     );
                 })}
-            </Row>
-            <Row className={'mt-5'}>
-                <Col className={'d-flex justify-content-center'}>
-                    <Button variant={'dark'} onClick={handleClickShowMore}>Show More</Button>
+                <Col className={'d-flex justify-content-center align-items-center'}>
+                    <Button variant={'outline-dark'} onClick={handleClickSeeAll}>
+                        <span className={'fw-bold h5'}>See All </span>
+                        <FaArrowRight className={'h6 m-0'} />
+                    </Button>
                 </Col>
             </Row>
         </Container>
