@@ -9,9 +9,6 @@ const apiGenre = {
             keywordField: params.keywordField,
             sortField: params.sortField,
             sortType: params.sortType,
-        },
-        headers: {
-            Authorization: `${params.grantType} ${params.accessToken}`,
         }
     }),
 };

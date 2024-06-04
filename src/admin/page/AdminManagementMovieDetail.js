@@ -45,8 +45,6 @@ const AdminManagementMovieDetail = () => {
     };
     const getGenres = () => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
             page: 0,
             size: 1000,
         };

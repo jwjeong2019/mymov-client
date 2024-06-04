@@ -76,8 +76,6 @@ const AdminManagementGenre = () => {
         const _params = {
             page: page - 1,
             size: 10,
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
             keyword: search?.keyword,
             keywordField: search?.filter,
             sortField: search?.sort,
