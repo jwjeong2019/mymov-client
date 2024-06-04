@@ -88,52 +88,28 @@ const UserReservation = () => {
         const _params = {
             id: location.state.timetableId
         };
-        const apiResponse = {
-            "id": 1,
-            "startDate": "2024-06-01",
-            "endDate": "2024-07-01",
-            "startTime": "19:50:00",
-            "endTime": "21:05:00",
-            "cinema": {
-                "id": 1,
-                "name": "강남점",
-                "region": "서울"
-            },
-            "theater": {
-                "id": 1,
-                "number": 1
-            },
-            "movie": {
-                "id": 2,
-                "title": "Ruined City",
-                "detail": "폐허가 되어버린 도시에서 생존하는 다큐멘터리.",
-                "releaseDate": "2024-06-12T00:00:00",
-                "screenDate": "2024-06-13T00:00:00",
-                "age": 12,
-                "attachment": "https://mblogthumb-phinf.pstatic.net/20101123_187/dnwjddn89_1290478462543VehPu_JPEG/5.jpg?type=w420",
-                "genres": [
-                    {
-                        "id": 65,
-                        "name": "Documentary"
-                    }
-                ],
-                "director": "크리스토핑",
-                "runningTime": 210
-            }
-        };
-        setInputs({
-            timetableId: apiResponse.id,
-            cinema: {
-                id: apiResponse.cinema.id,
-                name: apiResponse.cinema.name
-            },
-            theater: {
-                id: apiResponse.theater.id,
-                name: apiResponse.theater.number
-            },
-            startTime: apiResponse.startTime
-        });
-        getTheater(apiResponse.theater.id);
+        apiTimetable.getDetail(_params)
+            .then(response => {
+                const { data } = response;
+                const timetable = data.result;
+                setInputs({
+                    timetableId: timetable.id,
+                    cinema: {
+                        id: timetable.cinema.id,
+                        name: timetable.cinema.name
+                    },
+                    theater: {
+                        id: timetable.theater.id,
+                        name: timetable.theater.number
+                    },
+                    startTime: timetable.startTime
+                });
+                getTheater(timetable.theater.id);
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
     };
     const getCinemas = () => {
         apiCinema.getList()
