@@ -14,22 +14,60 @@ const UserHome = () => {
     const [releasedMovies, setReleasedMovies] = useState([]);
     const handleClickShowMore = () => navigate('/movies');
     const getPopularMovies = () => {
-        const _params = {};
+        const _params = {
+            page: 0,
+            size: 3,
+            sortField: 'score',
+            sortType: 'DESC'
+        };
         const apiResult = [
             { id: 0, title: 'Last hope', score: 4.8, img: 'https://cdn.pixabay.com/photo/2024/05/09/16/35/ai-generated-8751441_1280.png' },
             { id: 1, title: 'Last hope', score: 4.8, img: 'https://cdn.pixabay.com/photo/2024/05/09/16/35/ai-generated-8751441_1280.png' },
             { id: 2, title: 'Last hope', score: 4.8, img: 'https://cdn.pixabay.com/photo/2024/05/09/16/35/ai-generated-8751441_1280.png' },
         ];
-        setPopularMovies(apiResult);
+        apiMovie.getList(_params)
+            .then(response => {
+                const { data } = response;
+                const _movies = data.result.content.map(movie => ({
+                    id: movie.id,
+                    title: movie.title,
+                    score: movie.score,
+                    img: movie.attachment
+                }));
+                setPopularMovies(_movies);
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
     };
     const getReleasedMovies = () => {
-        const _params = {};
+        const _params = {
+            page: 0,
+            size: 3,
+            sortField: 'releaseDate',
+            sortType: 'DESC'
+        };
         const apiResult = [
             { id: 0, title: 'Last One', score: 3.8, img: 'https://cdn.pixabay.com/photo/2023/09/06/08/50/tornado-8236696_1280.jpg' },
             { id: 1, title: 'Last One', score: 3.8, img: 'https://cdn.pixabay.com/photo/2023/09/06/08/50/tornado-8236696_1280.jpg' },
             { id: 2, title: 'Last One', score: 3.8, img: 'https://cdn.pixabay.com/photo/2023/09/06/08/50/tornado-8236696_1280.jpg' },
         ];
-        setReleasedMovies(apiResult);
+        apiMovie.getList(_params)
+            .then(response => {
+                const { data } = response;
+                const _movies = data.result.content.map(movie => ({
+                    id: movie.id,
+                    title: movie.title,
+                    score: movie.score,
+                    img: movie.attachment
+                }));
+                setReleasedMovies(_movies);
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
     };
     const init = () => {
         getPopularMovies();
