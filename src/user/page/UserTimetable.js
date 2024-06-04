@@ -30,7 +30,11 @@ const UserTimetable = () => {
     const handleClickNavLinkCinema = e => {
         const cinemaName = e.target.dataset.rrUiEventKey;
         let _nextSearch = {};
-        if (cinemaName !== 'ALL') _nextSearch = { ...search, keyword: cinemaName, filter: 'CINEMA_NAME' };
+        if (cinemaName !== 'ALL') _nextSearch = {
+            ...search,
+            keywordTab: cinemaName,
+            filterTab: 'CINEMA_NAME'
+        };
         getTimetables(1, _nextSearch);
         setSearch(_nextSearch);
     };
@@ -44,7 +48,7 @@ const UserTimetable = () => {
         })
     };
     const handleClickTablePage = number => getTimetables(number);
-    const handleChangeSearchKeyword = e => setSearch(prevState => ({ ...prevState, keyword: e.target.value }));
+    const handleChangeSearchKeyword = e => setSearch(prevState => ({...prevState, keyword: e.target.value }));
     const handleChangeSearchFilter = filter => {
         setSearch(prevState => ({...prevState, filter: filter.value}));
         setCurrentFilter(filter);
@@ -69,8 +73,8 @@ const UserTimetable = () => {
         const _params = {
             page: page - 1,
             size: 10,
-            keyword: search?.keyword,
-            keywordField: search?.filter,
+            keyword: makeKeyword(search),
+            keywordField: makeKeywordField(search),
         };
         apiTimetable.getList(_params)
             .then(response => {
@@ -107,6 +111,18 @@ const UserTimetable = () => {
                 const { status, data } = err.response;
                 alert(`error: ${data.message} (${status})`);
             });
+    };
+    const makeKeyword = search => {
+        let keywords = [];
+        if (search?.keywordTab) keywords.push(search.keywordTab);
+        if (search?.keyword) keywords.push(search.keyword);
+        return keywords.join(',');
+    };
+    const makeKeywordField = search => {
+        let keywords = [];
+        if (search?.filterTab) keywords.push(search.filterTab);
+        if (search?.filter) keywords.push(search.filter);
+        return keywords.join(',');
     };
     const makeAge = age => {
         const _title = age < 12 ? 'ALL' : age;
