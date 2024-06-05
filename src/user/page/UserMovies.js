@@ -70,7 +70,7 @@ const UserMovies = () => {
                     title: {
                         badge: {
                             bg: makeBadgeBg(movie.age),
-                            value: movie.age,
+                            value: movie.age < 12 ? 'ALL' : movie.age,
                         },
                         title: movie.title,
                     },
