@@ -13,12 +13,13 @@ const UserMovies = () => {
     const [totalPages, setTotalPages] = useState(0);
     const [genres, setGenres] = useState([]);
     const [movies, setMovies] = useState([]);
-    const [search, setSearch] = useState('');
-    const [filterType, setFilterType] = useState();
-    const [sortType, setSortType] = useState();
+    const [search, setSearch] = useState({});
     const handleClickNavLinkGenre = e => {
         const genreId = e.target.dataset.rrUiEventKey;
-        console.log(genreId);
+        let _nextSearch = {};
+        if (genreId !== 'ALL') _nextSearch = { ...search, keyword: genreId, filter: 'GENRE' };
+        getMovies(1, _nextSearch);
+        setSearch(_nextSearch);
     };
     const handleClickRecord = id => navigate(`/movies/${id}`);
     const handleClickPrev = () => {
@@ -45,17 +46,17 @@ const UserMovies = () => {
                 setGenres(_genres);
             })
             .catch(err => {
-                // const { status, data } = err.response;
-                // alert(`error: ${data.message} (${status})`);
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
             });
     };
-    const getMovies = (page) => {
+    const getMovies = (page, search) => {
         const _params = {
             page: page - 1,
             size: 10,
-            keyword: search,
-            keywordField: filterType,
-            sortField: sortType,
+            keyword: search?.keyword,
+            keywordField: search?.filter,
+            sortField: search?.sort,
             sortType: 'DESC'
         };
         apiMovie.getList(_params)
