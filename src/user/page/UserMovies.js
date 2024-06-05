@@ -53,7 +53,7 @@ const UserMovies = () => {
     const getMovies = (page, search) => {
         const _params = {
             page: page - 1,
-            size: 10,
+            size: 9,
             keyword: search?.keyword,
             keywordField: search?.filter,
             sortField: search?.sort,
