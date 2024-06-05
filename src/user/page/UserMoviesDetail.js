@@ -1,17 +1,25 @@
-import {Button, Card, Col, Container, Form, Row, Stack} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, FormCheck, Row, Stack} from "react-bootstrap";
 import {useNavigate, useParams} from "react-router";
 import {useMemo, useState} from "react";
 import apiMovie from "../../api/apiMovie";
+import apiMember from "../../api/apiMember";
+import {Utils} from "../../utils/Utils";
+import CustomRadio from "../component/CustomRadio";
 
 const UserMoviesDetail = () => {
+    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
     const params = useParams();
     const navigate = useNavigate();
     const [movie, setMovie] = useState({});
+    const [radios, setRadios] = useState([]);
+    const [inputs, setInputs] = useState({});
     const handleClickReservation = () => navigate('/reservation', {
         state: {
             movieId: movie.id
         }
     });
+    const handleChangeScore = e => setInputs(prevState => ({ ...prevState, score: e.target.value }));
+    const handleClickReview = () => createReview();
     const getMovie = () => {
         const _params = {
             ...params
@@ -28,6 +36,7 @@ const UserMoviesDetail = () => {
                     runningTime: `${data.result.runningTime}분`,
                     genres: makeGenres(data.result.genres),
                     detail: data.result.detail,
+                    score: data.result.score,
                     imageUrl: data.result.attachment,
                 });
             })
@@ -37,7 +46,37 @@ const UserMoviesDetail = () => {
             });
     };
     const makeGenres = genres => genres.map(genre => genre.name).join(', ');
+    const createReview = () => {
+        const _params = {
+            grantType: storageItemAuth.grantType,
+            accessToken: storageItemAuth.accessToken,
+            movieId: movie.id,
+            ...inputs,
+        };
+        apiMember.createReview(_params)
+            .then(response => {
+                const { data } = response;
+                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`리뷰 실패:\n${data.msg}`);
+                if (Utils.isContainedWordFrom('already', data.msg)) return alert(`리뷰 실패:\n${data.msg}`);
+                alert('정상적으로 리뷰를 완료하였습니다.');
+                window.location.reload();
+            })
+            .catch(err => {
+                const { status, data } = err.response;
+                alert(`error: ${data.message} (${status})`);
+            });
+    };
+    const makeRadios = () => {
+        setRadios([
+            { value: 1, label: '1점' },
+            { value: 2, label: '2점' },
+            { value: 3, label: '3점' },
+            { value: 4, label: '4점' },
+            { value: 5, label: '5점' },
+        ]);
+    };
     const init = () => {
+        makeRadios();
         getMovie();
     };
     useMemo(init, []);
@@ -77,6 +116,26 @@ const UserMoviesDetail = () => {
                     <Button className={'w-50'} variant={'dark'} onClick={handleClickReservation}>
                         <div className={'h3 m-0 font-HakDotR'}>예매하기</div>
                     </Button>
+                </Col>
+            </Row>
+            <Row className={'mt-5'}>
+                <Col>
+                    <hr/>
+                    <Row>
+                        <Col md={10}>
+                            <Stack className={'h3 m-0'} direction={'horizontal'} gap={5}>
+                                <div>이 영화에 대한 나의 평가?</div>
+                                <Form onChange={handleChangeScore}>
+                                    <Stack direction={'horizontal'} gap={5}>
+                                        <CustomRadio data={radios} selectedValue={inputs.score} />
+                                    </Stack>
+                                </Form>
+                            </Stack>
+                        </Col>
+                        <Col className={'d-flex justify-content-end'}>
+                            <Button variant={'dark'} onClick={handleClickReview}>평가하기</Button>
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>

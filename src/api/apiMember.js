@@ -54,6 +54,14 @@ const apiMember = {
     }),
     getMemberId: (params) => api.get(`/members/memberId/${params.memberId}`),
     updatePassword: (params) => api.put(`/members/password`, params),
+    createReview: (params) => api.post(`/members/reviews`, {
+        movieId: params.movieId,
+        score: params.score,
+    }, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`
+        }
+    }),
 };
 
 export default apiMember;
