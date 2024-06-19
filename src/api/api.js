@@ -1,9 +1,14 @@
 import axios from "axios";
 
-const BASE_URL_LOCAL_DEV = 'http://localhost:8080/v1/api/dev';
+const {
+    REACT_APP_API_PROTOCOL,
+    REACT_APP_API_HOST,
+    REACT_APP_API_PORT
+} = process.env;
+const BASE_URL = `${REACT_APP_API_PROTOCOL}://${REACT_APP_API_HOST}:${REACT_APP_API_PORT}/v1/api/dev`;
 
 const api = axios.create({
-    baseURL: BASE_URL_LOCAL_DEV
+    baseURL: BASE_URL
 });
 
 export default api;
