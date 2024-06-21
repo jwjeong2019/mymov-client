@@ -78,7 +78,7 @@ const ManagementMovieRegister = (props) => {
                 });
                 setInputList(array);
                 setDetail(data.result.detail);
-                setImageUrl(data.result.attachment);
+                setImageUrl(data.result.attachment.path);
             })
             .catch(err => alert(`영화 정보 불러오기 실패: ${err}`));
     }

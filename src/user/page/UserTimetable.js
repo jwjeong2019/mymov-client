@@ -82,7 +82,7 @@ const UserTimetable = () => {
                 const _timetables = data.result.content.map(timetable => ({
                     id: timetable.id,
                     image: {
-                        url: timetable.movie.attachment
+                        url: timetable.movie.attachment.path
                     },
                     headers: [ '제목', '연령', '감독', '장르', '영화시간', '영화관', '상영관', '시작시간', '예매하기' ],
                     contents: [

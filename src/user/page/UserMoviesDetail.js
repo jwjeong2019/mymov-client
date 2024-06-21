@@ -37,7 +37,7 @@ const UserMoviesDetail = () => {
                     genres: makeGenres(data.result.genres),
                     detail: data.result.detail,
                     score: data.result.score,
-                    imageUrl: data.result.attachment,
+                    imageUrl: data.result.attachment.path,
                 });
             })
             .catch(err => {

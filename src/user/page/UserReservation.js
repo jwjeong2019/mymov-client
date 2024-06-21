@@ -75,7 +75,7 @@ const UserReservation = () => {
                     runningTime: `${data.result.runningTime}분`,
                     genres: makeGenres(data.result.genres),
                     detail: data.result.detail,
-                    imageUrl: data.result.attachment,
+                    imageUrl: data.result.attachment.path,
                 });
             })
             .catch(err => {

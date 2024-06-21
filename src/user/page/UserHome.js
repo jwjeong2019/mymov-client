@@ -33,7 +33,7 @@ const UserHome = () => {
                     id: movie.id,
                     title: movie.title,
                     score: movie.score,
-                    img: movie.attachment
+                    img: movie.attachment.path
                 }));
                 setPopularMovies(_movies);
             })
@@ -61,7 +61,7 @@ const UserHome = () => {
                     id: movie.id,
                     title: movie.title,
                     score: movie.score,
-                    img: movie.attachment
+                    img: movie.attachment.path
                 }));
                 setReleasedMovies(_movies);
             })

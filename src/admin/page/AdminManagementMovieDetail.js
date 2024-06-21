@@ -76,7 +76,7 @@ const AdminManagementMovieDetail = () => {
                     releaseDate: data.result.releaseDate.split('T')[0],
                     screenDate: data.result.screenDate.split('T')[0],
                     genreIds: data.result.genres.map(genre => genre.id),
-                    fileData: { url: data.result.attachment },
+                    fileData: { url: data.result.attachment.path },
                 };
                 console.log(_movie);
                 setMovie(_movie);

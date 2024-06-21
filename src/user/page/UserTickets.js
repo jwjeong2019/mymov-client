@@ -48,7 +48,7 @@ const UserTickets = () => {
                 const { data } = response;
                 const _reservations = data.result.content.map(reservation => ({
                     image: {
-                        url: reservation.ticket.timetable.movie.attachment
+                        url: reservation.ticket.timetable.movie.attachment.path
                     },
                     headers: [ '#', '제목', '영화관', '상영관', '시작시간', '좌석', '상태' ],
                     contents: [

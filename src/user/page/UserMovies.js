@@ -65,7 +65,7 @@ const UserMovies = () => {
                 const _movies = data.result.content.map(movie => ({
                     id: movie.id,
                     image: {
-                        url: movie.attachment
+                        url: movie.attachment.path
                     },
                     title: {
                         badge: {

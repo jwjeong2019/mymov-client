@@ -69,7 +69,7 @@ const MovieList = () => {
                         director: movie.director,
                         runningTime: `${movie.runningTime}분`,
                         genreList: movie.genres,
-                        imageUrl: movie.attachment
+                        imageUrl: movie.attachment.path
                     }));
                     setMovieList(array);
                     setPage(page);
