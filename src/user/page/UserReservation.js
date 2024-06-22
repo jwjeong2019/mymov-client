@@ -7,9 +7,12 @@ import apiTheater from "../../api/apiTheater";
 import apiTimetable from "../../api/apiTimetable";
 import apiMember from "../../api/apiMember";
 import {Utils} from "../../utils/Utils";
+import * as PortOne from "@portone/browser-sdk/v2";
+import apiPayment from "../../api/apiPayment";
 
 const UserReservation = () => {
     const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const { REACT_APP_API_PORTONE_STORE_ID, REACT_APP_API_PORTONE_CHANNEL_KEY } = process.env;
     const location = useLocation();
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
@@ -18,7 +21,7 @@ const UserReservation = () => {
     const [theaters, setTheaters] = useState([]);
     const [seats, setSeats] = useState([]);
     const [timetables, setTimetables] = useState([]);
-    const [price, setPrice] = useState(14000);
+    const [price, setPrice] = useState(10);
     const handleChangeInputsCinema = e => {
         if (e.target.value !== 'ALL') {
             const cinema = JSON.parse(e.target.value);
@@ -58,7 +61,39 @@ const UserReservation = () => {
         }
         setInputs(prevState => ({ ...prevState, seatId: undefined }));
     };
-    const handleClickPayment = () => createTicket();
+    const handleClickPayment = () => {
+        PortOne.requestPayment({
+            // Store ID 설정
+            storeId: `${REACT_APP_API_PORTONE_STORE_ID}`,
+            // 채널 키 설정
+            channelKey: `${REACT_APP_API_PORTONE_CHANNEL_KEY}`,
+            paymentId: `payment-${crypto.randomUUID()}`,
+            orderName: `${movie.title} 예매표`,
+            totalAmount: price,
+            currency: "CURRENCY_KRW",
+            payMethod: "EASY_PAY",
+        })
+            .then(resPortOne => {
+                const { code, message, paymentId } = resPortOne;
+                if (code) return alert(message);
+                const _params = {
+                    grantType: storageItemAuth.grantType,
+                    accessToken: storageItemAuth.accessToken,
+                    paymentId,
+                    timetableId: inputs.timetableId,
+                    seatId: inputs.seatId,
+                    price: price,
+                };
+                apiPayment.complete(_params)
+                    .then(resServer => {
+                        const { code, status, message } = resServer.data;
+                        alert(message ?? '');
+                        if ((status ?? '') === 'COMPLETE') navigate(-1);
+                    })
+                    .catch(err => console.log(`Server ERR: ${err}`));
+            })
+            .catch(err => console.log(`PortOne ERR: ${err}`));
+    };
     const getMovie = () => {
         const _params = {
             id: location.state.movieId
