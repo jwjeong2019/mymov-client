@@ -15,6 +15,7 @@ import apiMember from "../../api/apiMember";
 import {useMemo, useState} from "react";
 import CustomTimeTable from "../component/CustomTimeTable";
 import {Utils} from "../../utils/Utils";
+import apiTicket from "../../api/apiTicket";
 
 const UserTickets = () => {
     const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
@@ -25,16 +26,16 @@ const UserTickets = () => {
     const [currentFilter, setCurrentFilter] = useState({});
     const handleClickCancel = id => {
         const isOk = window.confirm('삭제하시겠습니까?');
-        if (isOk) deleteReservation(id);
+        if (isOk) cancelTicket(id);
     };
-    const handleClickTablePage = number => getReservations(number, search);
+    const handleClickTablePage = number => getTickets(number, search);
     const handleChangeSearchKeyword = e => setSearch(prevState => ({ ...prevState, keyword: e.target.value }));
     const handleChangeSearchFilter = filter => {
         setSearch(prevState => ({...prevState, filter: filter.value}));
         setCurrentFilter(filter);
     };
-    const handleClickSearch = () => getReservations(1, search);
-    const getReservations = (page, search) => {
+    const handleClickSearch = () => getTickets(1, search);
+    const getTickets = (page, search) => {
         const _params = {
             grantType: storageItemAuth.grantType,
             accessToken: storageItemAuth.accessToken,
@@ -43,22 +44,22 @@ const UserTickets = () => {
             keyword: search?.keyword,
             keywordField: search?.filter,
         };
-        apiMember.getReservationList(_params)
+        apiTicket.getList(_params)
             .then(response => {
                 const { data } = response;
-                const _reservations = data.result.content.map(reservation => ({
+                const _reservations = data.result.content.map(ticket => ({
                     image: {
-                        url: reservation.ticket.timetable.movie.attachment.path
+                        url: ticket.timetable.movie.attachment.path
                     },
                     headers: [ '#', '제목', '영화관', '상영관', '시작시간', '좌석', '상태' ],
                     contents: [
-                        reservation.id,
-                        reservation.ticket.timetable.movie.title,
-                        reservation.ticket.timetable.cinema.name,
-                        reservation.ticket.timetable.theater.number,
-                        reservation.ticket.timetable.startTime,
-                        reservation.ticket.seat.position,
-                        makeStatus(reservation.id, reservation.status),
+                        ticket.id,
+                        ticket.timetable.movie.title,
+                        ticket.timetable.cinema.name,
+                        ticket.timetable.theater.number,
+                        ticket.timetable.startTime,
+                        ticket.seat.position,
+                        makeStatus(ticket.id, ticket.status),
                     ],
                 }));
                 setReservations(_reservations);
@@ -105,13 +106,13 @@ const UserTickets = () => {
             </Button>
         );
     };
-    const deleteReservation = (id) => {
+    const cancelTicket = (id) => {
         const _params = {
             grantType: storageItemAuth.grantType,
             accessToken: storageItemAuth.accessToken,
             id,
         };
-        apiMember.deleteReservation(_params)
+        apiTicket.update(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`예매 취소 실패:\n${data.msg}`);
@@ -132,7 +133,7 @@ const UserTickets = () => {
     };
     const init = () => {
         makeFilters();
-        getReservations(1);
+        getTickets(1);
     };
     useMemo(init, []);
     return (
