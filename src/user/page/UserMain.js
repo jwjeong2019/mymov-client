@@ -14,10 +14,9 @@ import {useMemo, useState} from "react";
 import {StorageUtils} from "../../utils/StorageUtil";
 
 const UserMain = () => {
-    const navigate = useNavigate();
     const handleClickLogout = () => {
         localStorage.clear();
-        navigate('/home');
+        window.location.reload();
     };
     const init = () => {
     };
@@ -45,7 +44,7 @@ const UserMain = () => {
                     </Nav>
                     <Navbar.Toggle />
                     <Navbar.Offcanvas className={'font-TAEBAEK fw-bold'} placement={'end'}>
-                        {StorageUtils.getAuth() ?
+                        {StorageUtils.isAuthorized() ?
                             <Offcanvas.Header className={'bg-dark text-light'}>
                                 <Offcanvas.Title>
                                     <Stack direction={'horizontal'} gap={3}>
@@ -80,7 +79,7 @@ const UserMain = () => {
                                 </Offcanvas.Title>
                             </Offcanvas.Header>
                         }
-                        {StorageUtils.getAuth() ?
+                        {StorageUtils.isAuthorized() ?
                             <Offcanvas.Body>
                                 <Nav>
                                     <Nav.Link onClick={handleClickLogout}>
