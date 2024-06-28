@@ -11,7 +11,7 @@ import * as PortOne from "@portone/browser-sdk/v2";
 import apiPayment from "../../api/apiPayment";
 
 const UserReservation = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const { REACT_APP_API_PORTONE_STORE_ID, REACT_APP_API_PORTONE_CHANNEL_KEY } = process.env;
     const location = useLocation();
     const navigate = useNavigate();
@@ -220,7 +220,16 @@ const UserReservation = () => {
             })
             .catch(err => alert(`ERROR: ${err.message}`));
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const init = () => {
+        makeStorageItemAuth();
         if (location.state.timetableId) getTimetable();
         getMovie();
         getCinemas();

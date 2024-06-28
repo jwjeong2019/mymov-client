@@ -19,7 +19,7 @@ import apiGenre from "../../api/apiGenre";
 import CustomTable from "../component/CustomTable";
 
 const AdminManagementGenre = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [modalInputs, setModalInputs] = useState({});
     const [searchData, setSearchData] = useState({});
@@ -123,6 +123,14 @@ const AdminManagementGenre = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     }
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '장르명', '삭제' ]);
     };
@@ -139,6 +147,7 @@ const AdminManagementGenre = () => {
         ]);
     };
     const init = () => {
+        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

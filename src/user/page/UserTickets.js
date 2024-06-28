@@ -18,7 +18,7 @@ import {Utils} from "../../utils/Utils";
 import apiTicket from "../../api/apiTicket";
 
 const UserTickets = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [reservations, setReservations] = useState([]);
     const [tablePage, setTablePage] = useState({});
     const [filters, setFilters] = useState([]);
@@ -124,6 +124,14 @@ const UserTickets = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const makeFilters = () => {
         setFilters([
             { title: '전체' },
@@ -132,6 +140,7 @@ const UserTickets = () => {
         ]);
     };
     const init = () => {
+        makeStorageItemAuth();
         makeFilters();
         getTickets(1);
     };

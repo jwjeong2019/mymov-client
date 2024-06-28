@@ -21,7 +21,7 @@ import apiMovie from "../../api/apiMovie";
 import apiCinema from "../../api/apiCinema";
 
 const AdminManagementTimetable = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [optionsMovie, setOptionsMovie] = useState([]);
     const [optionsCinema, setOptionsCinema] = useState([]);
@@ -191,6 +191,14 @@ const AdminManagementTimetable = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '영화명', '연령', '상영관', '영화관', '지역', '시작시간', '종료시간', '삭제' ]);
     };
@@ -209,6 +217,7 @@ const AdminManagementTimetable = () => {
         ]);
     };
     const init = () => {
+        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

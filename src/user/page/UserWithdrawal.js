@@ -5,8 +5,8 @@ import apiMember from "../../api/apiMember";
 import {useNavigate} from "react-router";
 
 const UserWithdrawal = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
     const navigate = useNavigate();
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [radios, setRadios] = useState([]);
     const [inputs, setInputs] = useState({});
     const handleChangeInputsReasonType = e => setInputs(prevState => ({ ...prevState, reasonType: e.target.defaultValue }));
@@ -35,6 +35,14 @@ const UserWithdrawal = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const makeRadios = () => {
         setRadios([
             { label: '고객 응대 미흡', value: '고객 응대 미흡' },
@@ -43,6 +51,7 @@ const UserWithdrawal = () => {
         ]);
     };
     const init = () => {
+        makeStorageItemAuth();
         makeRadios();
     };
     useMemo(init, []);

@@ -19,7 +19,7 @@ import {Utils} from "../../utils/Utils";
 import apiCinema from "../../api/apiCinema";
 
 const AdminManagementCinema = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [modalInputs, setModalInputs] = useState({});
     const [searchData, setSearchData] = useState({});
@@ -126,6 +126,14 @@ const AdminManagementCinema = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '이름', '지역', '삭제']);
     };
@@ -156,6 +164,7 @@ const AdminManagementCinema = () => {
         ]);
     };
     const init = () => {
+        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

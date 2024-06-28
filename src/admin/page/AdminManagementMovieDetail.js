@@ -8,7 +8,7 @@ import apiAdmin from "../../api/apiAdmin";
 import apiGenre from "../../api/apiGenre";
 
 const AdminManagementMovieDetail = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const [optionsGenre, setOptionsGenre] = useState([]);
@@ -140,7 +140,16 @@ const AdminManagementMovieDetail = () => {
     const makeGenreIds = () => {
         return inputs.genres.map(genre => genre.id);
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const init = () => {
+        makeStorageItemAuth();
         getGenres();
         getMovie();
     };

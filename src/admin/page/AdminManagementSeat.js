@@ -21,7 +21,7 @@ import apiSeat from "../../api/apiSeat";
 import CustomTable from "../component/CustomTable";
 
 const AdminManagementSeat = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [modalInputs, setModalInputs] = useState({});
     const [searchData, setSearchData] = useState({});
@@ -179,6 +179,14 @@ const AdminManagementSeat = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     }
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '좌석명', '상태', '상영관', '영화관', '지역', '삭제' ]);
     };
@@ -197,6 +205,7 @@ const AdminManagementSeat = () => {
         ]);
     };
     const init = () => {
+        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

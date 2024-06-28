@@ -10,15 +10,30 @@ import {
 } from "react-icons/io5";
 import {Outlet} from 'react-router-dom';
 import {useNavigate} from "react-router";
+import {useMemo, useState} from "react";
 
 const UserMain = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-    const storageItemName = localStorage.getItem('name');
     const navigate = useNavigate();
+    const [storageItemAuth, setStorageItemAuth] = useState({});
+    const [storageItemName, setStorageItemName] = useState('');
     const handleClickLogout = () => {
         localStorage.clear();
         navigate('/home');
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    const makeStorageItemName = () => setStorageItemName(localStorage.getItem('name'));
+    const init = () => {
+        makeStorageItemAuth();
+        makeStorageItemName();
+    };
+    useMemo(init, []);
     return (
         <>
             <Navbar bg={'dark'} variant={'dark'} sticky={'top'} expand={false}>

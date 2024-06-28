@@ -6,7 +6,7 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 import {Utils} from "../../utils/Utils";
 
 const UserPrivacy = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const storageItemId = localStorage.getItem('id');
     const [inputs, setInputs] = useState({});
     const [isShow, setIsShow] = useState(false);
@@ -107,7 +107,16 @@ const UserPrivacy = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const init = () => {
+        makeStorageItemAuth();
         getMember();
     };
     useMemo(init, []);

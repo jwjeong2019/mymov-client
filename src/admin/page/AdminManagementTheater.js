@@ -21,7 +21,7 @@ import apiTheater from "../../api/apiTheater";
 import apiCinema from "../../api/apiCinema";
 
 const AdminManagementTheater = () => {
-    const storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [modalInputs, setModalInputs] = useState({});
     const [searchData, setSearchData] = useState({});
@@ -151,6 +151,14 @@ const AdminManagementTheater = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     }
+    const makeStorageItemAuth = () => {
+        try {
+            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
+            setStorageItemAuth(_storageItemAuth);
+        } catch (e) {
+            console.log(e);
+        }
+    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '번호', '영화관명', '지역', '삭제' ]);
     };
@@ -168,6 +176,7 @@ const AdminManagementTheater = () => {
         ]);
     };
     const init = () => {
+        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();
