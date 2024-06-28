@@ -26,8 +26,10 @@ import UserWithdrawal from "./user/page/UserWithdrawal";
 import AdminLogin from "./admin/page/AdminLogin";
 import UserJoin from "./user/page/UserJoin";
 import UserLogin from "./user/page/UserLogin";
+import {StorageUtils} from "./utils/StorageUtil";
 
 function App() {
+  const redirectAdmin = StorageUtils.isAuthorized() ? '/admin/management/genre' : '/admin/login';
   return (
       <div>
           <BrowserRouter>
@@ -50,7 +52,7 @@ function App() {
                       </Route>
                   </Route>
 
-                  <Route path={'/admin'} element={<Navigate replace to={'/admin/login'} />} />
+                  <Route path={'/admin'} element={<Navigate replace to={redirectAdmin} />} />
                   <Route path={'/admin'}>
                       <Route path={'login'} element={<AdminLogin />} />
                       <Route element={<AdminMain />}>
