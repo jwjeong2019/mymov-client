@@ -13,11 +13,17 @@ const UserMoviesDetail = () => {
     const [movie, setMovie] = useState({});
     const [radios, setRadios] = useState([]);
     const [inputs, setInputs] = useState({});
-    const handleClickReservation = () => navigate('/reservation', {
-        state: {
-            movieId: movie.id
+    const handleClickReservation = () => {
+        if (!StorageUtils.isAuthorized()) {
+            alert('로그인 후 이용이 가능합니다.');
+            return navigate('/login');
         }
-    });
+        navigate('/reservation', {
+            state: {
+                movieId: movie.id
+            }
+        });
+    };
     const handleChangeScore = e => setInputs(prevState => ({ ...prevState, score: e.target.value }));
     const handleClickReview = () => createReview();
     const getMovie = () => {

@@ -16,6 +16,7 @@ import {useMemo, useState} from "react";
 import apiMovie from "../../api/apiMovie";
 import CustomTable from "../component/CustomTable";
 import {useNavigate} from "react-router";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminManagementMovie = () => {
     const navigate = useNavigate();
@@ -94,6 +95,11 @@ const AdminManagementMovie = () => {
         ]);
     };
     const init = () => {
+        if (!StorageUtils.isAuthorized()) {
+            alert('로그인 후 이용이 가능합니다.');
+            window.location.href='/admin/login';
+            return;
+        }
         makeTableHeaders();
         makeFilters();
         makeSorts();

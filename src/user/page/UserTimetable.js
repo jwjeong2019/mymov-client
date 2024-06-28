@@ -18,6 +18,7 @@ import apiCinema from "../../api/apiCinema";
 import apiTimetable from "../../api/apiTimetable";
 import CustomTimeTable from "../component/CustomTimeTable";
 import {useNavigate} from "react-router";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const UserTimetable = () => {
     const navigate = useNavigate();
@@ -39,6 +40,10 @@ const UserTimetable = () => {
         setSearch(_nextSearch);
     };
     const handleClickReservation = e => {
+        if (!StorageUtils.isAuthorized()) {
+            alert('로그인 후 이용이 가능합니다.');
+            return navigate('/login');
+        }
         const timetable = JSON.parse(e.target.value);
         navigate('/reservation', {
             state: {

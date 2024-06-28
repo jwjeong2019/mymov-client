@@ -96,7 +96,7 @@ const UserReservation = () => {
     };
     const getMovie = () => {
         const _params = {
-            id: location.state.movieId
+            id: location.state?.movieId
         };
         apiMovie.getDetail(_params)
             .then(response => {
@@ -121,7 +121,7 @@ const UserReservation = () => {
     const makeGenres = genres => genres.map(genre => genre.name).join(', ');
     const getTimetable = () => {
         const _params = {
-            id: location.state.timetableId
+            id: location.state?.timetableId
         };
         apiTimetable.getDetail(_params)
             .then(response => {
@@ -203,7 +203,12 @@ const UserReservation = () => {
             });
     };
     const init = () => {
-        if (location.state.timetableId) getTimetable();
+        if (!StorageUtils.isAuthorized()) {
+            alert('로그인 후 이용이 가능합니다.');
+            window.location.href='login';
+            return;
+        }
+        if (location.state?.timetableId) getTimetable();
         getMovie();
         getCinemas();
     };
