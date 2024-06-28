@@ -82,16 +82,6 @@ const AdminManagementMovieRegister = () => {
             });
     };
     const init = () => {
-        if (!StorageUtils.isAuthorized()) {
-            alert('로그인 후 이용이 가능합니다.');
-            window.location.href='/admin/login';
-            return;
-        }
-        if (!StorageUtils.isRoleAdmin()) {
-            alert('서비스를 이용할 권한이 없습니다.');
-            window.location.href='/admin/login';
-            return;
-        }
         getGenres();
     };
     useMemo(init, []);
