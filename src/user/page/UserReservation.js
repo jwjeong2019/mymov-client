@@ -62,6 +62,7 @@ const UserReservation = () => {
         setInputs(prevState => ({ ...prevState, seatId: undefined }));
     };
     const handleClickPayment = () => {
+        if (!StorageUtils.isRoleUser()) return alert('서비스를 이용할 권한이 없습니다.');
         PortOne.requestPayment({
             // Store ID 설정
             storeId: `${REACT_APP_API_PORTONE_STORE_ID}`,

@@ -100,6 +100,11 @@ const AdminManagementMovie = () => {
             window.location.href='/admin/login';
             return;
         }
+        if (!StorageUtils.isRoleAdmin()) {
+            alert('서비스를 이용할 권한이 없습니다.');
+            window.location.href='/admin/login';
+            return;
+        }
         makeTableHeaders();
         makeFilters();
         makeSorts();
