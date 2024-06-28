@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
 import Main from "./pages/Main";
 import Footer from "./components/Footer";
 import AdminMain from "./admin/page/AdminMain";
@@ -32,30 +32,37 @@ function App() {
       <div>
           <BrowserRouter>
               <Routes>
-                  <Route exact path="/" element={<UserMain />}>
-                      <Route path={'home'} element={<UserHome />} />
-                      <Route path={'join'} element={<UserJoin />} />
-                      <Route path={'login'} element={<UserLogin />} />
-                      <Route path={'movies'} element={<UserMovies />} />
-                      <Route path={'movies/:id'} element={<UserMoviesDetail />} />
-                      <Route path={'timetable'} element={<UserTimetable />} />
-                      <Route path={'reservation'} element={<UserReservation />} />
-                      <Route path={'/mypage'} element={<UserMyPage />}>
-                          <Route path={'privacy'} element={<UserPrivacy />} />
-                          <Route path={'tickets'} element={<UserTickets />} />
-                          <Route path={'withdrawal'} element={<UserWithdrawal />} />
+                  <Route path="/" element={<Navigate replace to={'/home'} />} />
+                  <Route path={'/'}>
+                      <Route element={<UserMain />}>
+                          <Route path={'home'} element={<UserHome />} />
+                          <Route path={'movies'} element={<UserMovies />} />
+                          <Route path={'join'} element={<UserJoin />} />
+                          <Route path={'login'} element={<UserLogin />} />
+                          <Route path={'movies/:id'} element={<UserMoviesDetail />} />
+                          <Route path={'timetable'} element={<UserTimetable />} />
+                          <Route path={'reservation'} element={<UserReservation />} />
+                          <Route path={'/mypage'} element={<UserMyPage />}>
+                              <Route path={'privacy'} element={<UserPrivacy />} />
+                              <Route path={'tickets'} element={<UserTickets />} />
+                              <Route path={'withdrawal'} element={<UserWithdrawal />} />
+                          </Route>
                       </Route>
                   </Route>
-                  <Route exact path={'/admin/login'} element={<AdminLogin />} />
-                  <Route path={'/admin'} element={<AdminMain />}>
-                      <Route path={'management/genre'} element={<AdminManagementGenre />} />
-                      <Route path={'management/movie'} element={<AdminManagementMovie />} />
-                      <Route path={'management/movie/register'} element={<AdminManagementMovieRegister />} />
-                      <Route path={'management/movie/:id'} element={<AdminManagementMovieDetail />} />
-                      <Route path={'management/cinema'} element={<AdminManagementCinema />} />
-                      <Route path={'management/theater'} element={<AdminManagementTheater />} />
-                      <Route path={'management/seat'} element={<AdminManagementSeat />} />
-                      <Route path={'management/timetable'} element={<AdminManagementTimetable />} />
+
+                  <Route path={'/admin'} element={<Navigate replace to={'/admin/login'} />} />
+                  <Route path={'/admin'}>
+                      <Route path={'login'} element={<AdminLogin />} />
+                      <Route element={<AdminMain />}>
+                          <Route path={'management/genre'} element={<AdminManagementGenre />} />
+                          <Route path={'management/movie'} element={<AdminManagementMovie />} />
+                          <Route path={'management/movie/register'} element={<AdminManagementMovieRegister />} />
+                          <Route path={'management/movie/:id'} element={<AdminManagementMovieDetail />} />
+                          <Route path={'management/cinema'} element={<AdminManagementCinema />} />
+                          <Route path={'management/theater'} element={<AdminManagementTheater />} />
+                          <Route path={'management/seat'} element={<AdminManagementSeat />} />
+                          <Route path={'management/timetable'} element={<AdminManagementTimetable />} />
+                      </Route>
                   </Route>
               </Routes>
               <Footer />

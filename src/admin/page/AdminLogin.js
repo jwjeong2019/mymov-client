@@ -22,7 +22,7 @@ const AdminLogin = () => {
                 localStorage.setItem('auth', JSON.stringify(data.token));
                 localStorage.setItem('name', data.detail.name);
                 localStorage.setItem('role', `ADMIN_${data.detail.role}`);
-                navigate('/admin');
+                navigate('/admin/management/genre');
             })
             .catch(err => alert(`error: ${err.message}`));
     };
