@@ -7,7 +7,6 @@ import apiGenre from "../../api/apiGenre";
 import {useNavigate} from "react-router";
 
 const UserMovies = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
@@ -96,16 +95,7 @@ const UserMovies = () => {
         }
         return bg;
     };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const init = () => {
-        makeStorageItemAuth();
         getGenres();
         getMovies(1);
     };

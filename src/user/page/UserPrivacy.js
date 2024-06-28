@@ -4,10 +4,9 @@ import {useMemo, useState} from "react";
 import apiMember from "../../api/apiMember";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import {Utils} from "../../utils/Utils";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const UserPrivacy = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
-    const storageItemId = localStorage.getItem('id');
     const [inputs, setInputs] = useState({});
     const [isShow, setIsShow] = useState(false);
     const handleChangeInputsFile = e => {
@@ -36,10 +35,11 @@ const UserPrivacy = () => {
     const handleClickModify = () => updateMember();
     const getMember = () => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
-            id: storageItemId,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
+            id: StorageUtils.getId(),
         };
+        console.log(_params);
         apiMember.getDetail(_params)
             .then(response => {
                 const { data } = response;
@@ -90,8 +90,8 @@ const UserPrivacy = () => {
         formData.append('data', data);
         formData.append('file', inputs.file);
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             formData
         };
         apiMember.updateMember(_params)
@@ -107,16 +107,7 @@ const UserPrivacy = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const init = () => {
-        makeStorageItemAuth();
         getMember();
     };
     useMemo(init, []);

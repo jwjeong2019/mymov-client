@@ -17,9 +17,9 @@ import apiAdmin from "../../api/apiAdmin";
 import {Utils} from "../../utils/Utils";
 import apiGenre from "../../api/apiGenre";
 import CustomTable from "../component/CustomTable";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminManagementGenre = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [modalInputs, setModalInputs] = useState({});
     const [searchData, setSearchData] = useState({});
@@ -54,8 +54,8 @@ const AdminManagementGenre = () => {
     const createGenre = () => {
         const _params = {
             name: modalInputs.genreName,
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken
         };
         apiAdmin.createGenre(_params)
             .then(response => {
@@ -106,8 +106,8 @@ const AdminManagementGenre = () => {
     };
     const deleteGenre = id => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             id
         };
         apiAdmin.deleteGenre(_params)
@@ -123,14 +123,6 @@ const AdminManagementGenre = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     }
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '장르명', '삭제' ]);
     };
@@ -147,7 +139,6 @@ const AdminManagementGenre = () => {
         ]);
     };
     const init = () => {
-        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

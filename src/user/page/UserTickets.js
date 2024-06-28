@@ -11,14 +11,13 @@ import {
     Row,
     Stack
 } from "react-bootstrap";
-import apiMember from "../../api/apiMember";
 import {useMemo, useState} from "react";
 import CustomTimeTable from "../component/CustomTimeTable";
 import {Utils} from "../../utils/Utils";
 import apiTicket from "../../api/apiTicket";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const UserTickets = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [reservations, setReservations] = useState([]);
     const [tablePage, setTablePage] = useState({});
     const [filters, setFilters] = useState([]);
@@ -37,8 +36,8 @@ const UserTickets = () => {
     const handleClickSearch = () => getTickets(1, search);
     const getTickets = (page, search) => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             page: page - 1,
             size: 10,
             keyword: search?.keyword,
@@ -108,8 +107,8 @@ const UserTickets = () => {
     };
     const cancelTicket = (id) => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             id,
         };
         apiTicket.update(_params)
@@ -124,14 +123,6 @@ const UserTickets = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const makeFilters = () => {
         setFilters([
             { title: '전체' },
@@ -140,7 +131,6 @@ const UserTickets = () => {
         ]);
     };
     const init = () => {
-        makeStorageItemAuth();
         makeFilters();
         getTickets(1);
     };

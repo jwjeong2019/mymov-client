@@ -19,9 +19,9 @@ import apiGenre from "../../api/apiGenre";
 import CustomTable from "../component/CustomTable";
 import apiTheater from "../../api/apiTheater";
 import apiCinema from "../../api/apiCinema";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminManagementTheater = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [modalInputs, setModalInputs] = useState({});
     const [searchData, setSearchData] = useState({});
@@ -80,8 +80,8 @@ const AdminManagementTheater = () => {
         const _params = {
             cinemaId: modalInputs.cinemaId,
             number: modalInputs.theaterNumber,
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken
         };
         apiAdmin.createTheater(_params)
             .then(response => {
@@ -134,8 +134,8 @@ const AdminManagementTheater = () => {
     };
     const deleteTheater = id => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             id
         };
         apiAdmin.deleteTheater(_params)
@@ -151,14 +151,6 @@ const AdminManagementTheater = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     }
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '번호', '영화관명', '지역', '삭제' ]);
     };
@@ -176,7 +168,6 @@ const AdminManagementTheater = () => {
         ]);
     };
     const init = () => {
-        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

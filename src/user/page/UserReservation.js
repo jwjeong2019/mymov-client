@@ -9,9 +9,9 @@ import apiMember from "../../api/apiMember";
 import {Utils} from "../../utils/Utils";
 import * as PortOne from "@portone/browser-sdk/v2";
 import apiPayment from "../../api/apiPayment";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const UserReservation = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const { REACT_APP_API_PORTONE_STORE_ID, REACT_APP_API_PORTONE_CHANNEL_KEY } = process.env;
     const location = useLocation();
     const navigate = useNavigate();
@@ -77,8 +77,8 @@ const UserReservation = () => {
                 const { code, message, paymentId } = resPortOne;
                 if (code) return alert(message);
                 const _params = {
-                    grantType: storageItemAuth.grantType,
-                    accessToken: storageItemAuth.accessToken,
+                    grantType: StorageUtils.getAuth().grantType,
+                    accessToken: StorageUtils.getAuth().accessToken,
                     paymentId,
                     timetableId: inputs.timetableId,
                     seatId: inputs.seatId,
@@ -202,34 +202,7 @@ const UserReservation = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
-    const createTicket = () => {
-        const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
-            timetableId: inputs.timetableId,
-            seatId: inputs.seatId,
-            price,
-        };
-        apiMember.createTicket(_params)
-            .then(response => {
-                const { data } = response;
-                if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`예매 실패:\n${data.msg}`);
-                if (Utils.isContainedWordFrom('already', data.msg)) return alert(`예매 실패:\n${data.msg}`);
-                alert('정상적으로 예매를 완료하였습니다.')
-                navigate(-1);
-            })
-            .catch(err => alert(`ERROR: ${err.message}`));
-    };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const init = () => {
-        makeStorageItemAuth();
         if (location.state.timetableId) getTimetable();
         getMovie();
         getCinemas();

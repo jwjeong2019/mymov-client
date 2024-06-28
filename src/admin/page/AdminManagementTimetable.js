@@ -19,9 +19,9 @@ import apiTimetable from "../../api/apiTimetable";
 import CustomTable from "../component/CustomTable";
 import apiMovie from "../../api/apiMovie";
 import apiCinema from "../../api/apiCinema";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminManagementTimetable = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [optionsMovie, setOptionsMovie] = useState([]);
     const [optionsCinema, setOptionsCinema] = useState([]);
@@ -108,8 +108,8 @@ const AdminManagementTimetable = () => {
     };
     const createTimetable = () => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             cinemaId: modalInputs.cinemaId,
             theaterId: modalInputs.theaterId,
             movieId: modalInputs.movieId,
@@ -136,8 +136,8 @@ const AdminManagementTimetable = () => {
         const _params = {
             page: page - 1,
             size: 10,
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             keyword: search?.keyword,
             keywordField: search?.filter,
             sortField: search?.sort,
@@ -174,8 +174,8 @@ const AdminManagementTimetable = () => {
     };
     const deleteTimetable = id => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             id,
         };
         apiAdmin.deleteTimetable(_params)
@@ -190,14 +190,6 @@ const AdminManagementTimetable = () => {
                 const { status, data } = err.response;
                 alert(`error: ${data.message} (${status})`);
             });
-    };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
     };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '영화명', '연령', '상영관', '영화관', '지역', '시작시간', '종료시간', '삭제' ]);
@@ -217,7 +209,6 @@ const AdminManagementTimetable = () => {
         ]);
     };
     const init = () => {
-        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

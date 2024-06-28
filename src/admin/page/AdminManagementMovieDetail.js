@@ -6,9 +6,9 @@ import {Utils} from "../../utils/Utils";
 import CustomImageUpload from "../component/CustomImageUpload";
 import apiAdmin from "../../api/apiAdmin";
 import apiGenre from "../../api/apiGenre";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminManagementMovieDetail = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const [optionsGenre, setOptionsGenre] = useState([]);
@@ -103,8 +103,8 @@ const AdminManagementMovieDetail = () => {
         formData.append('file', inputs.fileData.file);
         const _params = {
             ...params,
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             formData
         };
         apiAdmin.updateMovie(_params)
@@ -122,8 +122,8 @@ const AdminManagementMovieDetail = () => {
     const deleteMovie = () => {
         const _params = {
             ...params,
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken
         };
         apiAdmin.deleteMovie(_params)
             .then(response => {
@@ -140,16 +140,7 @@ const AdminManagementMovieDetail = () => {
     const makeGenreIds = () => {
         return inputs.genres.map(genre => genre.id);
     };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const init = () => {
-        makeStorageItemAuth();
         getGenres();
         getMovie();
     };

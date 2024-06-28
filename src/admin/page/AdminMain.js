@@ -2,9 +2,9 @@ import {Button, Card, Col, Container, Nav, Navbar, Offcanvas, Row} from "react-b
 import {Outlet} from 'react-router-dom';
 import {useLocation, useNavigate} from "react-router";
 import {useMemo, useState} from "react";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminMain = () => {
-    const storageItemName = localStorage.getItem('name');
     const navigate = useNavigate();
     const location = useLocation();
     const [sideMenuItems, setSideMenuItems] = useState([]);
@@ -48,7 +48,7 @@ const AdminMain = () => {
                 <Container>
                     <Navbar.Brand>Simple Movie</Navbar.Brand>
                     <Navbar.Collapse className={'justify-content-end'}>
-                        <Navbar.Text>{storageItemName}님 반갑습니다.</Navbar.Text>
+                        <Navbar.Text>{StorageUtils.getName()}님 반갑습니다.</Navbar.Text>
                         <Nav className={'text-light'}>
                             <Nav.Link onClick={handleClickLogout}>로그아웃</Nav.Link>
                         </Nav>

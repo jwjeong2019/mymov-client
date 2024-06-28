@@ -19,9 +19,9 @@ import {Utils} from "../../utils/Utils";
 import apiTheater from "../../api/apiTheater";
 import apiSeat from "../../api/apiSeat";
 import CustomTable from "../component/CustomTable";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminManagementSeat = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const [isShow, setIsShow] = useState(false);
     const [modalInputs, setModalInputs] = useState({});
     const [searchData, setSearchData] = useState({});
@@ -107,8 +107,8 @@ const AdminManagementSeat = () => {
         const _params = {
             theaterId: modalInputs.theaterId,
             seats: modalInputs.seats,
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken
         };
         apiAdmin.createSeat(_params)
             .then(response => {
@@ -162,8 +162,8 @@ const AdminManagementSeat = () => {
     };
     const deleteSeat = ids => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             seatIds: ids
         };
         apiAdmin.deleteSeat(_params)
@@ -179,14 +179,6 @@ const AdminManagementSeat = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     }
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const makeTableHeaders = () => {
         setTableHeaders([ '#', '좌석명', '상태', '상영관', '영화관', '지역', '삭제' ]);
     };
@@ -205,7 +197,6 @@ const AdminManagementSeat = () => {
         ]);
     };
     const init = () => {
-        makeStorageItemAuth();
         makeTableHeaders();
         makeFilters();
         makeSorts();

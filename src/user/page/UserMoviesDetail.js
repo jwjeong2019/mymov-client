@@ -5,9 +5,9 @@ import apiMovie from "../../api/apiMovie";
 import apiMember from "../../api/apiMember";
 import {Utils} from "../../utils/Utils";
 import CustomRadio from "../component/CustomRadio";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const UserMoviesDetail = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const params = useParams();
     const navigate = useNavigate();
     const [movie, setMovie] = useState({});
@@ -48,8 +48,8 @@ const UserMoviesDetail = () => {
     const makeGenres = genres => genres.map(genre => genre.name).join(', ');
     const createReview = () => {
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             movieId: movie.id,
             ...inputs,
         };
@@ -66,14 +66,6 @@ const UserMoviesDetail = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const makeRadios = () => {
         setRadios([
             { value: 1, label: '1점' },
@@ -84,7 +76,6 @@ const UserMoviesDetail = () => {
         ]);
     };
     const init = () => {
-        makeStorageItemAuth();
         makeRadios();
         getMovie();
     };

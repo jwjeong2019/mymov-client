@@ -5,9 +5,9 @@ import CustomImageUpload from "../component/CustomImageUpload";
 import apiAdmin from "../../api/apiAdmin";
 import {Utils} from "../../utils/Utils";
 import {useNavigate} from "react-router";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const AdminManagementMovieRegister = () => {
-    const [storageItemAuth, setStorageItemAuth] = useState({});
     const navigate = useNavigate();
     const [inputs, setInputs] = useState({});
     const [optionsGenre, setOptionsGenre] = useState([]);
@@ -65,8 +65,8 @@ const AdminManagementMovieRegister = () => {
         formData.append('data', data);
         formData.append('file', inputs.fileData.file);
         const _params = {
-            grantType: storageItemAuth.grantType,
-            accessToken: storageItemAuth.accessToken,
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
             formData
         };
         apiAdmin.createMovie(_params)
@@ -81,16 +81,7 @@ const AdminManagementMovieRegister = () => {
                 alert(`error: ${data.message} (${status})`);
             });
     };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
     const init = () => {
-        makeStorageItemAuth();
         getGenres();
     };
     useMemo(init, []);

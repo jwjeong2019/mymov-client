@@ -11,27 +11,15 @@ import {
 import {Outlet} from 'react-router-dom';
 import {useNavigate} from "react-router";
 import {useMemo, useState} from "react";
+import {StorageUtils} from "../../utils/StorageUtil";
 
 const UserMain = () => {
     const navigate = useNavigate();
-    const [storageItemAuth, setStorageItemAuth] = useState({});
-    const [storageItemName, setStorageItemName] = useState('');
     const handleClickLogout = () => {
         localStorage.clear();
         navigate('/home');
     };
-    const makeStorageItemAuth = () => {
-        try {
-            const _storageItemAuth = JSON.parse(localStorage.getItem('auth'));
-            setStorageItemAuth(_storageItemAuth);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-    const makeStorageItemName = () => setStorageItemName(localStorage.getItem('name'));
     const init = () => {
-        makeStorageItemAuth();
-        makeStorageItemName();
     };
     useMemo(init, []);
     return (
@@ -57,7 +45,7 @@ const UserMain = () => {
                     </Nav>
                     <Navbar.Toggle />
                     <Navbar.Offcanvas className={'font-TAEBAEK fw-bold'} placement={'end'}>
-                        {storageItemAuth ?
+                        {StorageUtils.getAuth() ?
                             <Offcanvas.Header className={'bg-dark text-light'}>
                                 <Offcanvas.Title>
                                     <Stack direction={'horizontal'} gap={3}>
@@ -68,7 +56,7 @@ const UserMain = () => {
                                             height={40}
                                             roundedCircle
                                         />
-                                        <div>{storageItemName}님 반갑습니다.</div>
+                                        <div>{StorageUtils.getName()}님 반갑습니다.</div>
                                     </Stack>
                                 </Offcanvas.Title>
                             </Offcanvas.Header>
@@ -92,7 +80,7 @@ const UserMain = () => {
                                 </Offcanvas.Title>
                             </Offcanvas.Header>
                         }
-                        {storageItemAuth ?
+                        {StorageUtils.getAuth() ?
                             <Offcanvas.Body>
                                 <Nav>
                                     <Nav.Link onClick={handleClickLogout}>
