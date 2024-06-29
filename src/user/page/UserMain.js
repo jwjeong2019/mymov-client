@@ -16,7 +16,7 @@ import {StorageUtils} from "../../utils/StorageUtil";
 const UserMain = () => {
     const handleClickLogout = () => {
         localStorage.clear();
-        window.location.reload();
+        window.location.href = '/home';
     };
     const init = () => {
     };

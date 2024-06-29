@@ -16,6 +16,7 @@ import CustomTimeTable from "../component/CustomTimeTable";
 import {Utils} from "../../utils/Utils";
 import apiTicket from "../../api/apiTicket";
 import {StorageUtils} from "../../utils/StorageUtil";
+import apiToken from "../../api/apiToken";
 
 const UserTickets = () => {
     const [reservations, setReservations] = useState([]);
@@ -71,7 +72,23 @@ const UserTickets = () => {
             })
             .catch(err => {
                 const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                if (data.message === 'Expired JWT Token') {
+                    apiToken.refresh(StorageUtils.getAuth().refreshToken)
+                        .then(response => {
+                            const { accessToken } = response.data;
+                            const auth = JSON.stringify({ ...StorageUtils.getAuth(), accessToken });
+                            localStorage.setItem('auth', auth);
+                            getTickets(1);
+                        })
+                        .catch(err => {
+                            if (err.response.data.message === 'Expired JWT Token') {
+                                alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
+                                window.location.href = '/login';
+                            }
+                        });
+                    return;
+                }
+                alert(`err: ${data.message}`);
             });
     };
     const makeStatus = (id, status) => {
@@ -120,7 +137,23 @@ const UserTickets = () => {
             })
             .catch(err => {
                 const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                if (data.message === 'Expired JWT Token') {
+                    apiToken.refresh(StorageUtils.getAuth().refreshToken)
+                        .then(response => {
+                            const { accessToken } = response.data;
+                            const auth = JSON.stringify({ ...StorageUtils.getAuth(), accessToken });
+                            localStorage.setItem('auth', auth);
+                            cancelTicket(id);
+                        })
+                        .catch(err => {
+                            if (err.response.data.message === 'Expired JWT Token') {
+                                alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
+                                window.location.href = '/login';
+                            }
+                        });
+                    return;
+                }
+                alert(`err: ${data.message}`);
             });
     };
     const makeFilters = () => {

@@ -18,6 +18,7 @@ import apiAdmin from "../../api/apiAdmin";
 import {Utils} from "../../utils/Utils";
 import apiCinema from "../../api/apiCinema";
 import {StorageUtils} from "../../utils/StorageUtil";
+import apiToken from "../../api/apiToken";
 
 const AdminManagementCinema = () => {
     const [isShow, setIsShow] = useState(false);
@@ -71,7 +72,23 @@ const AdminManagementCinema = () => {
             })
             .catch(err => {
                 const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                if (data.message === 'Expired JWT Token') {
+                    apiToken.refresh(StorageUtils.getAuth().refreshToken)
+                        .then(response => {
+                            const { accessToken } = response.data;
+                            const auth = JSON.stringify({ ...StorageUtils.getAuth(), accessToken });
+                            localStorage.setItem('auth', auth);
+                            createCinema();
+                        })
+                        .catch(err => {
+                            if (err.response.data.message === 'Expired JWT Token') {
+                                alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
+                                window.location.href = '/login';
+                            }
+                        });
+                    return;
+                }
+                alert(`err: ${data.message}`);
             });
     };
     const getCinemas = (page, search) => {
@@ -123,7 +140,23 @@ const AdminManagementCinema = () => {
             })
             .catch(err => {
                 const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                if (data.message === 'Expired JWT Token') {
+                    apiToken.refresh(StorageUtils.getAuth().refreshToken)
+                        .then(response => {
+                            const { accessToken } = response.data;
+                            const auth = JSON.stringify({ ...StorageUtils.getAuth(), accessToken });
+                            localStorage.setItem('auth', auth);
+                            deleteCinema(id);
+                        })
+                        .catch(err => {
+                            if (err.response.data.message === 'Expired JWT Token') {
+                                alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
+                                window.location.href = '/login';
+                            }
+                        });
+                    return;
+                }
+                alert(`err: ${data.message}`);
             });
     };
     const makeTableHeaders = () => {

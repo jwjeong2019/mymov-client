@@ -4,6 +4,7 @@ import {Utils} from "../../utils/Utils";
 import apiMember from "../../api/apiMember";
 import {useNavigate} from "react-router";
 import {StorageUtils} from "../../utils/StorageUtil";
+import apiToken from "../../api/apiToken";
 
 const UserWithdrawal = () => {
     const navigate = useNavigate();
@@ -32,7 +33,23 @@ const UserWithdrawal = () => {
             })
             .catch(err => {
                 const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                if (data.message === 'Expired JWT Token') {
+                    apiToken.refresh(StorageUtils.getAuth().refreshToken)
+                        .then(response => {
+                            const { accessToken } = response.data;
+                            const auth = JSON.stringify({ ...StorageUtils.getAuth(), accessToken });
+                            localStorage.setItem('auth', auth);
+                            deleteMember();
+                        })
+                        .catch(err => {
+                            if (err.response.data.message === 'Expired JWT Token') {
+                                alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
+                                window.location.href = '/login';
+                            }
+                        });
+                    return;
+                }
+                alert(`err: ${data.message}`);
             });
     };
     const makeRadios = () => {

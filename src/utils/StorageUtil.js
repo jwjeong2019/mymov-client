@@ -5,7 +5,8 @@ export const StorageUtils = {
             const auth = JSON.parse(localStorage.getItem('auth'));
             return {
                 grantType: auth.grantType,
-                accessToken: auth.accessToken
+                accessToken: auth.accessToken,
+                refreshToken: auth.refreshToken
             };
         } catch (e) {
             console.log(e);
