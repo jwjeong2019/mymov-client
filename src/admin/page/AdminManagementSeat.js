@@ -111,7 +111,7 @@ const AdminManagementSeat = () => {
             grantType: StorageUtils.getAuth().grantType,
             accessToken: StorageUtils.getAuth().accessToken
         };
-        apiAdmin.createSeat(_params)
+        apiSeat.create(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`좌석 등록 실패:\n${data.msg}`);
@@ -183,7 +183,7 @@ const AdminManagementSeat = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             seatIds: ids
         };
-        apiAdmin.deleteSeat(_params)
+        apiSeat.delete(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`좌석 삭제 실패:\n${data.msg}`);

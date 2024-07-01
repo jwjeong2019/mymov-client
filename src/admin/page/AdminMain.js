@@ -51,6 +51,7 @@ const AdminMain = () => {
         }
         makeSideMenuItems();
         makeMenuTitle();
+        setIsLoading(false);
     };
     useMemo(init, []);
     return (

@@ -61,7 +61,7 @@ const AdminManagementCinema = () => {
             name: modalInputs.cinemaName,
             region: modalInputs.cinemaRegion,
         };
-        apiAdmin.createCinema(_params)
+        apiCinema.create(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화관 등록 실패:\n${data.msg}`);
@@ -130,7 +130,7 @@ const AdminManagementCinema = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             id
         };
-        apiAdmin.deleteCinema(_params)
+        apiCinema.delete(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 삭제 실패:\n${data.msg}`);

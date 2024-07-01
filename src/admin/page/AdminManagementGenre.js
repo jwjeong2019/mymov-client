@@ -13,7 +13,6 @@ import {
 } from "react-bootstrap";
 import {IoIosSearch} from "react-icons/io";
 import {useMemo, useState} from "react";
-import apiAdmin from "../../api/apiAdmin";
 import {Utils} from "../../utils/Utils";
 import apiGenre from "../../api/apiGenre";
 import CustomTable from "../component/CustomTable";
@@ -58,7 +57,7 @@ const AdminManagementGenre = () => {
             grantType: StorageUtils.getAuth().grantType,
             accessToken: StorageUtils.getAuth().accessToken
         };
-        apiAdmin.createGenre(_params)
+        apiGenre.create(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`장르 생성 실패:\n${data.msg}`);
@@ -127,7 +126,7 @@ const AdminManagementGenre = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             id
         };
-        apiAdmin.deleteGenre(_params)
+        apiGenre.delete(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`장르 삭제 실패:\n${data.msg}`);

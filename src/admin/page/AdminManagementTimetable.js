@@ -119,7 +119,7 @@ const AdminManagementTimetable = () => {
             startTime: `${modalInputs.startTime}:00`,
             endTime: `${modalInputs.endTime}:00`,
         };
-        apiAdmin.createTimetable(_params)
+        apiTimetable.create(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`상영표 등록 실패:\n${data.msg}`);
@@ -129,11 +129,11 @@ const AdminManagementTimetable = () => {
                 window.location.reload();
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                const { message, response } = err;
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
-                        .then(response => {
-                            const { accessToken } = response.data;
+                        .then(r => {
+                            const { accessToken } = r.data;
                             const auth = JSON.stringify({ ...StorageUtils.getAuth(), accessToken });
                             localStorage.setItem('auth', auth);
                             createTimetable();
@@ -146,7 +146,7 @@ const AdminManagementTimetable = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${message ?? response.data.message}`);
             });
     };
     const getTimetables = (page, search) => {
@@ -193,7 +193,7 @@ const AdminManagementTimetable = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             id,
         };
-        apiAdmin.deleteTimetable(_params)
+        apiTimetable.delete(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`상영표 삭제 실패:\n${data.msg}`);

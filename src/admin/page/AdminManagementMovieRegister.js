@@ -7,6 +7,7 @@ import {Utils} from "../../utils/Utils";
 import {useNavigate} from "react-router";
 import {StorageUtils} from "../../utils/StorageUtil";
 import apiToken from "../../api/apiToken";
+import apiMovie from "../../api/apiMovie";
 
 const AdminManagementMovieRegister = () => {
     const navigate = useNavigate();
@@ -70,7 +71,7 @@ const AdminManagementMovieRegister = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             formData
         };
-        apiAdmin.createMovie(_params)
+        apiMovie.create(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 등록 실패: ${data.msg}`);

@@ -84,7 +84,7 @@ const AdminManagementTheater = () => {
             grantType: StorageUtils.getAuth().grantType,
             accessToken: StorageUtils.getAuth().accessToken
         };
-        apiAdmin.createTheater(_params)
+        apiTheater.create(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`상영관 등록 실패:\n${data.msg}`);
@@ -155,7 +155,7 @@ const AdminManagementTheater = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             id
         };
-        apiAdmin.deleteTheater(_params)
+        apiTheater.delete(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`상영관 삭제 실패:\n${data.msg}`);

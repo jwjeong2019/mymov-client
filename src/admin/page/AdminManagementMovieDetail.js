@@ -108,7 +108,7 @@ const AdminManagementMovieDetail = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             formData
         };
-        apiAdmin.updateMovie(_params)
+        apiMovie.update(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 수정 실패: ${data.msg}`);
@@ -142,7 +142,7 @@ const AdminManagementMovieDetail = () => {
             grantType: StorageUtils.getAuth().grantType,
             accessToken: StorageUtils.getAuth().accessToken
         };
-        apiAdmin.deleteMovie(_params)
+        apiMovie.delete(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`영화 삭제 실패:\n${data.msg}`);

@@ -11,6 +11,21 @@ const apiGenre = {
             sortType: params.sortType,
         }
     }),
+    create: (params) => api.post(`/genres`, {
+        name: params.name,
+    }, {
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`
+        }
+    }),
+    delete: (params) => api.delete(`/genres`, {
+        data: {
+            id: params.id,
+        },
+        headers: {
+            Authorization: `${params.grantType} ${params.accessToken}`
+        }
+    }),
 };
 
 export default apiGenre;
