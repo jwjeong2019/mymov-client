@@ -38,8 +38,9 @@ const UserHome = () => {
                 setPopularMovies(_movies);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getReleasedMovies = () => {
@@ -66,8 +67,9 @@ const UserHome = () => {
                 setReleasedMovies(_movies);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const init = () => {

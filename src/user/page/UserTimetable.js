@@ -70,8 +70,9 @@ const UserTimetable = () => {
                 setCinemas(_cinemas);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getTimetables = (page, search) => {
@@ -113,8 +114,9 @@ const UserTimetable = () => {
                 }));
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const makeKeyword = search => {

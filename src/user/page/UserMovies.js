@@ -45,8 +45,9 @@ const UserMovies = () => {
                 setGenres(_genres);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getMovies = (page, search) => {
@@ -84,7 +85,11 @@ const UserMovies = () => {
                 setTotalPages(data.result.totalPages + 1);
                 setPage(page);
             })
-            .catch(err => alert(`error: ${err.message}`));
+            .catch(err => {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
+            });
     };
     const makeBadgeBg = age => {
         let bg = 'success';

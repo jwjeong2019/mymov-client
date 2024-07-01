@@ -86,8 +86,9 @@ const AdminManagementTimetable = () => {
                 setOptionsMovie(_movies);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getCinemas = () => {
@@ -103,8 +104,9 @@ const AdminManagementTimetable = () => {
                 setOptionsCinema(_options);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const createTimetable = () => {
@@ -139,6 +141,7 @@ const AdminManagementTimetable = () => {
                             createTimetable();
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -183,8 +186,9 @@ const AdminManagementTimetable = () => {
                 }));
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const deleteTimetable = id => {
@@ -202,8 +206,9 @@ const AdminManagementTimetable = () => {
                 window.location.reload();
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
                         .then(response => {
                             const { accessToken } = response.data;
@@ -212,6 +217,7 @@ const AdminManagementTimetable = () => {
                             deleteTimetable(id);
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -219,7 +225,7 @@ const AdminManagementTimetable = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${response.data.message}`);
             });
     };
     const makeTableHeaders = () => {

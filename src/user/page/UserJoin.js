@@ -36,8 +36,9 @@ const UserJoin = () => {
                 return alert('사용 가능한 아이디 입니다.');
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const createMember = () => {
@@ -58,7 +59,11 @@ const UserJoin = () => {
                 alert('성공적으로 회원가입을 완료하였습니다!');
                 navigate('/login');
             })
-            .catch(err => alert(`ERROR: ${err.message}`));
+            .catch(err => {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
+            });
     };
     return (
         <>

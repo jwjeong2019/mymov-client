@@ -57,8 +57,9 @@ const UserPrivacy = () => {
                 setInputs(_member);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
                         .then(response => {
                             const { accessToken } = response.data;
@@ -67,6 +68,7 @@ const UserPrivacy = () => {
                             getMember();
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -74,7 +76,7 @@ const UserPrivacy = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getMemberId = () => {
@@ -89,8 +91,9 @@ const UserPrivacy = () => {
                 alert('사용 가능한 아이디 입니다.');
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
                         .then(response => {
                             const { accessToken } = response.data;
@@ -99,6 +102,7 @@ const UserPrivacy = () => {
                             getMemberId();
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -106,7 +110,7 @@ const UserPrivacy = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${response.data.message}`);
             });
     };
     const updateMember = () => {
@@ -136,8 +140,9 @@ const UserPrivacy = () => {
                 window.location.reload();
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
                         .then(response => {
                             const { accessToken } = response.data;
@@ -146,6 +151,7 @@ const UserPrivacy = () => {
                             updateMember();
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -153,7 +159,7 @@ const UserPrivacy = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${response.data.message}`);
             });
     };
     const init = () => {

@@ -32,8 +32,9 @@ const UserWithdrawal = () => {
                 navigate('/home');
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
                         .then(response => {
                             const { accessToken } = response.data;
@@ -42,6 +43,7 @@ const UserWithdrawal = () => {
                             deleteMember();
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -49,7 +51,7 @@ const UserWithdrawal = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${response.data.message}`);
             });
     };
     const makeRadios = () => {

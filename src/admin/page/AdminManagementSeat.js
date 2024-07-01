@@ -92,8 +92,9 @@ const AdminManagementSeat = () => {
                 }
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const makeTheaters = theaters => {
@@ -121,8 +122,10 @@ const AdminManagementSeat = () => {
                 window.location.reload();
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                if (!e.response) return alert(e.message);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
                         .then(response => {
                             const { accessToken } = response.data;
@@ -131,6 +134,7 @@ const AdminManagementSeat = () => {
                             createSeat();
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -138,7 +142,7 @@ const AdminManagementSeat = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getSeats = (page, search) => {
@@ -173,8 +177,9 @@ const AdminManagementSeat = () => {
                 }));
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const deleteSeat = ids => {
@@ -192,8 +197,9 @@ const AdminManagementSeat = () => {
                 window.location.reload();
             })
             .catch(err => {
-                const { status, data } = err.response;
-                if (data.message === 'Expired JWT Token') {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
                     apiToken.refresh(StorageUtils.getAuth().refreshToken)
                         .then(response => {
                             const { accessToken } = response.data;
@@ -202,6 +208,7 @@ const AdminManagementSeat = () => {
                             deleteSeat(ids);
                         })
                         .catch(err => {
+                            if (!err.response) return alert(err.message);
                             if (err.response.data.message === 'Expired JWT Token') {
                                 alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
                                 window.location.href = '/login';
@@ -209,7 +216,7 @@ const AdminManagementSeat = () => {
                         });
                     return;
                 }
-                alert(`err: ${data.message}`);
+                alert(`err: ${response.data.message}`);
             });
     }
     const makeTableHeaders = () => {

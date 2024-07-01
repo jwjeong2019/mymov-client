@@ -93,7 +93,11 @@ const UserReservation = () => {
                     })
                     .catch(err => console.log(`Server ERR: ${err}`));
             })
-            .catch(err => console.log(`PortOne ERR: ${err}`));
+            .catch(err => {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
+            });
     };
     const getMovie = () => {
         const _params = {
@@ -115,8 +119,9 @@ const UserReservation = () => {
                 });
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const makeGenres = genres => genres.map(genre => genre.name).join(', ');
@@ -143,8 +148,9 @@ const UserReservation = () => {
                 getTheater(timetable.theater.id);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getCinemas = () => {
@@ -159,8 +165,9 @@ const UserReservation = () => {
                 setCinemas(_cinemas);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getTheater = (id) => {
@@ -179,8 +186,9 @@ const UserReservation = () => {
                 setSeats(_seats);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const getTimetables = (theaterId) => {
@@ -199,8 +207,9 @@ const UserReservation = () => {
                 setTimetables(_timetables);
             })
             .catch(err => {
-                const { status, data } = err.response;
-                alert(`error: ${data.message} (${status})`);
+                const { message, response } = err;
+                if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
             });
     };
     const init = () => {
