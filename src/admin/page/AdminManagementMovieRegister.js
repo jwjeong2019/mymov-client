@@ -54,6 +54,7 @@ const AdminManagementMovieRegister = () => {
             });
     };
     const createMovie = () => {
+        if (!inputs.fileData) return alert('첨부파일은 필수입니다.');
         const data = JSON.stringify({
             title: inputs.title,
             detail: inputs.detail,
