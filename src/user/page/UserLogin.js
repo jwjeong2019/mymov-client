@@ -21,6 +21,7 @@ const UserLogin = () => {
                 localStorage.setItem('id', data.detail.id);
                 localStorage.setItem('name', data.detail.name);
                 localStorage.setItem('role', 'USER');
+                localStorage.setItem('image', data.detail.attachment.path);
                 window.location.href = '/home';
             })
             .catch(err => {

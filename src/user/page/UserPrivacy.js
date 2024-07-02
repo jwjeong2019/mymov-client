@@ -40,7 +40,6 @@ const UserPrivacy = () => {
             accessToken: StorageUtils.getAuth().accessToken,
             id: StorageUtils.getId(),
         };
-        console.log(_params);
         apiMember.getDetail(_params)
             .then(response => {
                 const { data } = response;
@@ -52,7 +51,7 @@ const UserPrivacy = () => {
                     phone: data.result.phone,
                     address: data.result.address,
                     addressDetail: data.result.addressDetail,
-                    imageUrl: data.result.imageUrl
+                    imageUrl: data.result.attachment.path
                 };
                 setInputs(_member);
             })

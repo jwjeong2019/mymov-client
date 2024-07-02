@@ -16,6 +16,7 @@ export const StorageUtils = {
     getId: () => localStorage.getItem('id'),
     getName: () => localStorage.getItem('name'),
     getRole: () => localStorage.getItem('role'),
+    getImage: () => localStorage.getItem('image'),
     isAuthorized: () => {
         try {
             return Boolean(JSON.parse(localStorage.getItem('auth'))).valueOf();
