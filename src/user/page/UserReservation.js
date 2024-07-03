@@ -89,7 +89,7 @@ const UserReservation = () => {
                     .then(resServer => {
                         const { code, status, message } = resServer.data;
                         alert(message ?? '');
-                        if ((status ?? '') === 'COMPLETE') navigate(-1);
+                        if ((status ?? '') === 'COMPLETE') navigate(-2);
                     })
                     .catch(err => console.log(`Server ERR: ${err}`));
             })
