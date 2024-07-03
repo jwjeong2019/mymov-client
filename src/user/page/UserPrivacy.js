@@ -51,7 +51,7 @@ const UserPrivacy = () => {
                     phone: data.result.phone,
                     address: data.result.address,
                     addressDetail: data.result.addressDetail,
-                    imageUrl: data.result.attachment.path
+                    imageUrl: data.result.attachment?.path
                 };
                 setInputs(_member);
             })
