@@ -122,7 +122,7 @@ const AdminManagementSeat = () => {
                 window.location.reload();
             })
             .catch(err => {
-                if (!e.response) return alert(e.message);
+                if (!err.response) return alert(err.message);
                 const { message, response } = err;
                 if (!response) return alert(message);
                 if (response.data.message === 'Expired JWT Token') {
