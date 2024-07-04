@@ -67,7 +67,7 @@ const AdminMain = () => {
                 <>
                     <Navbar bg={'dark'} variant={'dark'} sticky={'top'}>
                         <Container>
-                            <Navbar.Brand>Simple Movie</Navbar.Brand>
+                            <Navbar.Brand>My Movie</Navbar.Brand>
                             <Navbar.Collapse className={'justify-content-end'}>
                                 <Navbar.Text>{StorageUtils.getName()}님 반갑습니다.</Navbar.Text>
                                 <Nav className={'text-light'}>

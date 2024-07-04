@@ -34,7 +34,7 @@ const UserMain = () => {
                                 height={50}
                                 roundedCircle
                             />
-                            <div className={'h4 font-HakDotR m-0'}>Simple Movie</div>
+                            <div className={'h4 font-HakDotR m-0'}>My Movie</div>
                         </Stack>
                     </Navbar.Brand>
                     <Nav className={'me-auto flex-row gap-3'}>
