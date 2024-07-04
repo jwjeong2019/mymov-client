@@ -7,6 +7,7 @@ import {Utils} from "../../utils/Utils";
 import CustomRadio from "../component/CustomRadio";
 import {StorageUtils} from "../../utils/StorageUtil";
 import apiToken from "../../api/apiToken";
+import apiReview from "../../api/apiReview";
 
 const UserMoviesDetail = () => {
     const params = useParams();
@@ -61,7 +62,7 @@ const UserMoviesDetail = () => {
             movieId: movie.id,
             ...inputs,
         };
-        apiMember.createReview(_params)
+        apiReview.create(_params)
             .then(response => {
                 const { data } = response;
                 if (Utils.isContainedWordFrom('fail', data.msg)) return alert(`리뷰 실패:\n${data.msg}`);
