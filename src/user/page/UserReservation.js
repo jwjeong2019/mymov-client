@@ -10,6 +10,7 @@ import {Utils} from "../../utils/Utils";
 import * as PortOne from "@portone/browser-sdk/v2";
 import apiPayment from "../../api/apiPayment";
 import {StorageUtils} from "../../utils/StorageUtil";
+import { v4 as uuidv4 } from 'uuid';
 
 const UserReservation = () => {
     const { REACT_APP_API_PORTONE_STORE_ID, REACT_APP_API_PORTONE_CHANNEL_KEY } = process.env;
@@ -68,7 +69,7 @@ const UserReservation = () => {
             storeId: `${REACT_APP_API_PORTONE_STORE_ID}`,
             // 채널 키 설정
             channelKey: `${REACT_APP_API_PORTONE_CHANNEL_KEY}`,
-            paymentId: `payment-${crypto.randomUUID()}`,
+            paymentId: `payment-${uuidv4()}`,
             orderName: `${movie.title} 예매표`,
             totalAmount: price,
             currency: "CURRENCY_KRW",
