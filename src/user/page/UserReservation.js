@@ -11,6 +11,7 @@ import * as PortOne from "@portone/browser-sdk/v2";
 import apiPayment from "../../api/apiPayment";
 import {StorageUtils} from "../../utils/StorageUtil";
 import { v4 as uuidv4 } from 'uuid';
+import apiToken from "../../api/apiToken";
 
 const UserReservation = () => {
     const { REACT_APP_API_PORTONE_STORE_ID, REACT_APP_API_PORTONE_CHANNEL_KEY } = process.env;
@@ -78,21 +79,7 @@ const UserReservation = () => {
             .then(resPortOne => {
                 const { code, message, paymentId } = resPortOne;
                 if (code) return alert(message);
-                const _params = {
-                    grantType: StorageUtils.getAuth().grantType,
-                    accessToken: StorageUtils.getAuth().accessToken,
-                    paymentId,
-                    timetableId: inputs.timetableId,
-                    seatId: inputs.seatId,
-                    price: price,
-                };
-                apiPayment.complete(_params)
-                    .then(resServer => {
-                        const { code, status, message } = resServer.data;
-                        alert(message ?? '');
-                        if ((status ?? '') === 'COMPLETE') navigate(-2);
-                    })
-                    .catch(err => console.log(`Server ERR: ${err}`));
+                completePayment(paymentId);
             })
             .catch(err => {
                 const { message, response } = err;
@@ -210,6 +197,44 @@ const UserReservation = () => {
             .catch(err => {
                 const { message, response } = err;
                 if (!response) return alert(message);
+                alert(`err: ${response.data.message}`);
+            });
+    };
+    const completePayment = (paymentId) => {
+        const _params = {
+            grantType: StorageUtils.getAuth().grantType,
+            accessToken: StorageUtils.getAuth().accessToken,
+            paymentId,
+            timetableId: inputs.timetableId,
+            seatId: inputs.seatId,
+            price: price,
+        };
+        apiPayment.complete(_params)
+            .then(resServer => {
+                const { code, status, message } = resServer.data;
+                alert(message ?? '');
+                if ((status ?? '') === 'COMPLETE') navigate(-2);
+            })
+            .catch(err => {
+                const { message, response } = err;
+                if (!response) return alert(message);
+                if (response.data.message === 'Expired JWT Token') {
+                    apiToken.refresh(StorageUtils.getAuth().refreshToken)
+                        .then(response => {
+                            const { accessToken } = response.data;
+                            const auth = JSON.stringify({ ...StorageUtils.getAuth(), accessToken });
+                            localStorage.setItem('auth', auth);
+                            completePayment(paymentId);
+                        })
+                        .catch(err => {
+                            if (!err.response) return alert(err.message);
+                            if (err.response.data.message === 'Expired JWT Token') {
+                                alert('만료된 토큰입니다. 로그인을 다시 시도해주세요.');
+                                window.location.href = '/login';
+                            }
+                        });
+                    return;
+                }
                 alert(`err: ${response.data.message}`);
             });
     };
