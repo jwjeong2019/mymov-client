@@ -1,0 +1,11 @@
+#navigation {
+    /*border: 1px solid black;*/
+    background: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: end;
+}
+#navigation-help-profile {
+    width: 65px;
+    border-radius: 100%;
+}
