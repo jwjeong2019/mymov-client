@@ -1,0 +1,18 @@
+#label-input {
+    /*border: 1px solid blue;*/
+    display: flex;
+    flex-direction: column;
+    height: 90px;
+    width: 35%;
+}
+#label-input label {
+    font-size: 20px;
+}
+#label-input input {
+    height: 100%;
+    border: 1px solid #b8b8b8;
+    padding: 0 10px;
+    /*height: 100%;*/
+    box-sizing: content-box;
+    margin-top: 10px;
+}
