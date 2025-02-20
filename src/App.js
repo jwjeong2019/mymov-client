@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import './v3/Common.css';
 import MainA from "./v3/admin/MainA";
 import CodeManagement from "./v3/admin/CodeManagement";
+import MovieManagement from "./v3/admin/MovieManagement";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
               <Routes>
                   <Route path={'/v3/admin'} element={<MainA />} />
                   <Route path={'/v3/admin/management/code'} element={<CodeManagement />} />
+                  <Route path={'/v3/admin/management/movie'} element={<MovieManagement />} />
               </Routes>
           </BrowserRouter>
       </div>
