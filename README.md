@@ -1,4 +1,9 @@
 # 📽️ mymov client
+![image](https://img.shields.io/badge/HTML5-ff9f00?style=flat-square&logo=html5)
+![image](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3)
+![image](https://img.shields.io/badge/JS-000000?style=flat-square&logo=javascript)
+![image](https://img.shields.io/badge/REACT-1a3a73?style=flat-square&logo=react)
+![image](https://img.shields.io/badge/BOOTSTRAP-5e2c45?style=flat-square&logo=bootstrap)
 
 ## 📌 개요
 1. [프로젝트 소개](#-프로젝트-소개)
@@ -19,12 +24,6 @@
 ## 📌 팀 구성
 - 인원: 1명(개인)
 - 역할: 웹 퍼블리싱 및 프론트엔드 개발
-
-
-## 📌 기술 스택
-- html, css, js
-- React.js
-- Bootstrap
 
 
 ## 📌 주요 기능
