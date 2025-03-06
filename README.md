@@ -44,13 +44,13 @@
 - ### 구현 요소는 아래와 같고, 대표적인 코드를 링크를 통해 확인하실 수 있습니다.
 
 - Router
-    - [코드 바로가기]()
+    - [코드 바로가기](src/App.js)
 - Page
-    - [코드 바로가기]()
+    - [코드 바로가기](src/pages/MovieList.js)
 - Component
-    - [코드 바로가기]()
+    - [코드 바로가기](src/components/CardList.js)
 - HTTP
-    - [코드 바로가기]()
+    - [코드 바로가기](src/api/apiMovie.js)
 
 ## 📌 시연
 <details>
