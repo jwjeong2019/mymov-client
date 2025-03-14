@@ -1,108 +1,56 @@
 import '../css/CodeManagement.css'
-import SideBar from "../component/SideBar";
-import Navigation from "../component/Navigation";
-import Header from "../component/Header";
-import LabelInput from "../component/LabelInput";
+import * as V3 from "../component/V3";
 
 const CodeManagement = () => {
+    const regionDataLabels = [
+        { title: '코드', placeholder: '코드 입력(ex. A0001)' },
+        { title: '지역명', placeholder: '지역명 입력(ex. 서울)' },
+    ];
+    const regionList = [
+        { code: 'R0001', name: '서울' },
+        { code: 'R0002', name: '대전' },
+        { code: 'R0003', name: '대구' },
+        { code: 'R0004', name: '부산' },
+    ];
+    const genreDataLabels = [
+        { title: '코드', placeholder: '코드 입력(ex. A0001)' },
+        { title: '장르명', placeholder: '장르명 입력(ex. 액션)' },
+    ];
+    const genreList = [
+        { code: 'G0001', name: '코미디' },
+        { code: 'G0002', name: '액션' },
+        { code: 'G0003', name: 'SF' },
+        { code: 'G0004', name: '공포' },
+    ];
+
     return (
-        <div id={'code-management-container'}>
-            <SideBar />
-            <div id={'code-management-section'}>
-                <Navigation />
-                <Header title={'코드 관리'} />
-                <div id={'code-management-content'}>
-                    <div id={'code-management-content-card'}>
-                        <div id={'code-management-content-card-header'}>지역</div>
-                        <div id={'code-management-content-card-body'}>
-                            <div id={'code-management-content-card-body-form'}>
-                                <LabelInput label={'코드'} placeholder={'코드 입력(ex. A0001)'} />
-                                <LabelInput label={'지역명'} placeholder={'지역명 입력(ex. 서울)'} />
-                                <div id={'code-management-content-card-body-form-submit'}>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>추가</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div id={'code-management-content-card-body-list'}>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>A0001</div>
-                                    <div>서울</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>A0001</div>
-                                    <div>서울</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>A0001</div>
-                                    <div>서울</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>A0001</div>
-                                    <div>서울</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id={'code-management-content-card'}>
-                        <div id={'code-management-content-card-header'}>장르</div>
-                        <div id={'code-management-content-card-body'}>
-                            <div id={'code-management-content-card-body-form'}>
-                                <LabelInput label={'코드'} placeholder={'코드 입력(ex. G0001)'} />
-                                <LabelInput label={'장르명'} placeholder={'장르명 입력(ex. 액션)'} />
-                                <div id={'code-management-content-card-body-form-submit'}>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>추가</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div id={'code-management-content-card-body-list'}>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>G0001</div>
-                                    <div>액션</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>G0001</div>
-                                    <div>액션</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>G0001</div>
-                                    <div>액션</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                                <div id={'code-management-content-card-body-list-item'}>
-                                    <div>G0001</div>
-                                    <div>액션</div>
-                                    <button>
-                                        <span className={'gowun-dodum-regular'}>삭제</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <V3.Container>
+            <V3.SideBar />
+            <V3.Main>
+                <V3.Navigation />
+                <V3.Body>
+                    <V3.Title title={'코드 관리'} />
+                    <V3.Card>
+                        <V3.Card.List>
+                            <V3.Card.Item>
+                                <V3.Card.Title title={'지역'} />
+                                <V3.Card.Body>
+                                    <V3.CMCardBody.Form dataLabels={regionDataLabels} />
+                                    <V3.CMCardBody.List list={regionList} />
+                                </V3.Card.Body>
+                            </V3.Card.Item>
+                            <V3.Card.Item>
+                                <V3.Card.Title title={'장르'} />
+                                <V3.Card.Body>
+                                    <V3.CMCardBody.Form dataLabels={genreDataLabels} />
+                                    <V3.CMCardBody.List list={genreList} />
+                                </V3.Card.Body>
+                            </V3.Card.Item>
+                        </V3.Card.List>
+                    </V3.Card>
+                </V3.Body>
+            </V3.Main>
+        </V3.Container>
     );
 }
 
